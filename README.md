@@ -5,12 +5,9 @@
 API
 
 - events for every action
-- Expand node(s)
-- collapse node(s)
-- toggle =collapse/expand
-- Enable node(s)
-- Disable node(s)
-- find by test
+- Expand/collapse/toggle node(s)
+- Enable/Disable node(s)
+- find by text
 - find by uid
 - get current selected node(s)
 - for selection of node(s)
@@ -29,7 +26,7 @@ API
 - theming
 - edit in place
 - filtering
-- sorting
+- sorting by text, sort by Fn
 - lazy loading
 
 - Expand to element
