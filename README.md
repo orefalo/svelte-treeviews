@@ -24,10 +24,16 @@ API
 - multiple instances per page
 - keyboard navigation
 - theming
+- icons
+- tooltip
+- item entry cutomizer 
 - edit in place
 - filtering
 - sorting by text, sort by Fn
 - lazy loading
+- command trigger
+- double click
+- right click
 
 - Expand to element
 - Expland to path
