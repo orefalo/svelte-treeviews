@@ -1,47 +1,47 @@
-# Svelte-Treeviews  - This is a Work In Progress
+# Svelte-Treeviews - This is a Work In Progress
 
 ## Features to support
 
 API
 
-- [ ] events for every action
-- [ ] Expand/collapse/toggle node(s)
-- [ ] Enable/Disable node(s)
-- [ ] find by text
-- [ ] find by uid
+- [ ] Expand/collapse node(s)
+- [ ] Check/Uncheck node(s)
+- [ ] Select/Unselect node(s)
+- [ ] Collapse/Expend node
+- [ ] Enable/disable node(s)
+- [ ] show/hide node(s)
 - [ ] get current selected node(s)
-- [ ] set selection of node(s)
-- [ ] insertAfter
-- [ ] insertBefore
+- [ ] find by text, uid(s)
+- [ ] insert After / Before
 - [ ] remove
-- [ ] focus
 - [ ] Expand to element
 - [ ] Expland to path
+- [ ] Events for every action
 
 Features
 
 - [ ] auto scroll the parent container
-- [ ] checkbox selection
 - [ ] drag&drop
-- [ ] isDraggable Validation
-- [ ] isDropable Validation
-- [ ] multiple instances per page
+- [ ] isDraggable/isDropable Validation
+- [ ] support multiple instances per page
 - [ ] keyboard navigation
 - [ ] theming
-- [ ] icons
 - [ ] tooltip
-- [ ] item entry cutomizer 
-- [ ] edit in place
-- [ ] filtering
+- [ ] item entry cutomization
+- [ ] allow edit in place
+- [ ] tree filtering
 - [ ] sorting by text
 - [ ] sorting by Fn
 - [ ] lazy loading
 - [ ] command trigger
 - [ ] double click
 - [ ] right click
-- [ ] data binding
+- [ ] data binding (local/async)
 
 References
 
-That's probably one of the best one out there
+That's probably one of the best one out there  
 https://demos.telerik.com/kendo-ui/treeview/index
+
+Another good opensource  
+https://amsik.github.io/liquor-tree/#Keyboard-Navigation
