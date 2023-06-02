@@ -3,431 +3,121 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
-		<link rel="icon" href="/svelte-splitpanes/favicon.png" />
+		<link rel="icon" href="./favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta http-equiv="content-security-policy" content=""><title>Svelte-Splitpanes</title><meta name="description" content="A Fantastic pane splitter for Svelte" data-svelte="svelte-1twey94"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#011627;color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}</style><!-- HTML_TAG_END -->
-	<link rel="stylesheet" href="/svelte-splitpanes/_app/assets/vendor-f4e6b62f.css">
-	<link rel="stylesheet" href="/svelte-splitpanes/_app/assets/pages/__layout.svelte-be346e26.css">
-	<link rel="stylesheet" href="/svelte-splitpanes/_app/assets/pages/index.svelte-dfde8d06.css">
-	<link rel="stylesheet" href="/svelte-splitpanes/_app/assets/Pane-522d8cdf.css">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/start-ca443410.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/chunks/vendor-3c0c8c42.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/pages/__layout.svelte-828f71b5.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/pages/index.svelte-5a85434a.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/chunks/Pane-205700d7.js">
+		
+		<link href="./_app/immutable/assets/external.131ac458.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/0.815942eb.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.86c70df4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/external.08485612.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.64607406.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.4699334c.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.7f8bef70.js"><title>Svelte-Splitpanes - Introduction</title><!-- HEAD_svelte-1cl4sjo_START --><meta name="description" content="A Fantastic pane splitter for Svelte"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#011627;color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}</style><!-- HTML_TAG_END --><!-- HEAD_svelte-1cl4sjo_END -->
 	</head>
 	<body>
 		<div>
 
 
 
-<div class="page-container svelte-3k55ko"><h1>Svelte-Splitpane demo</h1>
+
+<div class="page-container svelte-1xp6paq"><div role="presentation" class="toc-container-space svelte-1xp6paq"></div>
+
+	<main class="svelte-1xp6paq"><h1>Welcome to Svelte-Splitpane demo!</h1>
 
 <a href="https://github.com/orefalo/svelte-splitpanes">https://github.com/orefalo/svelte-splitpanes</a>
 
 <h2>Features</h2>
 
-<ul><li>Size is less than 2 kb</li>
-	<li>Support both dynamic horizontal and vertical splits</li>
+<a href="/minified-size"><img alt="Minified Size" src="/minified-size-badge.svg"></a>
+
+<ul><li>Support both dynamic horizontal and vertical splits</li>
 	<li>Support defaults, min and max sizes</li>
 	<li>Support multiple splits</li>
 	<li>Support lifecyle events</li>
 	<li>Support custom divider size or overlay</li>
 	<li>Support splitter pane pushing</li>
-	<li>Support RTL rendering</li>
+	<li>Support RTL rendering with auto-detection</li>
 	<li>Support first splitter on/off</li>
 	<li>Support pane toggle</li>
-	<li>Support programmatic resizing</li>
-	<li>Support programmatic splitter add/remove</li>
+	<li>Support edge snapping</li>
+	<li>Support programmatic resizing and two-way size binding</li>
+	<li>Support programmatic panes add/remove</li>
+	<li>Support programmatic panes reordering by Svelte keyed each blocks</li>
 	<li>Support for legacy browser such as IE 11</li>
-	<li>Support for touch devices</li></ul>
+	<li>Support for touch devices</li>
+	<li>Sveltekit &amp; Typescript friendly</li></ul>
 
-<h2>Horizontal layout, push other panes, min &amp; max use, doubleclick</h2>
-<p>You can double click a splitter to maximize the next pane!<br>
-	If you want to disable the &#39;double click splitter to maximize&#39; behavior, you can add this attribute: dblClickSplitter=false.
-</p>
+		<div class="controls svelte-1xp6paq"><div class="svelte-1xp6paq"><span class="svelte-1xp6paq faded">previous</span>
+				</div>
 
-<div class="splitpanes default-theme splitpanes--horizontal" style="height: 400px"><div class="splitpanes__pane" style="height:0%"><span>1
-			<br>
-			<em class="specs">I have a min height of 20% &amp; max height of 70%</em></span></div>
-	<div class="splitpanes__pane" style="height:0%"><span>2</span></div>
-	<div class="splitpanes__pane" style="height:0%"><span>3
+			<div class="svelte-1xp6paq"><span class="svelte-1xp6paq">next</span>
+				<a data-sveltekit-preload-data href="/examples/min-max" class="svelte-1xp6paq">Min-Max</a></div></div></main>
 
-			<br>
-			<em class="specs">I have a max height of 70%</em></span></div>
-</div>
+	<div class="toc-container svelte-1xp6paq"><div role="presentation" class="toc-contents-wrap svelte-1xp6paq"><h1 class="toc-head svelte-1xp6paq"><img src="/favicon.svg" alt="Icon" width="30" height="30"> Svelte-Splitpane</h1>
+			<nav aria-label="Docs" class="svelte-6bn3ki"><ul class="sidebar svelte-6bn3ki"><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">Getting started</span>
 
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" aria-current="page" href="/">Introduction</a>
+						</li></ul>
+			</li><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">General Examples</span>
 
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">horizontal</span>=<span class="hljs-string">{true}</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">minSize</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">maxSize</span>=<span class="hljs-string">&quot;70&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>1
-            <span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">em</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;specs&quot;</span>&gt;</span>I have a min height of 20% <span class="hljs-symbol">&amp;amp;</span> max height of 70%<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">maxSize</span>=<span class="hljs-string">&quot;70&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>
-            &gt;</span>3
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/min-max">Min-Max</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/default-size">Default Size</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/lock-layout">Lock Layout</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/push-other-panes">Push Other Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/add-remove-panes">Add Remove Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/reordering-panes">Reordering Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/change-orientation">ChangeOrientation</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/prog-resize">Prog Resize</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/toggle-panes">Toggle Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/listen-to-events">Listen To Events</a>
+						</li></ul>
+			</li><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">Snap</span>
 
-            <span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">em</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;specs&quot;</span>&gt;</span>I have a max height of 70%<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/snap/simple">Simple Snap</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/snap/middle">Middle Snap</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/snap/min-max">Min-Max Snap</a>
+						</li></ul>
+			</li><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">Styling</span>
 
-<hr>
-<h2>Default pane size</h2>
-<p>Provide dimension of your panes when they first load (will be used for the width or height respectively for the
-	vertical or horizontal layout).<br>
-	<b>If you provide a default size, make sure you provide it for all the panes for a total equals to 100%. If a pane is
-		missing a default size, then all the panes will have the same size.</b><br> Note that setting a default value is different than setting a min or max value.
-</p>
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/styling/splitters">Style Splitters</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/styling/splitters-modern">Style Splitters Modern</a>
+						</li></ul>
+			</li></ul>
+</nav></div>
 
-<div class="splitpanes default-theme splitpanes--horizontal" style="height: 400px"><div class="splitpanes__pane" style="height:65%"><span>1</span></div>
-	<div class="splitpanes__pane" style="height:10%"><span>2</span></div>
-	<div class="splitpanes__pane" style="height:25%"><span>3</span></div>
-</div>
-
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">horizontal</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;65&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
-
-<hr>
-<h2>Locking layout by prevent pushing other panes</h2>
-
-<div class="splitpanes default-theme splitpanes--horizontal" style="height: 400px"><div class="splitpanes__pane" style="height:0%"><span>1</span></div>
-	<div class="splitpanes__pane" style="height:0%"><div class="splitpanes   splitpanes--vertical"><div class="splitpanes__pane" style="width:0%"><span>2</span></div>
-			<div class="splitpanes__pane" style="width:0%"><span>3</span></div>
-			<div class="splitpanes__pane" style="width:0%"><span>4</span></div>
+		<div class="input-output-toggle svelte-snxs5h">Splitpane direction:
+	<span aria-hidden="true">LTR</span>
+	<button aria-pressed="false" class="svelte-ki38mm"><span style="display: none;">RTL direction</span>
+</button> <span aria-hidden="true">RTL</span>
 </div></div>
-	<div class="splitpanes__pane" style="height:0%"><span>5</span></div>
 </div>
 
 
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">horizontal</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span> <span class="hljs-attr">pushOtherPanes</span>=<span class="hljs-string">{false}</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">pushOtherPanes</span>=<span class="hljs-string">{false}</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>4<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>5<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
+			
+			<script>
+				{
+					__sveltekit_1w3ygqa = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
 
-<hr>
-<h2>Lots of splitters &amp; push other panes - all panes have a min width of 5%</h2>
+					const element = document.currentScript.parentElement;
 
-<div class="splitpanes default-theme  splitpanes--vertical" style="height: 400px"><div class="splitpanes__pane" style="width:0%"><span>1</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>2</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>3</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>4</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>5</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>6</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>7</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>8</span>
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.86c70df4.js"),
+						import("./_app/immutable/entry/app.64607406.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 2],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
 		</div>
-</div>
-
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span>&gt;</span>
-    {#each { length: 8 } as _, i}
-        <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">minSize</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{i + 1}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-    {/each}
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
-
-<hr>
-<h2>Adding splitters programmatically</h2>
-
-<button style="--color: #fff;--font-size: .875rem;--bg-color: 74, 64, 212;--bg-hover: 74, 64, 212;--bg-active: 74, 64, 212;--radius: 0.2rem;--ripple: #838de7;--height: 36px;--width: 140px;--shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-h: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-a: 0 1px 2px 0 rgba(0, 0, 0, 0.05)" class="svelte-c42aw5"><span class="svelte-c42aw5">+ ADD PANE</span>
-	<svg class="svelte-c42aw5"></svg>
-</button>
-<button style="--color: #fff;--font-size: .875rem;--bg-color: 74, 64, 212;--bg-hover: 74, 64, 212;--bg-active: 74, 64, 212;--radius: 0.2rem;--ripple: #838de7;--height: 36px;--width: 140px;--shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-h: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-a: 0 1px 2px 0 rgba(0, 0, 0, 0.05)" class="svelte-c42aw5"><span class="svelte-c42aw5">- REMOVE PANE</span>
-	<svg class="svelte-c42aw5"></svg>
-</button>
-
-<div class="splitpanes default-theme  splitpanes--vertical" style="height: 400px"><div class="splitpanes__pane" style="width:0%"><span>1</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>2</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>3</span>
-		</div>
-</div>
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-    <span class="hljs-keyword">let</span> panesNumber = <span class="hljs-number">3</span>;
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>    
-<span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
-	<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span> {
-		if (panesNumber &gt;= 0) panesNumber++;
-	}}&gt;+ ADD PANE&lt;/Button
-&gt;
-<span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
-	<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span> {
-		if (panesNumber &gt; 0) panesNumber--;
-	}}&gt;- REMOVE PANE&lt;/Button
-&gt;
-
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span>&gt;</span>
-	{#each { length: panesNumber } as _, i}
-		<span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">minSize</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span>
-			<span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{i + 1}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-		<span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-	{/each}
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">HighlightSvelte</span> {<span class="hljs-attr">code</span>} /&gt;</span><!-- HTML_TAG_END --></code></pre>
-
-<hr>
-<h2>Change orientation &amp; first splitter</h2>
-<p>When changing direction, all the panes current width or height will flip to adapt to the new layout.</p>
-<p>Showing the first splitter is an option which allows user to double click the splitter to maximize the next pane.<br>
-	The first splitter does not allow to resize the next pane.
-</p>
-
-<button style="--color: #fff;--font-size: .875rem;--bg-color: 74, 64, 212;--bg-hover: 74, 64, 212;--bg-active: 74, 64, 212;--radius: 0.2rem;--ripple: #838de7;--height: 36px;--width: 140px;--shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-h: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-a: 0 1px 2px 0 rgba(0, 0, 0, 0.05)" class="svelte-c42aw5"><span class="svelte-c42aw5">Turn to Horizontal</span>
-	<svg class="svelte-c42aw5"></svg>
-</button>
-<button style="--color: #fff;--font-size: .875rem;--bg-color: 74, 64, 212;--bg-hover: 74, 64, 212;--bg-active: 74, 64, 212;--radius: 0.2rem;--ripple: #838de7;--height: 36px;--width: 140px;--shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-h: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-a: 0 1px 2px 0 rgba(0, 0, 0, 0.05)" class="svelte-c42aw5"><span class="svelte-c42aw5">Show first Splitter</span>
-	<svg class="svelte-c42aw5"></svg>
-</button>
-<div class="splitpanes default-theme  splitpanes--vertical" style="height: 400px"><div class="splitpanes__pane" style="width:0%"><span>1</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>2</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>3</span>
-		</div>
-</div>
-
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-	<span class="hljs-keyword">let</span> horizontal = <span class="hljs-literal">false</span>;
-	<span class="hljs-keyword">let</span> firstSplitter = <span class="hljs-literal">false</span>;
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
-	<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span> {
-		horizontal = !horizontal;
-	}}&gt;{horizontal ? &#x27;Turn to Vertical&#x27; : &#x27;Turn to Horizontal&#x27;}&lt;/Button
-&gt;
-<span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
-	<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span> {
-		firstSplitter = !firstSplitter;
-	}}&gt;{firstSplitter ? &#x27;Hide first splitter&#x27; : &#x27;Show first Splitter&#x27;}&lt;/Button
-&gt;
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span> {<span class="hljs-attr">firstSplitter</span>} {<span class="hljs-attr">horizontal</span>}&gt;</span>
-	{#each { length: 3 } as _, i}
-		<span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">minSize</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span>
-			<span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{i + 1}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-		<span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-	{/each}
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
-
-<hr>
-<h2>Programmatic resizing</h2>
-<p>This example shows the programmatic way of resizing panes. And how it works both ways.</p>
-
-<div class="rangeSlider   hoverable"><span role="slider" class="rangeHandle" data-handle="0" style="left: 50%; z-index: 3;" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50" aria-orientation="horizontal" aria-disabled="false"  tabindex="0"><span class="rangeNub"></span>
-      <span class="rangeFloat">50
-        </span>
-    </span>
-  
-  </div>
-
-
-<div class="splitpanes default-theme  splitpanes--vertical" style="height: 400px"><div class="splitpanes__pane" style="width:50%"><span>50%</span></div>
-	<div class="splitpanes__pane" style="width:50%"><span>50%</span></div>
-</div>
-
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-    <span class="hljs-keyword">let</span> value = [<span class="hljs-number">50</span>, <span class="hljs-number">100</span>];
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Slider</span> <span class="hljs-attr">bind:value</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">size</span>=<span class="hljs-string">{value[0]</span> + &#x27;&#x27;}&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{value[0]}%<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-	<span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">size</span>=<span class="hljs-string">{100</span> <span class="hljs-attr">-</span> <span class="hljs-attr">value</span>[<span class="hljs-attr">0</span>] + &#x27;&#x27;}&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{100 - value[0]}%<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-	<span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
-
-<hr>
-<h2>Toggle a pane on/off</h2>
-
-<button style="--color: #fff;--font-size: .875rem;--bg-color: 74, 64, 212;--bg-hover: 74, 64, 212;--bg-active: 74, 64, 212;--radius: 0.2rem;--ripple: #838de7;--height: 36px;--width: 140px;--shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-h: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--shadow-a: 0 1px 2px 0 rgba(0, 0, 0, 0.05)" class="svelte-c42aw5"><span class="svelte-c42aw5">Hide</span>
-	<svg class="svelte-c42aw5"></svg>
-</button>
-<div class="splitpanes default-theme  splitpanes--vertical" style="height: 400px"><div class="splitpanes__pane" style="width:0%"><span>1</span></div>
-	<div class="splitpanes__pane" style="width:0%"><span>2</span></div>
-	<div class="splitpanes__pane" style="width:0%"><span>3</span></div>
-</div>
-
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-<span class="hljs-keyword">let</span> visible = <span class="hljs-literal">true</span>;
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">onClick</span>(<span class="hljs-params"></span>) {
-    visible = !visible;
-}
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">{onClick}</span>&gt;</span>{visible ? &#x27;Hide&#x27; : &#x27;Show&#x27;}<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-	{#if visible}
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-	{/if}
-    <span class="hljs-tag">&lt;<span class="hljs-name">Pane</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span><!-- HTML_TAG_END --></code></pre>
-
-<hr>
-<h2>Listening to emitted events</h2>
-
-<p>Here is the list of events that are emitted from splitpanes:</p>
-
-<ul><li>ready has no parameter and fires when splitpanes is ready</li>
-	<li>resize fires while resizing (on mousemove/touchmove) and returns an array of all the panes objects with their
-		dimensions
-	</li>
-	<li>resized fires once when the resizing stops after user drag (on mouseup/touchend). it returns an array of all the
-		panes objects with their dimensions. The event also fires after adding or removing a pane.
-	</li>
-	<li>pane-click returns the clicked pane object with its dimensions.</li>
-	<li>pane-maximize returns the maximized pane object with its dimensions.</li>
-	<li>pane-add returns an object containing the index of the added pane and the new array of panes after resize.</li>
-	<li>pane-remove returns an object containing the removed pane and an array of all the remaining panes objects with their
-		dimensions after resize.
-	</li>
-	<li>splitter-click returns the next pane object (with its dimensions) directly after the clicked splitter. This event is
-		only emitted if dragging did not occur between mousedown and mouseup.
-	</li></ul>
-
-<div class="splitpanes default-theme  splitpanes--vertical" style="height: 400px"><div class="splitpanes__pane" style="width:0%"><span>1</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>2</span>
-		</div><div class="splitpanes__pane" style="width:0%"><span>3</span>
-		</div>
-</div>
-<p>Try resizing panes and check the logs bellow.</p>
-<div class="container svelte-1gm0t61"><pre aria-hidden="true" style="min-height: 5.8em; max-height: 49em" class="svelte-1gm0t61">// Event name: Event params   (Last event at the top)
-</pre>
-	<textarea readonly style="outline: none;" class="svelte-1gm0t61">// Event name: Event params   (Last event at the top)</textarea>
-</div>
-
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
-	let val = &#x27;// Event name: Event params   (Last event at the top)&#x27;;
-
-	function handleMessage(event) {
-		if (event.detail) val = event.type + &#x27; &#x27; + JSON.stringify(event.detail) + &#x27;
-&#x27; + val;
-		else val = event.type + &#x27;
-&#x27; + val;
-	}
-<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Splitpanes</span>
-	<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;default-theme&quot;</span>
-	<span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 400px&quot;</span>
-	<span class="hljs-attr">on:ready</span>=<span class="hljs-string">{handleMessage}</span>
-	<span class="hljs-attr">on:resize</span>=<span class="hljs-string">{handleMessage}</span>
-	<span class="hljs-attr">on:resized</span>=<span class="hljs-string">{handleMessage}</span>
-	<span class="hljs-attr">on:pane-click</span>=<span class="hljs-string">{handleMessage}</span>
-	<span class="hljs-attr">on:pane-maximize</span>=<span class="hljs-string">{handleMessage}</span>
-	<span class="hljs-attr">on:pane-add</span>=<span class="hljs-string">{handleMessage}</span>
-	<span class="hljs-attr">on:pane-remove</span>=<span class="hljs-string">{handleMessage}</span>
-	<span class="hljs-attr">on:splitter-click</span>=<span class="hljs-string">{handleMessage}</span>
-&gt;</span>
-	{#each { length: 3 } as _, i}
-		<span class="hljs-tag">&lt;<span class="hljs-name">Pane</span> <span class="hljs-attr">minSize</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span>
-			<span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{i + 1}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-		<span class="hljs-tag">&lt;/<span class="hljs-name">Pane</span>&gt;</span>
-	{/each}
-<span class="hljs-tag">&lt;/<span class="hljs-name">Splitpanes</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Try resizing panes and check the logs bellow.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">TextArea</span> <span class="hljs-attr">bind:value</span>=<span class="hljs-string">{val}</span> <span class="hljs-attr">minRows</span>=<span class="hljs-string">{4}</span> <span class="hljs-attr">maxRows</span>=<span class="hljs-string">{40}</span> /&gt;</span>    
-<!-- HTML_TAG_END --></code></pre>
-
-<hr>
-<h2>Styling Splitters</h2>
-
-<div id="mytheme" class="splitpanes  splitpanes--horizontal" style="height: 400px"><div class="splitpanes__pane" style="height:0%"><div class="splitpanes   splitpanes--vertical"><div class="splitpanes__pane" style="width:0%"><span>1</span></div>
-			<div class="splitpanes__pane" style="width:0%"><span>2</span></div>
-			<div class="splitpanes__pane" style="width:0%"><span>3</span></div>
-</div></div>
-	<div class="splitpanes__pane" style="height:0%"><p>In this example the splitters are thin lines but the reactive touch zone is spread to 30 pixels all around!</p></div>
-</div>
-
-
-  
-  <pre data-language="svelte" class=" svelte-1xjucv4"><code class="hljs"><!-- HTML_TAG_START -->
-TODO<!-- HTML_TAG_END --></code></pre>
-
-</div>
-
-
-		<script type="module" data-hydrate="q7skx1">
-		import { start } from "/svelte-splitpanes/_app/start-ca443410.js";
-		start({
-			target: document.querySelector('[data-hydrate="q7skx1"]').parentNode,
-			paths: {"base":"/svelte-splitpanes","assets":"/svelte-splitpanes"},
-			session: {},
-			route: true,
-			spa: false,
-			trailing_slash: "never",
-			hydrate: {
-				status: 200,
-				error: null,
-				nodes: [
-					import("/svelte-splitpanes/_app/pages/__layout.svelte-828f71b5.js"),
-						import("/svelte-splitpanes/_app/pages/index.svelte-5a85434a.js")
-				],
-				params: {},
-				routeId: ""
-			}
-		});
-	</script></div>
 	</body>
 </html>

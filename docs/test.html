@@ -3,51 +3,138 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
-		<link rel="icon" href="/svelte-splitpanes/favicon.png" />
+		<link rel="icon" href="./favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta http-equiv="content-security-policy" content=""><title>Svelte-Splitpanes</title><meta name="description" content="A Fantastic pane splitter for Svelte" data-svelte="svelte-1twey94"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#011627;color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}</style><!-- HTML_TAG_END -->
-	<link rel="stylesheet" href="/svelte-splitpanes/_app/assets/vendor-f4e6b62f.css">
-	<link rel="stylesheet" href="/svelte-splitpanes/_app/assets/pages/__layout.svelte-be346e26.css">
-	<link rel="stylesheet" href="/svelte-splitpanes/_app/assets/Pane-522d8cdf.css">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/start-ca443410.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/chunks/vendor-3c0c8c42.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/pages/__layout.svelte-828f71b5.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/pages/test.svelte-d2e35c89.js">
-	<link rel="modulepreload" href="/svelte-splitpanes/_app/chunks/Pane-205700d7.js">
+		
+		<link href="./_app/immutable/assets/external.131ac458.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/0.815942eb.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/svelte-splitpanes.22acc214.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.86c70df4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/external.08485612.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.64607406.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.4699334c.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/19.3f9a9f66.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/svelte-splitpanes.0ae396b0.js"><title>Svelte-Splitpanes</title><!-- HEAD_svelte-1cl4sjo_START --><meta name="description" content="A Fantastic pane splitter for Svelte"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#011627;color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}</style><!-- HTML_TAG_END --><!-- HEAD_svelte-1cl4sjo_END -->
 	</head>
 	<body>
 		<div>
 
 
 
-<div class="page-container svelte-3k55ko"><div class="splitpanes default-theme splitpanes--horizontal" style="height: 400px"><div class="splitpanes__pane" style="height:65%"><span>1</span></div>
-	<div class="splitpanes__pane" style="height:10%"><span>2</span></div>
-	<div class="splitpanes__pane" style="height:0%"><span>3</span></div>
-	<div class="splitpanes__pane" style="height:0%"><span>4</span></div>
+
+<div class="page-container svelte-1xp6paq"><div role="presentation" class="toc-container-space svelte-1xp6paq"></div>
+
+	<main class="svelte-1xp6paq"><div class="splitpanes default-theme  splitpanes--horizontal   splitpanes--freeze" style="height: 400px">
+	
+	
+	
+	
+	
+
+	
+	
+	
+	<div class="splitpanes__pane " style="height: 65%;"><span>1</span></div>
+	
+	
+		
+		<div class="splitpanes__splitter "></div>
+
+	
+	
+	
+	<div class="splitpanes__pane " style="height: 10%;"><span>2</span></div>
+	
+	
+		
+		<div class="splitpanes__splitter "></div>
+
+	
+	
+	
+	<div class="splitpanes__pane " style="height: -3205%;"><span>3</span></div>
+	
+	
+		
+		<div class="splitpanes__splitter "></div>
+
+	
+	
+	
+	<div class="splitpanes__pane " style="height: -3205%;"><span>4</span></div>
 </div>
+
+		<div class="controls svelte-1xp6paq"><div class="svelte-1xp6paq"><span class="svelte-1xp6paq faded">previous</span>
+				</div>
+
+			<div class="svelte-1xp6paq"><span class="svelte-1xp6paq faded">next</span>
+				</div></div></main>
+
+	<div class="toc-container svelte-1xp6paq"><div role="presentation" class="toc-contents-wrap svelte-1xp6paq"><h1 class="toc-head svelte-1xp6paq"><img src="/favicon.svg" alt="Icon" width="30" height="30"> Svelte-Splitpane</h1>
+			<nav aria-label="Docs" class="svelte-6bn3ki"><ul class="sidebar svelte-6bn3ki"><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">Getting started</span>
+
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/">Introduction</a>
+						</li></ul>
+			</li><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">General Examples</span>
+
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/min-max">Min-Max</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/default-size">Default Size</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/lock-layout">Lock Layout</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/push-other-panes">Push Other Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/add-remove-panes">Add Remove Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/reordering-panes">Reordering Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/change-orientation">ChangeOrientation</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/prog-resize">Prog Resize</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/toggle-panes">Toggle Panes</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/listen-to-events">Listen To Events</a>
+						</li></ul>
+			</li><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">Snap</span>
+
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/snap/simple">Simple Snap</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/snap/middle">Middle Snap</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/snap/min-max">Min-Max Snap</a>
+						</li></ul>
+			</li><li class="svelte-6bn3ki"><span class="section svelte-6bn3ki">Styling</span>
+
+				<ul class="svelte-6bn3ki"><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/styling/splitters">Style Splitters</a>
+						</li><li class="svelte-6bn3ki"><a data-sveltekit-preload-data class="page svelte-6bn3ki" href="/examples/styling/splitters-modern">Style Splitters Modern</a>
+						</li></ul>
+			</li></ul>
+</nav></div>
+
+		<div class="input-output-toggle svelte-snxs5h">Splitpane direction:
+	<span aria-hidden="true">LTR</span>
+	<button aria-pressed="false" class="svelte-ki38mm"><span style="display: none;">RTL direction</span>
+</button> <span aria-hidden="true">RTL</span>
+</div></div>
 </div>
 
 
-		<script type="module" data-hydrate="1ioi4mn">
-		import { start } from "/svelte-splitpanes/_app/start-ca443410.js";
-		start({
-			target: document.querySelector('[data-hydrate="1ioi4mn"]').parentNode,
-			paths: {"base":"/svelte-splitpanes","assets":"/svelte-splitpanes"},
-			session: {},
-			route: true,
-			spa: false,
-			trailing_slash: "never",
-			hydrate: {
-				status: 200,
-				error: null,
-				nodes: [
-					import("/svelte-splitpanes/_app/pages/__layout.svelte-828f71b5.js"),
-						import("/svelte-splitpanes/_app/pages/test.svelte-d2e35c89.js")
-				],
-				params: {},
-				routeId: "test"
-			}
-		});
-	</script></div>
+			
+			<script>
+				{
+					__sveltekit_1w3ygqa = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.86c70df4.js"),
+						import("./_app/immutable/entry/app.64607406.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 19],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
 	</body>
 </html>
