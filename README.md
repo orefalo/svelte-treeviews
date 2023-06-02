@@ -37,6 +37,7 @@ Features
 - [ ] double click
 - [ ] right click
 - [ ] data binding (local/async)
+- [ ] RTL/LTR support
 
 References
 
