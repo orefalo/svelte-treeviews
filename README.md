@@ -34,8 +34,8 @@ Features
 - [ ] sorting by Fn
 - [ ] lazy loading
 - [ ] command trigger
-- [ ] double click
-- [ ] right click
+- [ ] double click override
+- [ ] right click override
 - [ ] data binding (local/async)
 - [ ] RTL/LTR support
 

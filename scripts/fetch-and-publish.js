@@ -14,7 +14,7 @@ const npmPostfixCommand = (name) => (os.platform() === 'win32' ? `${name}.cmd` :
 
 const npmProc = child_process.spawn(npmPostfixCommand('npm'), [
 	'publish',
-	`https://github.com/orefalo/svelte-splitpanes/releases/download/v${version}/svelte-splitpanes-${version}.tgz`,
+	`https://github.com/orefalo/svelte-treeviews/releases/download/v${version}/svelte-treeviews-${version}.tgz`,
 	'--access',
 	'public',
 	'--otp',

@@ -63,10 +63,10 @@ export const manualChunksForAnalyzing = (id) => {
 	const resolvedPath = path.resolve(id);
 
 	if (resolvedPath.search('node_modules') > 0) {
-		// We need to separate the external deps so they won't be in the `svelte-splitpanes` chunk.
+		// We need to separate the external deps so they won't be in the `svelte-treeviews` chunk.
 		return 'external';
 	} else if (resolvedPath.startsWith(libPath)) {
-		return 'svelte-splitpanes';
+		return 'svelte-treeviews';
 	} else {
 		return undefined;
 	}

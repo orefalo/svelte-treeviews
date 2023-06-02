@@ -10,9 +10,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const exampleTempDir = path.resolve(__dirname, '../../example-temp');
 
 const version = packageJson.version;
-const fileToInstall = path.resolve(exampleTempDir, `../package/svelte-splitpanes-${version}.tgz`);
+const fileToInstall = path.resolve(exampleTempDir, `../package/svelte-treeviews-${version}.tgz`);
 
-const packageInstallationSource = exampleTempPackageJson['devDependencies']['svelte-splitpanes'];
+const packageInstallationSource = exampleTempPackageJson['devDependencies']['svelte-treeviews'];
 const packageInstallationSourceExpected = `file:${fileToInstall.replaceAll('\\', '/')}`;
 if (packageInstallationSource !== packageInstallationSourceExpected) {
 	throw (
@@ -30,7 +30,7 @@ const htmlContent = readFileSync(htmlFilePath, { encoding: 'utf-8' });
 
 // Assertations
 
-assert(htmlContent.search('Welcome to Svelte-Splitpanes Minimal Demo!') >= 0, 'check head title');
+assert(htmlContent.search('Welcome to Svelte-Treeviews Minimal Demo!') >= 0, 'check head title');
 
 assert(htmlContent.search('First Pane') >= 0, 'check first pane');
 

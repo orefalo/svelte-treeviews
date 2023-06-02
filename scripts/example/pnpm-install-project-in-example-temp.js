@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const exampleTempDir = path.resolve(__dirname, '../../example-temp');
 
 const version = packageJson.version;
-const fileToInstall = path.resolve(exampleTempDir, `../package/svelte-splitpanes-${version}.tgz`);
+const fileToInstall = path.resolve(exampleTempDir, `../package/svelte-treeviews-${version}.tgz`);
 
 console.log(`Installing with the file package: ${fileToInstall}`);
 
