@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>tree-view</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="tree-view" fill-rule="nonzero">
+            <path d="M15,16 L11,16 C10.4477153,16 10,16.4477153 10,17 L10,18.2 L5.8,18.2 L5.8,12 L7,12 C7.55228475,12 8,11.5522847 8,11 L8,7 C8,6.44771525 7.55228475,6 7,6 L3,6 C2.44771525,6 2,6.44771525 2,7 L2,11 C2,11.5522847 2.44771525,12 3,12 L4.2,12 L4.2,29.8 L11,29.8 C11.4418278,29.8 11.8,29.4418278 11.8,29 C11.8,28.5581722 11.4418278,28.2 11,28.2 L5.8,28.2 L5.8,19.8 L10,19.8 L10,21 C10,21.5522847 10.4477153,22 11,22 L15,22 C15.5522847,22 16,21.5522847 16,21 L16,17 C16,16.4477153 15.5522847,16 15,16 Z" id="Path" fill="#29394B"></path>
+            <rect id="Rectangle" fill="#38AE70" x="10" y="26" width="6" height="6" rx="1"></rect>
+            <path d="M33,8 L10,8 L10,10 L33,10 C33.5522847,10 34,9.55228475 34,9 C34,8.44771525 33.5522847,8 33,8 Z" id="Path" fill="#29394B"></path>
+            <path d="M33,18 L18,18 L18,20 L33,20 C33.5522847,20 34,19.5522847 34,19 C34,18.4477153 33.5522847,18 33,18 Z" id="Path" fill="#29394B"></path>
+            <path d="M33,28 L18,28 L18,30 L33,30 C33.5522847,30 34,29.5522847 34,29 C34,28.4477153 33.5522847,28 33,28 Z" id="Path" fill="#38AE70"></path>
+            <rect id="Rectangle" fill-opacity="0" fill="#000000" x="0" y="0" width="36" height="36"></rect>
+        </g>
+    </g>
+</svg>
