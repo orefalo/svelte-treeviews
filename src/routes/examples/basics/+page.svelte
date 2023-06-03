@@ -1,5 +1,5 @@
 <script>
-	import { TreeView } from 'svelte-treeviews';
+	import Draganddrop from './Draganddrop.svelte';
 	import CodeArea from '$comp/CodeArea.svelte';
 
 	let code = `
@@ -34,6 +34,6 @@
 	If you want to disable the 'double click splitter to maximize' behavior, you can add this attribute: dblClickSplitter={false}.
 </p>
 
-<TreeView />
+<Draganddrop />
 
 <CodeArea id="min_max" {code} />

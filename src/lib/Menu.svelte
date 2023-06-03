@@ -5,7 +5,7 @@
 </script>
 
 <script lang="ts">
-	import { onMount, setContext, createEventDispatcher } from 'svelte';
+	import { setContext, createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	import type { TreeContext } from '$lib';

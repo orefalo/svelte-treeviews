@@ -14,7 +14,6 @@
 		ChangeSelection,
 		ChangeSelectForAllChildren,
 		moveNode,
-		//expandToLevel,
 		changeEveryExpansion,
 		getInsertionPosition,
 		huminifyInsType
@@ -107,7 +106,7 @@
 	// svelte-ignore unused-export-let
 	export let branchRootNode = {};
 
-	let dragenterTimestamp;
+	let dragenterTimestamp: number;
 	let canNestPos = false;
 	let canNestTime = false;
 	let canNest;
@@ -299,7 +298,7 @@
 
 		//important to check if timetonest is set, otherwise you could spend 30 minutes fixing this shit :)
 		if (timeToNest) {
-			canNestTime = (dragenterTimestamp ? new Date() - dragenterTimestamp : 1) > timeToNest;
+			canNestTime = (dragenterTimestamp ? new Date().getMilliseconds() - dragenterTimestamp : 1) > timeToNest;
 		}
 
 		let newNode = tree.find((n) => n[propNames.nodePathProperty] == draggedPath);
@@ -340,7 +339,7 @@
 		});
 
 		//reset props
-		dragenterTimestamp = null;
+		dragenterTimestamp = 0;
 		draggedPath = null;
 		highlightedNode = null;
 	}
@@ -366,7 +365,7 @@
 			insPos = getInsertionPosition(e, el);
 
 			validTarget = true;
-			dragenterTimestamp = new Date();
+			dragenterTimestamp = new Date().getMilliseconds();
 			// will cause flashing when moving wrom node to node while be able to nest
 			//* have to be here if you only use time
 			highlightedNode = node;
@@ -405,7 +404,7 @@
 		e.preventDefault();
 	}
 
-	function handleDragEnd(_e, _node) {
+	function handleDragEnd(e, node) {
 		//reset prop on next tick
 		setTimeout(() => {
 			draggedPath = null;
@@ -413,7 +412,7 @@
 		}, 1);
 	}
 
-	function handleDragleave(_e, _node) {
+	function handleDragleave(e, node, el) {
 		// highlightedNode = null;
 	}
 	/**
@@ -531,7 +530,7 @@
 								type="checkbox"
 								id={getNodeId(node)}
 								on:change={() => selectionChanged(node)}
-								checked={node[propNames.selectedProperty] ? 'false' : ''}
+								checked={node[propNames.selectedProperty] ? false : true}
 							/>
 						{:else if !leafNodeCheckboxesOnly}
 							<input
@@ -541,14 +540,14 @@
 									e.preventDefault;
 									selectChildren(node, e);
 								}}
-								checked={node.__visual_state == 'true' ? 'false' : ''}
+								checked={node.__visual_state == 'true' ? false : true}
 								indeterminate={node.__visual_state == 'indeterminate'}
 							/>
 						{:else}
 							<input
 								type="checkbox"
 								id={getNodeId(node)}
-								onclick="return false;"
+								on:click={() => false}
 								disabled={true}
 								class:invisible={!checkboxesDisabled}
 							/>
@@ -557,7 +556,7 @@
 						<input
 							type="checkbox"
 							id={getNodeId(node)}
-							onclick="return false;"
+							on:click={() => false}
 							disabled={true}
 							class:invisible={!checkboxesDisabled}
 						/>

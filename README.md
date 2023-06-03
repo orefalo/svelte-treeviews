@@ -20,6 +20,7 @@ API
 
 Features
 
+- [ ] animation fx
 - [ ] auto scroll the parent container
 - [ ] drag&drop
 - [ ] isDraggable/isDropable Validation
@@ -48,4 +49,5 @@ That's probably one of the best one out there
 https://demos.telerik.com/kendo-ui/treeview/index
 
 Another good opensource  
-https://amsik.github.io/liquor-tree/#Keyboard-Navigation
+https://amsik.github.io/liquor-tree/#Keyboard-Navigation  
+https://github.com/amsik/liquor-tree
