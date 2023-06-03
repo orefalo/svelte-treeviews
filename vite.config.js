@@ -14,7 +14,7 @@ const config = {
 			include: ['highlight.js', 'highlight.js/lib/core']
 		},
 		alias: {
-			'svelte-splitpanes': path.resolve('.', 'src/lib'),
+			'svelte-treeviews': path.resolve('.', 'src/lib'),
 			$comp: path.resolve('./src/comp')
 		}
 	},

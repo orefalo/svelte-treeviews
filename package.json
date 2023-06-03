@@ -1,7 +1,7 @@
 {
 	"name": "svelte-treeviews",
 	"version": "0.1.0",
-	"description": "A full featured treeview component, ported from liquor-tree",
+	"description": "A full featured treeview component",
 	"author": {
 		"name": "Olivier Refalo",
 		"url": "https://github.com/orefalo"
@@ -9,19 +9,17 @@
 	"keywords": [
 		"svelte",
 		"component",
-		"layout",
-		"split",
-		"splitter",
-		"pane",
-		"panel",
-		"resize",
-		"resizable"
+		"tree",
+		"treeview",
+		"hierarchy",
+		"map",
+		"tree structure"
 	],
-	"bugs": "https://github.com/orefalo/svelte-splitpanes/issues",
-	"homepage": "https://orefalo.github.io/svelte-splitpanes/",
+	"bugs": "https://github.com/orefalo/svelte-treeviews/issues",
+	"homepage": "https://orefalo.github.io/svelte-treeviews/",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/orefalo/svelte-splitpanes"
+		"url": "https://github.com/orefalo/svelte-treeviews"
 	},
 	"license": "MIT",
 	"type": "module",
