@@ -1,5 +1,5 @@
 <script>
-	import { Pane, Splitpanes } from 'svelte-splitpanes';
+	import { Pane, Splitpanes } from 'svelte-treeviews';
 </script>
 
 <Splitpanes class="default-theme" horizontal style="height: 400px">

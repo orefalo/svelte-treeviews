@@ -5,7 +5,7 @@
 </script>
 
 <div class="input-output-toggle">
-	Splitpane direction:
+	Reading direction:
 	<span aria-hidden="true">LTR</span>
 	<ToggleButton bind:pressed={isRTL} label="RTL direction" /> <span aria-hidden="true">RTL</span>
 </div>

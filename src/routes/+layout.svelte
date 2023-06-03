@@ -16,34 +16,16 @@
 			pages: [{ title: 'Introduction', path: '/' }]
 		},
 		{
-			title: 'General Examples',
-			pages: [
-				{ title: 'Min-Max', path: '/examples/min-max' },
-				{ title: 'Default Size', path: '/examples/default-size' },
-				{ title: 'Lock Layout', path: '/examples/lock-layout' },
-				{ title: 'Push Other Panes', path: '/examples/push-other-panes' },
-				{ title: 'Add Remove Panes', path: '/examples/add-remove-panes' },
-				{ title: 'Reordering Panes', path: '/examples/reordering-panes' },
-				{ title: 'ChangeOrientation', path: '/examples/change-orientation' },
-				{ title: 'Prog Resize', path: '/examples/prog-resize' },
-				{ title: 'Toggle Panes', path: '/examples/toggle-panes' },
-				{ title: 'Listen To Events', path: '/examples/listen-to-events' }
-			]
+			title: 'Features',
+			pages: [{ title: 'Basics', path: '/examples/basics' }]
 		},
 		{
-			title: 'Snap',
-			pages: [
-				{ title: 'Simple Snap', path: '/examples/snap/simple' },
-				{ title: 'Middle Snap', path: '/examples/snap/middle' },
-				{ title: 'Min-Max Snap', path: '/examples/snap/min-max' }
-			]
+			title: 'API',
+			pages: [{ title: 'Basics', path: '/examples/basics' }]
 		},
 		{
-			title: 'Styling',
-			pages: [
-				{ title: 'Style Splitters', path: '/examples/styling/splitters' },
-				{ title: 'Style Splitters Modern', path: '/examples/styling/splitters-modern' }
-			]
+			title: 'Use Cases',
+			pages: [{ title: 'Basics', path: '/examples/basics' }]
 		}
 	];
 
@@ -55,8 +37,8 @@
 </script>
 
 <svelte:head>
-	<title>Svelte-Splitpanes{curPage ? ` - ${curPage.title}` : ''}</title>
-	<meta name="description" content="A Fantastic pane splitter for Svelte" />
+	<title>Svelte-Treeviews{curPage ? ` - ${curPage.title}` : ''}</title>
+	<meta name="description" content="A Fantastic tree view for Svelte" />
 	{@html theme}
 </svelte:head>
 
@@ -85,7 +67,7 @@
 
 	<div class="toc-container">
 		<div role="presentation" class="toc-contents-wrap">
-			<h1 class="toc-head"><img src="{base}/favicon.svg" alt="Icon" width="30" height="30" /> Svelte-Splitpane</h1>
+			<h1 class="toc-head"><img src="{base}/favicon.svg" alt="Icon" width="30" height="30" /> Svelte-Treeviews</h1>
 			<Contents contents={sections} />
 		</div>
 
