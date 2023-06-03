@@ -1,4 +1,4 @@
-import{S as y,i as v,s as z,e as c,a as S,I as p,d as h,b as w,f as x,J as b,g as l,j as _,X as R,k as f,K as m,V as d,Y as I}from"../chunks/external.71726656.js";function k(g){let t,u,s,i,r,n,o;return{c(){t=c("img"),s=S(),i=c("p"),r=p(`The badge above tells the amortized size of the library after minification when using all the library features.
+import{S as y,i as v,s as z,e as c,a as S,I as p,d as h,b as w,f as x,J as b,g as l,j as _,Z as R,k as f,K as m,W as d,_ as I}from"../chunks/external.ee8513b5.js";function k(g){let t,u,s,i,r,n,o;return{c(){t=c("img"),s=S(),i=c("p"),r=p(`The badge above tells the amortized size of the library after minification when using all the library features.
 	`),n=c("br"),o=p(`
 	It is computed in the build time of the demo website, specifying how much size it really takes after the Rollup build process,
 	for the client code and the server(SSR) code.`),this.h()},l(e){t=h(e,"IMG",{alt:!0,src:!0}),s=w(e),i=h(e,"P",{});var a=x(i);r=b(a,`The badge above tells the amortized size of the library after minification when using all the library features.
