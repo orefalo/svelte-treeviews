@@ -440,7 +440,7 @@ export function searchTree(tree, filterFunction, recursive, propNames) {
 	return result;
 }
 
-function addParents(tree, result, node, propNames) {
+function addParents(tree, result, node, propNames?) {
 	const parentsIds = [],
 		parentNodes = [];
 	if (result === undefined) result = [];

@@ -405,7 +405,7 @@
 		e.preventDefault();
 	}
 
-	function handleDragEnd(/*_e, _node*/) {
+	function handleDragEnd(_e, _node) {
 		//reset prop on next tick
 		setTimeout(() => {
 			draggedPath = null;
@@ -413,7 +413,7 @@
 		}, 1);
 	}
 
-	function handleDragleave(/*_e, _node*/) {
+	function handleDragleave(_e, _node) {
 		// highlightedNode = null;
 	}
 	/**

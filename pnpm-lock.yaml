@@ -72,6 +72,9 @@ devDependencies:
   lint-staged:
     specifier: 13.2.2
     version: 13.2.2
+  lodash.unionby:
+    specifier: 4.8.0
+    version: 4.8.0
   prettier:
     specifier: 2.8.8
     version: 2.8.8
@@ -2844,6 +2847,11 @@ packages:
   /lodash.startcase@4.4.0:
     resolution:
       { integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg== }
+    dev: true
+
+  /lodash.unionby@4.8.0:
+    resolution:
+      { integrity: sha512-e60kn4GJIunNkw6v9MxRnUuLYI/Tyuanch7ozoCtk/1irJTYBj+qNTxr5B3qVflmJhwStJBv387Cb+9VOfABMg== }
     dev: true
 
   /lodash.uniq@4.5.0:

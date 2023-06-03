@@ -63,6 +63,7 @@
 		"highlight.js": "11.8.0",
 		"husky": "8.0.3",
 		"lint-staged": "13.2.2",
+		"lodash.unionby": "4.8.0",
 		"prettier": "2.8.8",
 		"prettier-plugin-svelte": "2.10.1",
 		"rimraf": "5.0.1",

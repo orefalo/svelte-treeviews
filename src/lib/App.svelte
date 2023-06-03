@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Draganddrop from './Draganddrop.svelte';
+	import Draganddrop from '../routes/examples/basics/Draganddrop.svelte';
 </script>
 
 <Draganddrop />

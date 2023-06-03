@@ -1,10 +1,10 @@
 <script lang="ts">
-	import TreeView from './TreeView.svelte';
+	import TreeView from '../../../lib/TreeView.svelte';
 
-	import { mergeTrees } from './TreeHelpers.ts';
+	import { mergeTrees } from '../../../lib/TreeHelpers';
 
-	import MenuDivider from './MenuDivider.svelte';
-	import MenuOption from './MenuOption.svelte';
+	import MenuDivider from '../../../lib/MenuDivider.svelte';
+	import MenuOption from '../../../lib/MenuOption.svelte';
 
 	let tree = [
 		{
@@ -175,8 +175,8 @@ tree class<input type="text" bind:value={treeClass} />
 	<svelte:fragment slot="context-menu" let:node>
 		<MenuOption text={node.nodePath} isDisabled />
 		<MenuDivider />
-		<MenuOption text="alert object" on:click={alert(JSON.stringify(node))} />
-		<MenuOption text="delete node" on:click={handleClick(node)} />
+		<MenuOption text="alert object" on:click={() => alert(JSON.stringify(node))} />
+		<MenuOption text="delete node" on:click={() => handleClick(node)} />
 	</svelte:fragment>
 </TreeView>
 

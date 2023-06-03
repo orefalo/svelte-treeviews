@@ -1,5 +1,5 @@
 <script>
-	import { Pane, Splitpanes } from 'svelte-treeviews';
+	import { TreeView } from 'svelte-treeviews';
 	import CodeArea from '$comp/CodeArea.svelte';
 
 	let code = `
@@ -34,25 +34,6 @@
 	If you want to disable the 'double click splitter to maximize' behavior, you can add this attribute: dblClickSplitter={false}.
 </p>
 
-<Splitpanes class="default-theme" horizontal={true} style="height: 400px">
-	<Pane minSize={20} maxSize={70}>
-		<span
-			>1
-			<br />
-			<em class="specs">I have a min height of 20% &amp; max height of 70%</em>
-		</span>
-	</Pane>
-	<Pane>
-		<span>2</span>
-	</Pane>
-	<Pane maxSize={70}>
-		<span
-			>3
-
-			<br />
-			<em class="specs">I have a max height of 70%</em>
-		</span>
-	</Pane>
-</Splitpanes>
+<TreeView />
 
 <CodeArea id="min_max" {code} />

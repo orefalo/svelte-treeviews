@@ -39,6 +39,9 @@ Features
 - [ ] data binding (local/async)
 - [ ] RTL/LTR support
 
+TODO:
+Give credits to https://github.com/KeenMate/svelte-treeview
+
 References
 
 That's probably one of the best one out there  
