@@ -45,7 +45,7 @@ jobs:
         run: pnpm exec svelte-kit sync
 
       - name: Svelte Package
-        run: npm run package
+        run: pnpm package
 
       - name: Release Please
         uses: google-github-actions/release-please-action@v3
@@ -60,7 +60,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: package/svelte-splitpanes-${{ steps.release.outputs.version }}.tgz
+          asset_path: package/svelte-treeviews-${{ steps.release.outputs.version }}.tgz
           asset_name: svelte-splitpanes-${{ steps.release.outputs.version }}.tgz
           asset_content_type: application/gzip
 

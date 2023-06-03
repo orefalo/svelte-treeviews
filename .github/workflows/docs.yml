@@ -57,7 +57,7 @@ jobs:
       - name: Build Frontend
         run: npm run build
         env:
-          BASE_PATH: /svelte-splitpanes
+          BASE_PATH: /svelte-treeviews
 
       # Deploy Docs
       - name: Deploy Docs 🚀
