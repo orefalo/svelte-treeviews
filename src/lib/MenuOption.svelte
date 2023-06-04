@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { KEY } from './Menu.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import type { MenuContext } from '$lib';
 
 	export let isDisabled = false;
 	export let text = '';
 
-	import { createEventDispatcher } from 'svelte';
-	import type { TreeContext } from '$lib';
 	const dispatch = createEventDispatcher();
 
-	const { dispatchClick } = getContext<TreeContext>(KEY);
+	const { dispatchClick } = getContext<MenuContext>(KEY);
 
 	const handleClick = (e) => {
 		if (isDisabled) return;
 
 		dispatch('click');
+		//TODO: the event should be enough
 		dispatchClick();
 	};
 </script>

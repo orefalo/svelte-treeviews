@@ -20,7 +20,6 @@
 		".vscode": true,
 		".husky": true,
 		".svelte-kit": true,
-		"tsconfig.json": true,
 		"serve.json": true,
 		"node_modules": true,
 		".github": true
@@ -40,7 +39,6 @@
 		".vscode",
 		".husky",
 		".svelte-kit",
-		"tsconfig.json",
 		"serve.json",
 		"node_modules",
 		".github"

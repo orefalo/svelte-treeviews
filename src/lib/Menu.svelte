@@ -8,7 +8,7 @@
 	import { setContext, createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import type { TreeContext } from '$lib';
+	import type { MenuContext } from '$lib';
 
 	export let x;
 	export let y;
@@ -24,7 +24,8 @@
 
 	const dispatch = createEventDispatcher();
 
-	setContext<TreeContext>(KEY, {
+	// TODO: I have the feeling dispatchClick is useless, rather trap the click event and propagate - it's more standard
+	setContext<MenuContext>(KEY, {
 		dispatchClick: () => dispatch('click')
 	});
 
