@@ -6,15 +6,14 @@
 		<link rel="icon" href="./favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<link href="./_app/immutable/assets/external.62aa156a.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/0.815942eb.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/svelte-treeviews.6ea19f66.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.eaf3c9d5.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/external.0253c5a2.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.fedbc34a.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.ddc699b4.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/5.ca465523.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/svelte-treeviews.aba244f8.js"><title>Svelte-Treeviews</title><!-- HEAD_svelte-v9dq0p_START --><meta name="description" content="A Fantastic tree view for Svelte"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#011627;color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}</style><!-- HTML_TAG_END --><!-- HEAD_svelte-v9dq0p_END -->
+		<link rel="modulepreload" href="./_app/immutable/entry/start.67d05189.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/external.fc4eb23b.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.c33c0153.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.09d0d5e8.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/5.a067f147.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/svelte-treeviews.bb4f7f81.js"><title>Svelte-Treeviews</title><!-- HEAD_svelte-v9dq0p_START --><meta name="description" content="A Fantastic tree view for Svelte"><!-- HTML_TAG_START --><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#011627;color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}</style><!-- HTML_TAG_END --><!-- HEAD_svelte-v9dq0p_END -->
 	</head>
 	<body>
 		<div>
@@ -66,7 +65,7 @@
 			
 			<script>
 				{
-					__sveltekit_1ppsg39 = {
+					__sveltekit_w5lvg9 = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -76,8 +75,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.eaf3c9d5.js"),
-						import("./_app/immutable/entry/app.fedbc34a.js")
+						import("./_app/immutable/entry/start.67d05189.js"),
+						import("./_app/immutable/entry/app.c33c0153.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

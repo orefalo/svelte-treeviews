@@ -21,11 +21,11 @@
 		},
 		{
 			title: 'API',
-			pages: [{ title: 'Basics', path: '/examples/basics' }]
+			pages: [{ title: 'Basics2', path: '/examples/basics2' }]
 		},
 		{
 			title: 'Use Cases',
-			pages: [{ title: 'Basics', path: '/examples/basics' }]
+			pages: [{ title: 'Basics2', path: '/examples/basics2' }]
 		}
 	];
 
