@@ -45,6 +45,7 @@
 	};
 </script>
 
+<p>SAMPLE COMPONENTS</p>
 <p>This component is used for ROOT:</p>
 <TreeRoot />
 <p>This component is used for NODES:</p>
@@ -52,5 +53,5 @@
 <p>This component is used for ITEMS:</p>
 <TreeItem />
 
-<p>AND NOT THIS IS THE TREE</p>
+<p>THIS IS THE TREE</p>
 <Tree node={treeData} treeName="test-tree" />
