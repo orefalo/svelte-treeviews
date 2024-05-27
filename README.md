@@ -2,6 +2,29 @@
 
 ## Features to support
 
+Features
+
+- [ ] auto scroll the parent container
+- [ ] drag&drop
+- [ ] isDraggable/isDropable Validation
+- [ ] support multiple instances per page
+- [ ] keyboard navigation
+- [ ] theming
+- [ ] item cx cutomization
+- [ ] tooltip
+- [ ] allow edit in place
+- [ ] tree filtering
+- [ ] sorting by Fn (default text)
+- [ ] lazy loading
+- [ ] command trigger
+- [ ] double click override
+- [ ] right click override
+- [ ] data binding (local/async)
+- [ ] RTL/LTR support
+- [ ] animation fx
+- [ ] Search
+- [ ] API, see below
+
 API
 
 - [ ] Expand/collapse node(s)
@@ -11,34 +34,11 @@ API
 - [ ] Enable/disable node(s)
 - [ ] show/hide node(s)
 - [ ] get current selected node(s)
-- [ ] find by text, uid(s)
 - [ ] insert After / Before
 - [ ] remove
 - [ ] Expand to element
 - [ ] Expland to path
 - [ ] Events for every action
-
-Features
-
-- [ ] animation fx
-- [ ] auto scroll the parent container
-- [ ] drag&drop
-- [ ] isDraggable/isDropable Validation
-- [ ] support multiple instances per page
-- [ ] keyboard navigation
-- [ ] theming
-- [ ] tooltip
-- [ ] item entry cutomization
-- [ ] allow edit in place
-- [ ] tree filtering
-- [ ] sorting by text
-- [ ] sorting by Fn
-- [ ] lazy loading
-- [ ] command trigger
-- [ ] double click override
-- [ ] right click override
-- [ ] data binding (local/async)
-- [ ] RTL/LTR support
 
 TODO:
 Give credits to https://github.com/KeenMate/svelte-treeview
