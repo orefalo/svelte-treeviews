@@ -16,7 +16,6 @@ Features
 - [ ] tree filtering
 - [ ] sorting by Fn (default text)
 - [ ] lazy loading
-- [ ] command trigger
 - [ ] double click override
 - [ ] right click override
 - [ ] data binding (local/async)
@@ -24,6 +23,7 @@ Features
 - [ ] animation fx
 - [ ] Search
 - [ ] API, see below
+- [ ] Multiple selection
 
 API
 
