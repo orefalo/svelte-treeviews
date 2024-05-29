@@ -5,11 +5,12 @@
 Features
 
 - [ ] auto scroll the parent container
-- [ ] drag&drop
+- [ ] drag & drop multiple selected tree nodes
 - [ ] isDraggable/isDropable Validation
 - [ ] support multiple instances per page
 - [ ] keyboard navigation
 - [ ] theming
+- [ ] Edit node text in-line
 - [ ] item cx cutomization
 - [ ] tooltip
 - [ ] allow edit in place

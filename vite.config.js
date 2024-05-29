@@ -1,13 +1,12 @@
 import path from 'path';
 
 import { sveltekit } from '@sveltejs/kit/vite';
-
+import { defineConfig } from 'vitest/config';
 import { exampleImportPlugin } from './scripts/vite/example-import.js';
-
 import { minifiedSizeAnalyzingPlugin, manualChunksForAnalyzing } from './scripts/vite/minified-size-analyzing.js';
 
 /** @type {import('vite').UserConfig} */
-const config = {
+const config = defineConfig({
 	plugins: [sveltekit(), exampleImportPlugin(), minifiedSizeAnalyzingPlugin()],
 	resolve: {
 		optimizeDeps: {
@@ -33,6 +32,6 @@ const config = {
 			'esm-env-robust'
 		]
 	}
-};
+});
 
 export default config;

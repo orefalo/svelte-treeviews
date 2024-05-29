@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let open = false;
+	export let open: boolean = false;
 </script>
 
 <!-- svelte-ignore a11y-missing-attribute -->
