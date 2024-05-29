@@ -1,4 +1,7 @@
-{ '*.{js,ts,svelte,json,md}': [
-      'prettier --ignore-path .gitignore --write --cache !./pnpm-lock.yaml !./CHANGELOG.md'
-      # "npx eslint --cache --ignore-path .gitignore ."
-    ], '*.{cjs,yml,yaml,lintstagedrc}': 'prettier --ignore-path .gitignore --write --cache !./pnpm-lock.yaml !./CHANGELOG.md' }
+{
+	"*.{js,ts,svelte,json,md}": [
+		"./node_modules/.bin/prettier --ignore-path .gitignore --write --cache !./pnpm-lock.yaml !./CHANGELOG.md",
+		"./node_modules/.bin/eslint --cache --ignore-path .gitignore ."
+	],
+	"*.{cjs,yml,yaml,lintstagedrc}": "./node_modules/.bin/prettier --ignore-path .gitignore --write --cache !./pnpm-lock.yaml !./CHANGELOG.md"
+}

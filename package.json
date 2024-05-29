@@ -26,7 +26,7 @@
 	"scripts": {
 		"dev": "cross-env DEV=1 vite dev --port 3000",
 		"build": "vite build && node ./scripts/create-minified-size-badges.js",
-		"package": "npm run package:build && npm run package:pack",
+		"package": "pnpm run package:build && pnpm run package:pack",
 		"package:build": "rimraf -g ./package/* && svelte-package -o ./package/dist && copyfiles ./README.md ./LICENSE ./package/ && node scripts/package-clean-copy.js",
 		"package:pack": "cd package && npm pack",
 		"preview": "vite preview --port 3000",
@@ -36,18 +36,18 @@
 		"example-build:setup": "rimraf -g \"./example-temp/!(node_modules)*\" && copyfiles -u 1 \"./example/!(node_modules)*/**/*\" \"./example/!(node_modules)*\" ./example-temp && node ./scripts/example/pnpm-install-project-in-example-temp.js",
 		"example-build:build": "cd example-temp && svelte-kit sync && npm run build",
 		"example-build:test": "node ./scripts/example/verify-example-build.js",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "npm run lint-format && npm run lint-es",
-		"lint-es": "eslint --ignore-path .gitignore --cache .",
-		"lint-format": "prettier --ignore-path .gitignore --check --cache !./pnpm-lock.yaml !./CHANGELOG.md .",
-		"format": "prettier --ignore-path .gitignore --write --cache !./pnpm-lock.yaml !./CHANGELOG.md .",
-		"commit": "npx lint-staged && cross-env NO_VERIFY=1 node ./node_modules/cz-customizable/standalone.js",
+		"check": "./node_modules/.bin/svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "./node_modules/.bin/svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "pnpm run lint-format && pnpm run lint-es",
+		"lint-es": "./node_modules/.bin/eslint --ignore-path .gitignore --cache .",
+		"lint-format": "./node_modules/.bin/prettier --ignore-path .gitignore --check --cache !./pnpm-lock.yaml !./CHANGELOG.md .",
+		"format": "./node_modules/.bin/prettier --ignore-path .gitignore --write --cache !./pnpm-lock.yaml !./CHANGELOG.md .",
+		"commit": "./node_modules/.bin/lint-staged && ./node_modules/.bin/cross-env NO_VERIFY=1 node ./node_modules/cz-customizable/standalone.js",
 		"fetch-and-publish": "node scripts/fetch-and-publish.js"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "17.6.5",
-		"@commitlint/config-conventional": "17.6.5",
+		"@commitlint/cli": "19.3.0",
+		"@commitlint/config-conventional": "19.2.2",
 		"@stroblp/svelte-persistent-writable": "1.3.1",
 		"@sveltejs/adapter-static": "3.0.1",
 		"@sveltejs/kit": "2.5.10",
@@ -83,12 +83,12 @@
 		"vitest": "^1.6.0"
 	},
 	"optionalDependencies": {
-		"@playwright/test": "1.34.3",
+		"@playwright/test": "1.44.1",
 		"badge-maker": "3.3.1",
-		"serve": "14.2.0"
+		"serve": "14.2.3"
 	},
 	"peerDependencies": {
-		"svelte": "^3.59.1"
+		"svelte": "^4.2.17"
 	},
 	"config": {
 		"cz-customizable": {
