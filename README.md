@@ -8,22 +8,21 @@ Features
 - [ ] drag & drop multiple selected tree nodes
 - [ ] isDraggable/isDropable Validation
 - [ ] support multiple instances per page
-- [ ] keyboard navigation
-- [ ] theming
-- [ ] Edit node text in-line
-- [ ] item cx cutomization
-- [ ] tooltip
+- [ ] keyboard navigation - use arrow keys and space to navigate the tree
+- [ ] Virtual rendering - only displayed nodes are rendered
+- [ ] Lazy Loading - loads the tree as it gets expanded
+- [ ] Edit node text in-place
+- [ ] Theming - CX cutomization - change icon, colors, html of a node
+- [ ] tooltip - highlight precious information on overlay
 - [ ] allow edit in place
-- [ ] tree filtering
-- [ ] sorting by Fn (default text)
-- [ ] lazy loading
+- [ ] custom sorting (default text)
 - [ ] double click override
 - [ ] right click override
 - [ ] data binding (local/async)
 - [ ] RTL/LTR support
 - [ ] animation fx
-- [ ] Search
-- [ ] API, see below
+- [ ] Search / Filter
+- [ ] Control API & Events, see below
 - [ ] Multiple selection
 
 API
@@ -35,6 +34,7 @@ API
 - [ ] Enable/disable node(s)
 - [ ] show/hide node(s)
 - [ ] get current selected node(s)
+- [ ] scrollToNode, selectNextNode, selectPreviousNode
 - [ ] insert After / Before
 - [ ] remove
 - [ ] Expand to element

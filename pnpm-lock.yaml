@@ -108,9 +108,6 @@ importers:
       svelte-preprocess:
         specifier: 5.1.4
         version: 5.1.4(postcss-load-config@3.1.4(postcss@8.4.38)(ts-node@10.9.1(@types/node@20.2.5)(typescript@5.4.5)))(postcss@8.4.38)(sass@1.77.2)(svelte@4.2.17)(typescript@5.4.5)
-      svelte-range-slider-pips:
-        specifier: 2.3.1
-        version: 2.3.1
       svelte2tsx:
         specifier: 0.7.9
         version: 0.7.9(svelte@4.2.17)(typescript@5.4.5)
@@ -2839,10 +2836,6 @@ packages:
       typescript:
         optional: true
 
-  svelte-range-slider-pips@2.3.1:
-    resolution:
-      { integrity: sha512-P29PNqHld+SiaDuHzf98rLvhSYWXb3TVL9p7U5RG9UX8emUgypZgp9zuIIwpmIXysGQC6JG8duMc5FuaPnSVdg== }
-
   svelte2tsx@0.7.9:
     resolution:
       { integrity: sha512-Rm+0LAwg9wT4H2IsR8EaM9EWErTzi9LmuZKxkH5b1ua94XjQmwHstBP4VabLgA9AE6XmwBg+xK7Cjzwfm6ustQ== }
@@ -5430,8 +5423,6 @@ snapshots:
       postcss-load-config: 3.1.4(postcss@8.4.38)(ts-node@10.9.1(@types/node@20.2.5)(typescript@5.4.5))
       sass: 1.77.2
       typescript: 5.4.5
-
-  svelte-range-slider-pips@2.3.1: {}
 
   svelte2tsx@0.7.9(svelte@4.2.17)(typescript@5.4.5):
     dependencies:
