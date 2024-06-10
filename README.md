@@ -7,7 +7,8 @@ NOT WORKING NOT WORKING NOT WORKING
 Features
 
 - [ ] auto scroll the parent container
-- [ ] drag & drop multiple selected tree nodes
+- [ ] drag & drop (multiple) selected tree nodes
+- [ ] drag and drop across trees
 - [ ] isDraggable/isDropable Validation
 - [ ] support multiple instances per page
 - [ ] keyboard navigation - use arrow keys and space to navigate the tree
