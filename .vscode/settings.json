@@ -5,23 +5,11 @@
 		"**/.hg": true,
 		"**/CVS": true,
 		"**/.DS_Store": true,
-		"**/Thumbs.db": true,
-		".npmrc": true,
-		".commitlintrc.cjs": true,
-		".cz-config.cjs": true,
-		".eslintcache": true,
-		".eslintrc.cjs": true,
-		".gitattributes": true,
-		".gitignore": true,
-		".lintstagedrc": true,
-		".prettierrc": true,
-		"CODE_OF_CONDUCT.md": true,
-		"LICENSE": true,
-		".vscode": true,
-		".husky": true,
-		".svelte-kit": true,
-		"serve.json": true,
-		"node_modules": true,
-		".github": true
-	}
+		"**/Thumbs.db": true
+	},
+	"prettier.documentSelectors": ["**/*.svelte"],
+	"[svelte]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"hide-files.files": []
 }
