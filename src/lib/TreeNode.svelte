@@ -13,9 +13,14 @@
 		treeLineOffset = 10,
 		processor,
 		children,
+
+		// events
 		onOpen,
 		onClose,
 		onCheck
+
+		// snippets
+		
 	}: {
 		stat: Stat<unknown>;
 		rtl: boolean;

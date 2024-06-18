@@ -58,6 +58,9 @@
 			"config": ".cz-config.cjs"
 		}
 	},
+	"dependencies": {
+		"svelte-virtuallists": "^1.0.3"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.3.0",
 		"@commitlint/config-conventional": "^19.2.2",
