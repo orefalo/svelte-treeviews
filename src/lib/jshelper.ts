@@ -915,7 +915,7 @@ export function joinRows<T, Y>(
 	key2?: string,
 	ignoreUnmatched?: boolean
 ): [T | null, Y | null][] {
-	if (key2 == null) {
+	if (key2 === null) {
 		// @ts-ignore
 		key2 = key1;
 	}
@@ -1172,7 +1172,7 @@ export class TreeData<Node> {
 		return this.getParentAndIndex(path).parent;
 	}
 	set(path: TreeDataPath, node: Node) {
-		if (path == null || path.length === 0) {
+		if (path === null || path.length === 0) {
 			this.data = node;
 		} else {
 			const { childrenKey } = this;
@@ -1450,7 +1450,7 @@ export function cacheFunction<T extends Function>(func: T, options: { capacity?:
 		}
 		if (!map.has(args)) {
 			map.set(args, func(...args));
-			if (options.capacity != null) {
+			if (options.capacity !== null) {
 				cachedArgsArr.push(args);
 				const removed = cachedArgsArr.splice(0, cachedArgsArr.length - options.capacity);
 				for (const args of removed) {
@@ -1506,7 +1506,7 @@ export function executePromiseGetters(getters: (() => any)[], concurrent = 1) {
 
 export function promiseTimeout<T>(promise: Promise<T>, timeout: number) {
 	return new Promise((resolve, reject) => {
-		let t, rejected;
+		let t: string | number | NodeJS.Timeout | undefined, rejected: boolean;
 		promise.then(
 			(...args) => {
 				clearTimeout(t);
@@ -1582,7 +1582,8 @@ export function continuous<T extends (info: { count: number; currentCount: { val
 				let r = method({ count, currentCount }, ...args);
 				try {
 					await r;
-				} catch (error) {
+				} catch (_error) {
+					/* */
 				} finally {
 					done.resolve(r);
 				}
@@ -1596,7 +1597,8 @@ export function continuous<T extends (info: { count: number; currentCount: { val
 				let r = method({ count, currentCount }, ...args);
 				try {
 					await r;
-				} catch (error) {
+				} catch (_error) {
+					/* */
 				} finally {
 					done.resolve(r);
 					item.skipped = false;
@@ -1605,7 +1607,7 @@ export function continuous<T extends (info: { count: number; currentCount: { val
 			for (let index = currentIndex - 1; index >= 0; index--) {
 				const item = queue[index];
 				// skip before last
-				if (!item || item.skipped != null) {
+				if (!item || item.skipped !== null) {
 					continue;
 				} else {
 					item.skipped = true;
@@ -1615,7 +1617,7 @@ export function continuous<T extends (info: { count: number; currentCount: { val
 			}
 			queue.splice(0, queue.length);
 		}
-		if (opt.resetCount) {
+		if (opt?.resetCount) {
 			currentCount.value = 0;
 		}
 		working = false;
@@ -1627,17 +1629,17 @@ export const promiseContinuous = continuous;
 
 export function getUrlParam(par: string) {
 	// 获取当前URL
-	var local_url = document.location.href;
+	const local_url = document.location.href;
 	// 获取要取得的get参数位置
-	var get = local_url.indexOf(par + '=');
-	if (get == -1) {
+	const get = local_url.indexOf(par + '=');
+	if (get === -1) {
 		return false;
 	}
 	// 截取字符串
-	var get_par = local_url.slice(par.length + get + 1);
+	let get_par = local_url.slice(par.length + get + 1);
 	// 判断截取后的字符串是否还有其他get参数
-	var nextPar = get_par.indexOf('&');
-	if (nextPar != -1) {
+	const nextPar = get_par.indexOf('&');
+	if (nextPar !== -1) {
 		get_par = get_par.slice(0, nextPar);
 	}
 	return get_par;
@@ -1667,7 +1669,7 @@ export function pathJoin(p1: string, p2: string) {
  * @returns
  */
 export function createElementFromHTML(htmlString: string) {
-	var div = document.createElement('div');
+	const div = document.createElement('div');
 	div.innerHTML = htmlString.trim();
 	if (div.childNodes.length > 1) {
 		return div.childNodes;
@@ -1707,15 +1709,15 @@ export function removeEl(el: Node | Node) {
  * @returns
  */
 export function getScroll() {
-	if (typeof pageYOffset != 'undefined') {
+	if (typeof pageYOffset !== 'undefined') {
 		//most browsers except IE before #9
 		return {
 			top: pageYOffset,
 			left: pageXOffset
 		};
 	} else {
-		var B = document.body; //IE 'quirks'
-		var D = document.documentElement; //IE with doctype
+		const B = document.body; //IE 'quirks'
+		let D = document.documentElement; //IE with doctype
 		D = D.clientHeight ? D : B;
 		return {
 			top: D.scrollTop,

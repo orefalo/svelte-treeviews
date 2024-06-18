@@ -102,10 +102,10 @@ const DragEventService = {
 
 export default DragEventService;
 
-function resolveOptions(options) {
-	if (!options) {
-		options = {};
-	}
+function resolveOptions(options = {}) {
+	// if (!options) {
+	// 	options = {};
+	// }
 	const args = options.args || [];
 	const mouseArgs = options.mouseArgs || [];
 	const touchArgs = options.touchArgs || [];

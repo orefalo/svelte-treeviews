@@ -53,7 +53,7 @@ export function extendedDND(root: Element, options: Options = {}) {
 	}
 
 	// triggered when quick click
-	function onClickEnd(e: MouseEvent | TouchEvent) {
+	function onClickEnd(_e: MouseEvent | TouchEvent) {
 		if (ctx.dragElement) {
 			ctx.dragElement.removeAttribute('draggable');
 		}
@@ -135,20 +135,20 @@ export function extendedDND(root: Element, options: Options = {}) {
 
 export const defaultOptions = {
 	ingoreHTMLTags: ['INPUT', 'TEXTAREA', 'SELECT', 'OPTGROUP', 'OPTION'], // uppercase
-	ifPreventDefault(event: DragEvent): boolean {
+	ifPreventDefault(_event: DragEvent): boolean {
 		if (context.dragElement) {
 			return true;
 		}
 		return ctx.preventDefault;
 	},
-	beforeDragStart(event: MouseEvent | TouchEvent): void | HTMLElement {},
-	onDragStart(event: DragEvent) {},
-	onDrag(event: DragEvent) {},
-	onDragEnter(event: DragEvent) {},
-	onDragLeave(event: DragEvent) {},
-	onDragOver(event: DragEvent) {},
-	onDragEnd(event: DragEvent) {},
-	onDrop(event: DragEvent) {}
+	beforeDragStart(_event: MouseEvent | TouchEvent): void | HTMLElement {},
+	onDragStart(_event: DragEvent) {},
+	onDrag(_event: DragEvent) {},
+	onDragEnter(_event: DragEvent) {},
+	onDragLeave(_event: DragEvent) {},
+	onDragOver(_event: DragEvent) {},
+	onDragEnd(_event: DragEvent) {},
+	onDrop(_event: DragEvent) {}
 };
 
 export type Point = {

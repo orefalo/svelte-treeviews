@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let open: boolean = false;
+	let { open = false }: { open: boolean } = $props();
 </script>
 
-<!-- svelte-ignore a11y-missing-attribute -->
+<!-- svelte-ignore a11y_missing_attribute -->
 <a class="he-tree__open-icon {open ? 'open' : ''}">
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<title>chevron-right</title>

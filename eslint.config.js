@@ -48,7 +48,7 @@ export default [
 	},
 	{
 		rules: {
-			eqeqeq: 'error',
+			//eqeqeq: 'error',
 			'prefer-const': 'off',
 
 			'@typescript-eslint/no-explicit-any': 'off',

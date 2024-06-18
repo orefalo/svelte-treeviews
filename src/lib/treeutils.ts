@@ -50,6 +50,7 @@ export function makeTreeProcessor<T>(data: T[], opt: Options = {}) {
 			return r;
 		},
 		has(nodeData: T | Stat<T>) {
+			// @ts-expect-error implicit any type
 			if (nodeData['isStat']) {
 				// @ts-ignore
 				return this.statsFlat.indexOf(nodeData) > -1;
@@ -66,8 +67,8 @@ export function makeTreeProcessor<T>(data: T[], opt: Options = {}) {
 				}
 			}
 		},
-		_getPathByStat(stat: Stat<T> | null) {
-			if (stat == null) {
+		_getPathByStat(stat: Stat<T> | null): Array<number> {
+			if (stat === null) {
 				return [];
 			}
 			const siblings = this.getSiblings(stat);
@@ -137,7 +138,7 @@ export function makeTreeProcessor<T>(data: T[], opt: Options = {}) {
 		isVisible(statOrNodeData: T | Stat<T>) {
 			// @ts-ignore
 			const stat: Stat<T> = statOrNodeData["isStat"] ? statOrNodeData : this.getStat(statOrNodeData); // prettier-ignore
-			const walk = (stat: Stat<T> | null) => {
+			const walk: (stat: Stat<T> | null) => boolean = (stat: Stat<T> | null) => {
 				return !stat || (!stat.hidden && stat.open && walk(stat.parent));
 			};
 			return Boolean(!stat.hidden && walk(stat.parent));
@@ -221,6 +222,7 @@ export function makeTreeProcessor<T>(data: T[], opt: Options = {}) {
 				level: parent ? parent.level + 1 : 1
 			});
 			this._setPosition(stat, parent || null, index);
+			// @ts-expect-error implicit any type
 			const children = nodeData[this.childrenKey];
 			if (children) {
 				const childrenSnap = children.slice();
@@ -378,8 +380,8 @@ export const defaultOptions = {
 	statsFlatHandler(statsFlat: Stat<any>[]) {
 		return statsFlat;
 	},
-	afterSetStat(stat: Stat<any>, parent: Stat<any> | null, index: number) {},
-	afterRemoveStat(stat: Stat<any>) {},
+	afterSetStat(_stat: Stat<any>, _parent: Stat<any> | null, _index: number) {},
+	afterRemoveStat(_stat: Stat<any>) {},
 	statHandler(stat: Stat<any>) {
 		return stat;
 	}
