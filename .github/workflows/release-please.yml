@@ -1,37 +1,40 @@
+name: Release Please
+run-name: Release Please
+
 on:
   push:
     branches:
       - master
-name: release-please
+
 jobs:
   release-please:
-    if: github.repository == 'orefalo/svelte-splitpanes' # Prevent running on forks
+    if: github.repository == 'orefalo/${{ github.event.repository.name }}' # Prevent running on forks
     runs-on: ubuntu-latest
     steps:
       # Checkout
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # The whole Node.js and pnpm installation and caching
       # Based on https://github.com/pnpm/action-setup/tree/6e1964dde3397a825e79e4607ad57f3f7ca2c7cb#use-cache-to-reduce-installation-time
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8
+          version: 9
           run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           echo "pnpm_cache_dir=$(pnpm store path)" >> ${GITHUB_OUTPUT}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -42,13 +45,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: SvelteKit Sync
-        run: pnpm exec svelte-kit sync
+        run: npx svelte-kit sync
 
       - name: Svelte Package
-        run: pnpm package
+        run: pnpm run package
 
       - name: Release Please
-        uses: google-github-actions/release-please-action@v3
+        uses: googleapis/release-please-action@v4
         id: release
         with:
           release-type: node
@@ -59,13 +62,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          node-version: 20
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: package/svelte-treeviews-${{ steps.release.outputs.version }}.tgz
-          asset_name: svelte-splitpanes-${{ steps.release.outputs.version }}.tgz
+          asset_path: package/${{ github.event.repository.name }}-${{ steps.release.outputs.version }}.tgz
+          asset_name: ${{ github.event.repository.name }}-${{ steps.release.outputs.version }}.tgz
           asset_content_type: application/gzip
 
-      - name: NPM Publish
-        if: ${{ steps.release.outputs.release_created }}
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: cd package && npm config set _authToken=$NPM_TOKEN && npm publish
+      - name: Publish to NPM
+        uses: JS-DevTools/npm-publish@v3 # will only deploy if version has changed
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: package/

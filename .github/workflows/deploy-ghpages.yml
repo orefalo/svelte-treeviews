@@ -1,12 +1,23 @@
 name: Generating Docs
-
+run-name: Generate Docs into gh-pages
 permissions:
   contents: write
 
-on:
+on: # rebuild gh-pages when doc change on master
   push:
     branches:
       - master
+    paths:
+      - 'src/**'
+      - '!src/lib/**'
+  release:
+    types: [published]
+
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: false
 
 jobs:
   build-and-deploy:
@@ -17,21 +28,21 @@ jobs:
     steps:
       # Checkout
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # The whole Node.js and pnpm installation and caching
       # Based on https://github.com/pnpm/action-setup/tree/6e1964dde3397a825e79e4607ad57f3f7ca2c7cb#use-cache-to-reduce-installation-time
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8
+          version: 9
           run_install: false
 
       - name: Get pnpm store directory
@@ -39,7 +50,7 @@ jobs:
         run: |
           echo "pnpm_cache_dir=$(pnpm store path)" >> ${GITHUB_OUTPUT}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -55,13 +66,13 @@ jobs:
 
       # Build Frontend
       - name: Build Frontend
-        run: npm run build
+        run: pnpm run build
         env:
-          BASE_PATH: /svelte-treeviews
+          BASE_PATH: /${{ github.event.repository.name }}
 
       # Deploy Docs
       - name: Deploy Docs 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs
-          target-folder: docs
+          target-folder: /

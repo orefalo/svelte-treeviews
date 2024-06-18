@@ -80,9 +80,7 @@
 	});
 	const startSize = $derived(positions[start] ? positions[start] : 0);
 
-	const totalSize = $derived(
-		positions.length > 0 ? positions[positions.length - 1] + hp.arrayLast(sizes) : 0
-	);
+	const totalSize = $derived(positions.length > 0 ? positions[positions.length - 1] + hp.arrayLast(sizes) : 0);
 
 	const endSize = $derived(positions[end2] ? totalSize - positions[end2] - sizes[end2] : 0);
 
@@ -212,8 +210,7 @@
 			return r.index;
 		}
 		function getEnd() {
-			const endPosition =
-				getScroll(listEl) - getPaddingStart(listEl) + getClientSize(listEl) + buffer;
+			const endPosition = getScroll(listEl) - getPaddingStart(listEl) + getClientSize(listEl) + buffer;
 			console.log('endPosition ' + endPosition);
 			console.log(positions);
 			const r = hp.binarySearch(positions, (mid) => mid - endPosition, {
@@ -311,14 +308,7 @@
 
 <!-- svelte-ignore non_reactive_update -->
 <div class="vtlist" bind:this={listElRef} style={listStyle} {onscroll}>
-	<VirtualListTable
-		class="vtlist-inner"
-		bind:el={listInnerRef}
-		style={listInnerStyle()}
-		{prepend}
-		{append}
-		{table}
-	>
+	<VirtualListTable class="vtlist-inner" bind:el={listInnerRef} style={listInnerStyle()} {prepend} {append} {table}>
 		{#if disabled}
 			{#each items as item, i}
 				{@render row(item, i)}

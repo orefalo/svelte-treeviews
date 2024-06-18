@@ -3,7 +3,5 @@
 	"singleQuote": true,
 	"trailingComma": "none",
 	"printWidth": 120,
-	"comments": "https://github.com/sveltejs/prettier-plugin-svelte/issues/155#issuecomment-831166730",
-	"plugins": ["prettier-plugin-svelte"],
-	"overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }]
+	"plugins": ["prettier-plugin-svelte"]
 }

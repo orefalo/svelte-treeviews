@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
-
-import sass from 'sass';
+import * as sass from 'sass';
 
 // This Highlight.js loading is based on the code in:
 //  https://github.com/metonym/svelte-highlight/blob/master/src/Highlight.svelte
@@ -20,8 +19,8 @@ const apiQuery = 'example';
 //  https://github.com/vitejs/vite/issues/12239#issuecomment-1466494704
 const apiQueryOptional = 'used';
 
-const apiProxySuffix = '.example-safeguard-proxy'; // This is needed wo other plugins wouldn't transform the file
-const idPrefix = '\0exmple-import-proxy"';
+const apiProxySuffix = '.example-safeguard-proxy'; // This is needed so other plugins wouldn't transform the file
+const idPrefix = '\0example-import-proxy"';
 const encodeId = (/** @type {string} */ id) => idPrefix + id + apiProxySuffix;
 const decodeId = (/** @type {string} */ id) => id.slice(idPrefix.length, -apiProxySuffix.length);
 
@@ -41,23 +40,20 @@ const fixTrailingEnds = (code) => code.replaceAll(/\n>/gm, '>');
  * @returns {import('vite').PluginOption}
  */
 export const exampleImportPlugin = () => ({
+	name: 'vite-plugin-example',
 	enforce: 'pre',
 
 	async resolveId(source, importer) {
 		const [originalSource, sourceUrlSearchParamsStr] = source.split('?', 2);
 		const sourceUrlSearchParams = new URLSearchParams(sourceUrlSearchParamsStr);
-		const quaryKeys = [...sourceUrlSearchParams.keys()];
-		if (
-			!quaryKeys.includes(apiQuery) ||
-			quaryKeys.findIndex((key) => (key !== apiQuery && key !== apiQueryOptional) >= 0)
-		) {
+
+		if (!sourceUrlSearchParams.has(apiQuery) && !sourceUrlSearchParams.has(apiQueryOptional)) {
 			return;
 		}
+
 		// otherwise
-
-		const resolved = (await this.resolve(originalSource, importer)).id;
-
-		return encodeId(resolved);
+		const resolved = (await this.resolve(originalSource, importer))?.id;
+		return resolved ? encodeId(resolved) : null;
 	},
 
 	async load(id) {

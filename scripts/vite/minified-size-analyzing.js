@@ -2,8 +2,9 @@ import fs from 'fs';
 import path from 'path';
 
 const libPath = path.resolve('.', 'src/lib/');
+import packageJson from '../../package.json' assert { type: 'json' };
 
-/** @type {boolean} */
+/** @type {unknown} */
 let ssr;
 
 /**
@@ -12,6 +13,7 @@ let ssr;
  * @returns {import('vite').PluginOption}
  */
 export const minifiedSizeAnalyzingPlugin = () => ({
+	name: 'vite-plugin-minified-size-analyzing',
 	enforce: 'pre',
 
 	configResolved(config) {
@@ -63,10 +65,10 @@ export const manualChunksForAnalyzing = (id) => {
 	const resolvedPath = path.resolve(id);
 
 	if (resolvedPath.search('node_modules') > 0) {
-		// We need to separate the external deps so they won't be in the `svelte-treeviews` chunk.
+		// We need to separate the external deps so they won't be in the default package chunk.
 		return 'external';
 	} else if (resolvedPath.startsWith(libPath)) {
-		return 'svelte-treeviews';
+		return packageJson.name;
 	} else {
 		return undefined;
 	}

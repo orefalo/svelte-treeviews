@@ -1,6 +1,7 @@
 # Ignore files for PNPM, NPM and YARN
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
-
-unchecked
+**/pnpm-lock.yaml
+**/package-lock.json
+**/yarn.lock
+**/.svelte-kit
+CHANGELOG.md
+unchecked/
