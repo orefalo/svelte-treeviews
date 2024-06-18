@@ -122,6 +122,6 @@
 		{/each}
 	{/if}
 	<div class="tree-node-inner">
-		{@render children({ style: indentStyle })}
+		{@render default({ style: indentStyle })}
 	</div>
 </div>
