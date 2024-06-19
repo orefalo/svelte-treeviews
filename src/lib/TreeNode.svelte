@@ -17,10 +17,10 @@
 		// events
 		onOpen,
 		onClose,
-		onCheck
+		onCheck,
 
 		// snippets
-		
+		spot
 	}: {
 		stat: Stat<unknown>;
 		rtl: boolean;
@@ -33,6 +33,7 @@
 		onOpen?: (stat: Stat<unknown>) => void;
 		onClose?: (stat: Stat<unknown>) => void;
 		onCheck?: (stat: Stat<unknown>) => void;
+			spot: Snippet<[{ style: string }]>;
 	} = $props();
 
 	let indentStyle: string = $derived(`${!rtl ? 'paddingLeft' : 'paddingRight'}:${indent * (stat.level - 1)}px`);
@@ -127,6 +128,6 @@
 		{/each}
 	{/if}
 	<div class="tree-node-inner">
-		{@render default({ style: indentStyle })}
+		{@render spot({ style: indentStyle })}
 	</div>
 </div>

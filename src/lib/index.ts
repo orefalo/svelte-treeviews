@@ -1,1 +1,1 @@
-// export { default as VirtualList } from './VirtualList.svelte';
+ export { default as OpenIcon } from './OpenIcon.svelte';
