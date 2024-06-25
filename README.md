@@ -25,21 +25,22 @@ This package is a copy-cat of [svelte-tiny-virtual-list](https://github.com/jona
 
 ## Features
 
-- 🔄 **Svelte 5+**
+- ❺➎⓹ **Svelte 5+ only**
   Build for Svelte 5+ in Typescript.
 
-- ⚡ **Performant**
+- 🚀 **Performant**
   Render millions of items, without breaking a sweat.
 
 - 🛠 **Configurable**
   Customize width, heigh, position, style, content.
-- 💡 **Layout Control**
+  
+- 💠 **Layout Control**
   Support fixed and variables sizing, dynamic loading along with vertical and horizontal lists.
 
-- 🧠 **Programming Interface**
+- 🧩 **Programming Interface**
   Set list positions and properties, and respond promptly to events.
 
-- 🤏 **Small**
+- 💼 **Small**
   Compact and dependency free – Only ~5kb when compressed.
 
 ## Usage

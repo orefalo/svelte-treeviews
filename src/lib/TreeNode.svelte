@@ -12,7 +12,6 @@
 		treeLine = true,
 		treeLineOffset = 10,
 		processor,
-		children,
 
 		// events
 		onOpen,
@@ -20,20 +19,23 @@
 		onCheck,
 
 		// snippets
-		spot
+		spot,
+		zclass,
+		zstyle
 	}: {
 		stat: Stat<unknown>;
 		rtl: boolean;
 		btt: boolean;
-		children: Snippet;
 		indent: number;
 		treeLine: boolean;
 		treeLineOffset: number;
 		processor?: { afterOneCheckChanged: (s: Stat<unknown>) => boolean };
 		onOpen?: (stat: Stat<unknown>) => void;
-		onClose?: (stat: Stat<unknown>) => void;
+		onClose?: Function /*(stat: Stat<unknown>) => void;*/;
 		onCheck?: (stat: Stat<unknown>) => void;
-			spot: Snippet<[{ style: string }]>;
+		spot: Snippet<[{ indentStyle: string }]>;
+		zclass: string;
+		zstyle: string;
 	} = $props();
 
 	let indentStyle: string = $derived(`${!rtl ? 'paddingLeft' : 'paddingRight'}:${indent * (stat.level - 1)}px`);
@@ -45,11 +47,8 @@
 		if (justToggleOpen) {
 			return;
 		}
-		if (open) {
-			onOpen?.(stat);
-		} else {
-			onClose?.(stat);
-		}
+		open ? onOpen?.(stat) : onClose?.(stat);
+
 		afterToggleOpen();
 	});
 
@@ -90,6 +89,7 @@
 					} else {
 						break;
 					}
+					// eslint-disable-next-line no-constant-condition
 				} while (true);
 			}
 			return false;
@@ -118,7 +118,7 @@
 	});
 </script>
 
-<div class="tree-node tree-node--with-tree-line" style={indentStyle}>
+<div class={`tree-node ${zclass}`} class:tree-node--with-tree-line={treeLine} style={`${zstyle} ${indentStyle}`}>
 	{#if treeLine}
 		{#each vLines as line}
 			<div class="tree-line tree-vline" style={line.style}></div>
@@ -128,6 +128,29 @@
 		{/each}
 	{/if}
 	<div class="tree-node-inner">
-		{@render spot({ style: indentStyle })}
+		{@render spot({ indentStyle })}
 	</div>
 </div>
+
+<style>
+	.tree-node--with-tree-line {
+		position: relative;
+	}
+
+	.tree-line {
+		position: absolute;
+		background-color: #bbbbbb;
+	}
+
+	.tree-vline {
+		width: 1px;
+		top: 0;
+		bottom: 0;
+	}
+
+	.tree-hline {
+		height: 1px;
+		top: 50%;
+		width: 10px;
+	}
+</style>

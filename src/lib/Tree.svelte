@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { VirtualList } from 'svelte-virtuallists';
+	import { VirtualList } from '$lib/virtuallist';
 	import TreeNode from './TreeNode.svelte';
 	import * as hp from './jshelper';
 	import type { Stat, TreeProcessor } from './treeutils';
@@ -32,26 +32,36 @@
 
 		// snippets
 		prepend,
-		append
+		append,
+
+		//
+		onNodeChecked,
+		onNodeClicked,
+		onNodeOpened,
+		onNodeClosed
 	}: {
 		// todo: rename to model
 		modelValue: Array<unknown>;
-		updateBehavior: 'modify' | 'new' | 'disabled';
-		processor: TreeProcessor;
-		childrenKey: string;
-		textKey: string;
-		indent: number;
-		virtualization: boolean;
-		virtualizationPrerenderCount: number;
-		defaultOpen: boolean;
-		statHandler: (stat: Stat<any>) => Stat<any>;
-		rtl: boolean;
-		btt: boolean;
-		nodeKey: 'index' | ((stat: Stat<any>, index: number) => any);
-		treeLine: boolean;
-		treeLineOffset: number;
+		updateBehavior?: 'modify' | 'new' | 'disabled';
+		processor?: TreeProcessor;
+		childrenKey?: string;
+		textKey?: string;
+		indent?: number;
+		virtualization?: boolean;
+		virtualizationPrerenderCount?: number;
+		defaultOpen?: boolean;
+		statHandler?: (stat: Stat<any>) => Stat<any>;
+		rtl?: boolean;
+		btt?: boolean;
+		nodeKey?: 'index' | ((stat: Stat<any>, index: number) => any);
+		treeLine?: boolean;
+		treeLineOffset?: number;
 		prepend?: Snippet;
 		append?: Snippet;
+		onNodeChecked?: (e: Stat<unknown>) => void;
+		onNodeClicked?: (e: Stat<unknown>) => void;
+		onNodeOpened?: (e: Stat<unknown>) => void;
+		onNodeClosed?: (e: Stat<unknown>) => void;
 	} = $props();
 
 	let stats: TreeProcessor['stats'] = [];
@@ -66,14 +76,14 @@
 	function valueComputed() {
 		return modelValue || [];
 	}
-	function visibleStats() {
+	function visibleStats(): Stat<unknown>[] {
 		// const { statsFlat, isVisible } = this;
 		let items = statsFlat || [];
 		if (btt) {
 			items = items.slice();
 			items.reverse();
 		}
-		return items.filter((stat: Stat<unknown>) => isVisible(stat));
+		return items.filter((stat: Stat<unknown>) => operations.isVisible(stat));
 	}
 	function rootChildren() {
 		return stats;
@@ -81,7 +91,7 @@
 
 	function _emitValue(value: any[]) {
 		// @ts-ignore
-		this.$emit(isVue2 ? 'input' : 'update:modelValue', value);
+		this.$emit('update:modelValue', value);
 	}
 	/**
 	 * private method
@@ -92,34 +102,40 @@
 			return false;
 		}
 		// if value changed, ignore change once
-		if (value !== valueComputed) {
+		if (value !== valueComputed()) {
 			_ignoreValueChangeOnce = true;
 		}
 		_emitValue(value);
 		return true;
 	}
-	getStat: reactiveFirstArg(processorMethodProxy('getStat')) as TreeProcessor['getStat'];
-	has: reactiveFirstArg(processorMethodProxy('has')) as TreeProcessor['has'];
-	updateCheck: processorMethodProxy('updateCheck') as TreeProcessor['updateCheck'];
-	getChecked: processorMethodProxy('getChecked') as TreeProcessor['getChecked'];
-	getUnchecked: processorMethodProxy('getUnchecked') as TreeProcessor['getUnchecked'];
-	openAll: processorMethodProxy('openAll') as TreeProcessor['openAll'];
-	closeAll: processorMethodProxy('closeAll') as TreeProcessor['closeAll'];
-	openNodeAndParents: processorMethodProxy('openNodeAndParents') as TreeProcessor['openNodeAndParents'];
-	isVisible: processorMethodProxy('isVisible') as TreeProcessor['isVisible'];
-	move: processorMethodProxyWithBatchUpdate('move') as TreeProcessor['move'];
-	add: reactiveFirstArg(processorMethodProxyWithBatchUpdate('add')) as TreeProcessor['add'];
-	remove: processorMethodProxy('remove') as TreeProcessor['remove'];
-	iterateParent: processorMethodProxy('iterateParent') as TreeProcessor['iterateParent'];
-	getSiblings: processorMethodProxy('getSiblings') as TreeProcessor['getSiblings'];
 
-	getData: processorMethodProxy('getData') as hp.ReplaceReturnType<TreeProcessor['getData'], any[]>;
+	function getOperations() {
+		return operations;
+	}
+
+	const operations = {
+		getStat: reactiveFirstArg(processorMethodProxy('getStat')) as TreeProcessor['getStat'],
+		has: reactiveFirstArg(processorMethodProxy('has')) as TreeProcessor['has'],
+		updateCheck: processorMethodProxy('updateCheck') as TreeProcessor['updateCheck'],
+		getChecked: processorMethodProxy('getChecked') as TreeProcessor['getChecked'],
+		getUnchecked: processorMethodProxy('getUnchecked') as TreeProcessor['getUnchecked'],
+		openAll: processorMethodProxy('openAll') as TreeProcessor['openAll'],
+		closeAll: processorMethodProxy('closeAll') as TreeProcessor['closeAll'],
+		openNodeAndParents: processorMethodProxy('openNodeAndParents') as TreeProcessor['openNodeAndParents'],
+		isVisible: processorMethodProxy('isVisible') as TreeProcessor['isVisible'],
+		move: processorMethodProxyWithBatchUpdate('move') as TreeProcessor['move'],
+		add: reactiveFirstArg(processorMethodProxyWithBatchUpdate('add')) as TreeProcessor['add'],
+		remove: processorMethodProxy('remove') as TreeProcessor['remove'],
+		iterateParent: processorMethodProxy('iterateParent') as TreeProcessor['iterateParent'],
+		getSiblings: processorMethodProxy('getSiblings') as TreeProcessor['getSiblings'],
+		getData: processorMethodProxy('getData') as hp.ReplaceReturnType<TreeProcessor['getData'], any[]>
+	};
 
 	function addMulti(dataArr: any[], parent?: Stat<any> | null, startIndex?: number | null) {
 		batchUpdate(() => {
 			let index = startIndex;
 			for (const data of dataArr) {
-				add(data, parent, index);
+				operations.add(data, parent, index);
 				if (index != null) {
 					index++;
 				}
@@ -130,7 +146,7 @@
 	function removeMulti(dataArr: any[]) {
 		batchUpdate(() => {
 			for (const data of dataArr) {
-				remove(data);
+				operations.remove(data);
 			}
 		});
 	}
@@ -143,7 +159,7 @@
 	function batchUpdate(task: () => any | Promise<any>) {
 		const r = ignoreUpdate(task);
 		if (!batchUpdateWaiting) {
-			_updateValue(updateBehavior === 'new' ? getData() : valueComputed);
+			_updateValue(updateBehavior === 'new' ? operations.getData() : valueComputed());
 		}
 		return r;
 	}
@@ -186,16 +202,16 @@
 </script>
 
 <VirtualList
-	class={`he-tree${rtl ? ' he-tree--rtl rtl' : ''}${dragOvering ? 'he-tree--drag-overing drag-overing' : ''}`}
+	zclass={`he-tree${rtl ? ' he-tree--rtl rtl' : ''}${dragOvering ? 'he-tree--drag-overing drag-overing' : ''}`}
 	header={prepend}
 	footer={append}
 >
-	{#snippet row({ style, index })}
+	{#snippet slot({ item: stat, style, index })}
 		<TreeNode
-			class={stat.class +
+			zclass={stat.class +
 				(stat.data === placeholderData ? ' drag-placeholder-wrapper' : '') +
 				(stat === dragNode ? 'dragging-node' : '')}
-			style={stat.style}
+			zstyle={stat.style}
 			{stat}
 			{rtl}
 			{btt}
@@ -203,19 +219,17 @@
 			{treeLine}
 			{treeLineOffset}
 			{processor}
-			onclick="$emit('click:node', stat)"
-			onOpen="$emit('open:node', $event)"
-			onClose="$emit('close:node', $event)"
-			onCheck="$emit('check:node', $event)"
+			onclick={onNodeClicked && onNodeClicked(stat)}
+			onOpen={onNodeOpened && onNodeOpened(stat)}
+			onClose={onNodeClosed && onNodeClosed(stat)}
+			onCheck={onNodeChecked && onNodeChecked(stat)}
 		>
-			{#snippet spot({ indentStyle })}
+			{#snippet slot({ indentStyle })}
 				{#if stat.data === placeholderData}
-					<div class="drag-placeholder he-tree-drag-placeholder">
-						<slot name="placeholder" :tree="self"></slot>
-					</div>
+					<div class="drag-placeholder he-tree-drag-placeholder">DRAG PLACEHOLDER</div>
 				{:else}
 					<!-- <slot v-else :node="stat.data" :stat="stat" :indentStyle="indentStyle" :tree="self">{{ stat.data[textKey] }} -->
-					{stat.data[textKey]}
+					<div style={indentStyle}>{stat.data[textKey]}</div>
 				{/if}
 			{/snippet}
 		</TreeNode>

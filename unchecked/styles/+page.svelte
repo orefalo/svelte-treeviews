@@ -1,5 +1,5 @@
 <script>
-	import { VirtualList } from 'svelte-virtuallists';
+	import { VirtualList } from '$lib/virtuallist';
 
 	const data = ['A', 'B', 'C', 'D', 'E', 'F' /* ... */];
 </script>

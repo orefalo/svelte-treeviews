@@ -10,7 +10,7 @@ export function glb(): typeof globalThis {
 	try {
 		// `this` !== global or window because of build tool. So you can't use `this` to get `global`
 		return window;
-	} catch (error) {
+	} catch (_error) {
 		// @ts-ignore
 		return global;
 	}
@@ -25,7 +25,7 @@ export function isDocumentExisted() {
 	try {
 		// @ts-ignore
 		const t = document;
-	} catch (e) {
+	} catch (_e) {
 		return false;
 	}
 	return true;
@@ -44,7 +44,7 @@ export function isNumeric(v: unknown): v is string {
 	try {
 		// @ts-ignore
 		return isFinite(v) && !isNaN(parseFloat(v));
-	} catch (error) {
+	} catch (_error) {
 		return false;
 	}
 }
@@ -1480,7 +1480,7 @@ export function cacheFunction<T extends Function>(func: T, options: { capacity?:
  * @returns
  */
 export function executePromiseGetters(getters: (() => any)[], concurrent = 1) {
-	let stopped;
+	let stopped:boolean;
 	const promise = new Promise(async function (resolve, reject) {
 		const chunks = splitArray(getters, concurrent);
 		const promises = [];
@@ -2026,11 +2026,12 @@ export function on<T extends Event>(
 	options?: boolean | AddEventListenerOptions
 ) {
 	if (el.addEventListener) {
-		// 所有主流浏览器，除了 IE 8 及更早 IE版本
+		// All mainstream browsers, except IE 8 and earlier versions.
+		// @ts-ignore
 		el.addEventListener(name, handler, options);
 		// @ts-ignore
 	} else if (el.attachEvent) {
-		// IE 8 及更早 IE 版本
+		// IE 8 and earlier versions.
 		// @ts-ignore
 		el.attachEvent(`on${name}`, handler, options);
 	}
@@ -2051,6 +2052,7 @@ export function off<T extends Event>(
 ) {
 	if (el.removeEventListener) {
 		// 所有主流浏览器，除了 IE 8 及更早 IE版本
+		// @ts-ignore
 		el.removeEventListener(name, handler, options);
 		// @ts-ignore
 	} else if (el.detachEvent) {
@@ -2367,8 +2369,8 @@ export function addDate(
 	if (type2 === 'Day') {
 		type2 = 'Date';
 	}
-	var setFuncName = 'set' + type2;
-	var getFuncName = 'get' + type2;
+	const setFuncName = 'set' + type2;
+	const getFuncName = 'get' + type2;
 	dateObj[setFuncName](dateObj[getFuncName]() + n);
 	return dateObj;
 }
@@ -2648,8 +2650,10 @@ export function copyTextToClipboard(text: string) {
 		// use latest api
 		navigator.clipboard.writeText(text);
 		return;
-	} catch (e) {}
-	var textArea = document.createElement('textarea');
+	} catch (e) {
+		/* */
+	}
+	const textArea = document.createElement('textarea');
 
 	//
 	// *** This styling is an extra step which is likely not required. ***
@@ -2694,8 +2698,8 @@ export function copyTextToClipboard(text: string) {
 	textArea.select();
 
 	try {
-		var successful = document.execCommand('copy');
-		var msg = successful ? 'successful' : 'unsuccessful';
+		const successful = document.execCommand('copy');
+		const msg = successful ? 'successful' : 'unsuccessful';
 		console.log('Copying text command was ' + msg);
 	} catch (err) {
 		console.log('Oops, unable to copy');
@@ -3146,7 +3150,7 @@ export function easeInOutQuad(startValue: number, changeInValue: number, changed
 
 // others
 export function isMobile() {
-	var isMobile = false; //initiate as false
+	let isMobile = false; //initiate as false
 	// device detection
 	if (
 		/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(
@@ -3199,9 +3203,9 @@ export function svgToDataURL(svgCode: string) {
 }
 
 export function genRandomLightColor() {
-	var letters = 'BCDEF'.split('');
-	var color = '#';
-	for (var i = 0; i < 6; i++) {
+	const letters = 'BCDEF'.split('');
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
 		color += letters[Math.floor(Math.random() * letters.length)];
 	}
 	return color;

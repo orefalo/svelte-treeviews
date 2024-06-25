@@ -58,20 +58,19 @@ export default [
 			// note you must disable the base rule
 			// as it can report incorrect errors
 			'no-unused-vars': 'off',
-			'@typescript-eslint/no-unused-vars': [
-				'warn', // or "error"
-				{
-					argsIgnorePattern: '^_',
-					varsIgnorePattern: '^_',
-					caughtErrorsIgnorePattern: '^_'
-				}
-			],
+			'@typescript-eslint/no-unused-vars': 'off',
+			'@typescript-eslint/no-empty-object-type': 'off',
 			// We need to use {@html} in the demo site for code highlight
 			'svelte/no-at-html-tags': 'off',
+			'no-useless-escape': 'off',
 			// css is global and incorrectly reported as unused by the linter
 			'svelte/valid-compile': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
-			'@typescript-eslint/no-unused-expressions': 'off'
+			'@typescript-eslint/no-unused-expressions': 'off',
+			'@typescript-eslint/ban-types': 'off',
+			'no-prototype-builtins': 'off',
+			'@typescript-eslint/no-implicit-any': 'off',
+			'implicit any': 'off'
 		}
 	}
 ];
