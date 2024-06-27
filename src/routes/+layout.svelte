@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-  <title>Svelte-Virtuallists{curPage ? ` - ${curPage.title}` : ''}</title>
+  <title>Svelte-Treeviews{curPage ? ` - ${curPage.title}` : ''}</title>
   <meta name="description" content="A Fantastic virtual list for Svelte 5 and above" />
   {@html theme}
 </svelte:head>
@@ -76,7 +76,7 @@
     <div role="presentation" class="toc-contents-wrap">
       <h1 class="toc-head">
         <img src="{base}/favicon.svg" alt="Icon" width="30" height="30" />
-         Svelte-Virtuallists
+         Svelte-Treeviews
       </h1>
       <Contents contents={sections} />
     </div>

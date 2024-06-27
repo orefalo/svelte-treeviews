@@ -2,7 +2,7 @@
   import { base } from '$app/paths'
 </script>
 
-<h1>Welcome to Svelte-Virtuallists</h1>
+<h1>Welcome to Svelte-Treeviews</h1>
 
 <a href="{base}/minified-size"><img alt="Minified Size" src="{base}/minified-size-badge.svg" /></a>
 
@@ -19,6 +19,6 @@
   <li>Sveltekit & Typescript friendly</li>
 </ul>
 
-<a href="https://github.com/orefalo/svelte-virtuallists">
-  https://github.com/orefalo/svelte-virtuallists
+<a href="https://github.com/orefalo/svelte-treeviews">
+  https://github.com/orefalo/svelte-treeviews
 </a>
