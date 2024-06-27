@@ -1,46 +1,46 @@
 {
-	"files.exclude": {
-		"**/.git": true,
-		"**/.svn": true,
-		"**/.hg": true,
-		"**/CVS": true,
-		"**/.DS_Store": true,
-		"**/Thumbs.db": true,
-		".husky": true,
-		".nojekyll": true,
-		".commitlintrc.cjs": true,
-		".cz-config.cjs": true,
-		".eslintcache": true,
-		".gitattributes": true,
-		".gitignore": true,
-		".npmrc": true,
-		".prettierignore": true,
-		"pnpm-lock.yaml": true,
-		"playwright.config.ts": true,
-		".vscode": true,
-		".svelte-kit": true
-	},
-	"hide-files.files": [
-		".husky",
-		".nojekyll",
-		".commitlintrc.cjs",
-		".cz-config.cjs",
-		".eslintcache",
-		".gitattributes",
-		".gitignore",
-		".npmrc",
-		".prettierignore",
-		"pnpm-lock.yaml",
-		"playwright.config.ts",
-		".vscode",
-		".svelte-kit"
-	],
-	"files.eol": "\n",
-	"editor.insertSpaces": false,
-	"[typescript]": {
-		"editor.tabSize": 4
-	},
-	"[javascript]": {
-		"editor.tabSize": 4
-	}
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".husky": true,
+    ".nojekyll": true,
+    ".commitlintrc.cjs": true,
+    ".cz-config.cjs": true,
+    ".eslintcache": true,
+    ".gitattributes": true,
+    ".gitignore": true,
+    ".npmrc": true,
+    ".prettierignore": true,
+    "pnpm-lock.yaml": true,
+    "playwright.config.ts": true,
+    ".vscode": true,
+    ".svelte-kit": true
+  },
+  "hide-files.files": [
+    ".husky",
+    ".nojekyll",
+    ".commitlintrc.cjs",
+    ".cz-config.cjs",
+    ".eslintcache",
+    ".gitattributes",
+    ".gitignore",
+    ".npmrc",
+    ".prettierignore",
+    "pnpm-lock.yaml",
+    "playwright.config.ts",
+    ".vscode",
+    ".svelte-kit"
+  ],
+  "files.eol": "\n",
+  "editor.insertSpaces": false,
+  "[typescript]": {
+    "editor.tabSize": 4
+  },
+  "[javascript]": {
+    "editor.tabSize": 4
+  }
 }

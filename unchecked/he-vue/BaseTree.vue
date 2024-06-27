@@ -74,7 +74,7 @@ const cpt = defineComponent({
 	components: { VirtualList, TreeNode },
 	props: {
 		// for vue2
-		value: { required: isVue2, type: Array as PropType<any[]> },
+		//value: { required: isVue2, type: Array as PropType<any[]> },
 		// for vue3
 		modelValue: { required: isVue3, type: Array as PropType<any[]> },
 		updateBehavior: {
