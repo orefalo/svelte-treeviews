@@ -1,20 +1,20 @@
 <script lang="ts">
-  import { base } from '$app/paths'
-  import { page } from '$app/stores'
-  import type { Snippet } from 'svelte'
-  import '../app.css'
-  import theme from 'svelte-highlight/styles/night-owl'
-  import Contents, { type Page, type Section } from '../comp/Contents.svelte'
-  import RTLToggle from '../comp/RTLToggle.svelte'
-  import { pathIsCurrent } from '../comp/pathUtils'
+  import { base } from '$app/paths';
+  import { page } from '$app/stores';
+  import type { Snippet } from 'svelte';
+  import '../app.css';
+  import theme from 'svelte-highlight/styles/night-owl';
+  import Contents, { type Page, type Section } from '../comp/Contents.svelte';
+  import RTLToggle from '../comp/RTLToggle.svelte';
+  import { pathIsCurrent } from '../comp/pathUtils';
 
   type Props = {
-    children: Snippet
-  }
+    children: Snippet;
+  };
 
-  const { children }: Props = $props()
+  const { children }: Props = $props();
 
-  let isRTL: boolean = $state(false)
+  let isRTL: boolean = $state(false);
 
   const sections: Section[] = [
     {
@@ -32,15 +32,15 @@
         // { title: 'Styles', path: '/examples/styles' }
       ]
     }
-  ]
+  ];
 
-  const pages: Page[] = $state(sections.map(section => section.pages).flat())
-  const pageIdx: number = $derived(pages.findIndex(({ path }) => pathIsCurrent(path, $page)))
-  const curPage: Page | undefined = $derived(pageIdx >= 0 ? pages[pageIdx] : undefined)
-  const prevPage: Page | undefined = $derived(pageIdx >= 1 ? pages[pageIdx - 1] : undefined)
+  const pages: Page[] = $state(sections.map(section => section.pages).flat());
+  const pageIdx: number = $derived(pages.findIndex(({ path }) => pathIsCurrent(path, $page)));
+  const curPage: Page | undefined = $derived(pageIdx >= 0 ? pages[pageIdx] : undefined);
+  const prevPage: Page | undefined = $derived(pageIdx >= 1 ? pages[pageIdx - 1] : undefined);
   const nextPage: Page | undefined = $derived(
     pageIdx >= 0 && pageIdx < pages.length - 1 ? pages[pageIdx + 1] : undefined
-  )
+  );
 </script>
 
 <svelte:head>
@@ -76,7 +76,7 @@
     <div role="presentation" class="toc-contents-wrap">
       <h1 class="toc-head">
         <img src="{base}/favicon.svg" alt="Icon" width="30" height="30" />
-         Svelte-Treeviews
+        Svelte-Treeviews
       </h1>
       <Contents contents={sections} />
     </div>

@@ -1,23 +1,23 @@
 <script lang="ts">
-  let { value = '', minRows = 1, maxRows = 40 } = $props()
+  let { value = '', minRows = 1, maxRows = 40 } = $props();
 
-  const splitLines = (str: string) => str.split(/\r?\n/)
+  const splitLines = (str: string) => str.split(/\r?\n/);
 
   function stripLines(value: string, max: number) {
-    const array = splitLines(value)
-    array.length = max
+    const array = splitLines(value);
+    array.length = max;
     const text = array.reduce(function (previousValue: string, currentValue: string) {
-      return previousValue + '\n' + currentValue
-    })
-    return text
+      return previousValue + '\n' + currentValue;
+    });
+    return text;
   }
 
   $effect(() => {
-    value = stripLines(value, maxRows)
-  })
+    value = stripLines(value, maxRows);
+  });
 
-  let minHeight = $derived(`${1 + minRows * 1.2}em`)
-  let maxHeight = $derived(maxRows ? `${1 + maxRows * 1.2}em` : `auto`)
+  let minHeight = $derived(`${1 + minRows * 1.2}em`);
+  let maxHeight = $derived(maxRows ? `${1 + maxRows * 1.2}em` : `auto`);
 </script>
 
 <div class="container">

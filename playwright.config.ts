@@ -1,4 +1,4 @@
-import { type PlaywrightTestConfig, devices } from '@playwright/test'
+import { type PlaywrightTestConfig, devices } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
@@ -27,6 +27,6 @@ const config: PlaywrightTestConfig = {
       use: { ...devices['Desktop Safari'] }
     }
   ]
-}
+};
 
-export default config
+export default config;

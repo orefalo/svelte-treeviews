@@ -1,16 +1,16 @@
-import js from '@eslint/js'
-import ts from 'typescript-eslint'
-import svelte from 'eslint-plugin-svelte'
-import prettier from 'eslint-config-prettier'
-import globals from 'globals'
+import js from '@eslint/js';
+import ts from 'typescript-eslint';
+import svelte from 'eslint-plugin-svelte';
+import prettier from 'eslint-config-prettier';
+import globals from 'globals';
 
-const __dirname = import.meta.dirname
+const __dirname = import.meta.dirname;
 
-import pkg from 'eslint-gitignore'
-const { readGitignoreFiles } = pkg
+import pkg from 'eslint-gitignore';
+const { readGitignoreFiles } = pkg;
 
 function removeDuplicates(arr) {
-  return arr.filter((value, index, self) => self.indexOf(value) === index)
+  return arr.filter((value, index, self) => self.indexOf(value) === index);
 }
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
@@ -71,7 +71,8 @@ export default [
       'no-prototype-builtins': 'off',
       '@typescript-eslint/no-implicit-any': 'off',
       'implicit any': 'off',
-      'no-async-promise-executor': 'off'
+      'no-async-promise-executor': 'off',
+      '@typescript-eslint/no-unsafe-function-type':'off'
     }
   }
-]
+];

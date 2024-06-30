@@ -1,18 +1,20 @@
 <script lang="ts">
-  import { VirtualList } from '$lib/virtuallist'
-  import TreeNode from './TreeNode.svelte'
-  import * as hp from './jshelper'
-  import type { Stat, TreeProcessor } from './treeutils'
-  import { svelteMakeTreeProcessor } from './TreeProcessorSvelte'
-  import type { Snippet } from 'svelte'
+  import { VirtualList } from '$lib/virtuallist';
+  import TreeNode from './TreeNode.svelte';
+  import * as hp from './jshelper';
+  import type { Stat, TreeProcessor } from './treeutils';
+  import { svelteMakeTreeProcessor } from './TreeProcessorSvelte.svelte';
+  import type { Snippet } from 'svelte';
 
   let {
-    modelValue,
+    model,
     updateBehavior = 'modify',
     processor = svelteMakeTreeProcessor([], {
       noInitialization: true
     }),
+    // json.key is used for sub nodes
     childrenKey = 'children',
+    // json.key used for leaf nodes
     textKey = 'text',
     // node indent.
     indent = 20,
@@ -41,57 +43,75 @@
     onNodeClosed
   }: {
     // todo: rename to model
-    modelValue: Array<unknown>
-    updateBehavior?: 'modify' | 'new' | 'disabled'
-    processor?: TreeProcessor
-    childrenKey?: string
-    textKey?: string
-    indent?: number
-    virtualization?: boolean
-    virtualizationPrerenderCount?: number
-    defaultOpen?: boolean
-    statHandler?: (stat: Stat<any>) => Stat<any>
-    rtl?: boolean
-    btt?: boolean
-    nodeKey?: 'index' | ((stat: Stat<any>, index: number) => any)
-    treeLine?: boolean
-    treeLineOffset?: number
-    prepend?: Snippet
-    append?: Snippet
-    onNodeChecked?: (e: Stat<unknown>) => void
-    onNodeClicked?: (e: Stat<unknown>) => void
-    onNodeOpened?: (e: Stat<unknown>) => void
-    onNodeClosed?: (e: Stat<unknown>) => void
-  } = $props()
+    model: Array<unknown>;
+    updateBehavior?: 'modify' | 'new' | 'disabled';
+    processor?: TreeProcessor;
+    childrenKey?: string;
+    textKey?: string;
+    indent?: number;
+    virtualization?: boolean;
+    virtualizationPrerenderCount?: number;
+    defaultOpen?: boolean;
+    statHandler?: (stat: Stat<any>) => Stat<any>;
+    rtl?: boolean;
+    btt?: boolean;
+    nodeKey?: 'index' | ((stat: Stat<any>, index: number) => any);
+    treeLine?: boolean;
+    treeLineOffset?: number;
+    prepend?: Snippet;
+    append?: Snippet;
+    onNodeChecked?: (e: Stat<unknown>) => void;
+    onNodeClicked?: (e: Stat<unknown>) => void;
+    onNodeOpened?: (e: Stat<unknown>) => void;
+    onNodeClosed?: (e: Stat<unknown>) => void;
+  } = $props();
 
-  let stats: TreeProcessor['stats'] = []
-  let statsFlat: TreeProcessor['statsFlat'] = []
-  let dragNode: Stat<any> | null = null
-  let dragOvering: boolean = false
-  let placeholderData: {} = {}
-  let placeholderColspan: number = 1
-  let batchUpdateWaiting: boolean = false
-  let _ignoreValueChangeOnce: boolean = false
+  let stats: TreeProcessor['stats'] = $state([]);
+  let statsFlat: TreeProcessor['statsFlat'] = [];
+  let dragNode: Stat<any> | null = null;
+  let dragOvering: boolean = false;
+  let placeholderData: {} = {};
+  let placeholderColspan: number = 1;
+  let batchUpdateWaiting: boolean = false;
+  let _ignoreValueChangeOnce: boolean = false;
 
   function valueComputed() {
-    return modelValue || []
+    return model || [];
   }
+
+  $effect(() => {
+    // look for model changes
+    model;
+
+    // TODO: change this? isDragging triggered in Vue2 because its array is not same with Vue3
+    const isDragging = dragOvering || dragNode;
+    if (isDragging || _ignoreValueChangeOnce) {
+      _ignoreValueChangeOnce = false;
+    } else {
+      //const { processor } = this
+      processor.data = model;
+      processor.init();
+      stats = processor.stats!;
+      statsFlat = processor.statsFlat!;
+    }
+  });
+
   function visibleStats(): Stat<unknown>[] {
     // const { statsFlat, isVisible } = this;
-    let items = statsFlat || []
+    let items = statsFlat || [];
     if (btt) {
-      items = items.slice()
-      items.reverse()
+      items = items.slice();
+      items.reverse();
     }
-    return items.filter((stat: Stat<unknown>) => operations.isVisible(stat))
+    return items.filter((stat: Stat<unknown>) => operations.isVisible(stat));
   }
   function rootChildren() {
-    return stats
+    return stats;
   }
 
   function _emitValue(value: any[]) {
     // @ts-ignore
-    this.$emit('update:modelValue', value)
+    this.$emit('update:modelValue', value);
   }
   /**
    * private method
@@ -99,18 +119,18 @@
    */
   function _updateValue(value: any[]) {
     if (updateBehavior === 'disabled') {
-      return false
+      return false;
     }
     // if value changed, ignore change once
     if (value !== valueComputed()) {
-      _ignoreValueChangeOnce = true
+      _ignoreValueChangeOnce = true;
     }
-    _emitValue(value)
-    return true
+    _emitValue(value);
+    return true;
   }
 
   function getOperations() {
-    return operations
+    return operations;
   }
 
   const operations = {
@@ -134,26 +154,26 @@
       TreeProcessor['getData'],
       any[]
     >
-  }
+  };
 
   function addMulti(dataArr: any[], parent?: Stat<any> | null, startIndex?: number | null) {
     batchUpdate(() => {
-      let index = startIndex
+      let index = startIndex;
       for (const data of dataArr) {
-        operations.add(data, parent, index)
+        operations.add(data, parent, index);
         if (index != null) {
-          index++
+          index++;
         }
       }
-    })
+    });
   }
 
   function removeMulti(dataArr: any[]) {
     batchUpdate(() => {
       for (const data of dataArr) {
-        operations.remove(data)
+        operations.remove(data);
       }
-    })
+    });
   }
 
   // function getRootEl() {
@@ -162,47 +182,47 @@
   // }
 
   function batchUpdate(task: () => any | Promise<any>) {
-    const r = ignoreUpdate(task)
+    const r = ignoreUpdate(task);
     if (!batchUpdateWaiting) {
-      _updateValue(updateBehavior === 'new' ? operations.getData() : valueComputed())
+      _updateValue(updateBehavior === 'new' ? operations.getData() : valueComputed());
     }
-    return r
+    return r;
   }
 
   function ignoreUpdate(task: () => any | Promise<any>) {
-    const old = batchUpdateWaiting
-    batchUpdateWaiting = true
-    const r = task()
-    batchUpdateWaiting = old
-    return r
+    const old = batchUpdateWaiting;
+    batchUpdateWaiting = true;
+    const r = task();
+    batchUpdateWaiting = old;
+    return r;
   }
 
   function processorMethodProxy(name: string) {
     return function (...args: any) {
       // @ts-ignore
-      return processor[name](...args)
-    }
+      return processor[name](...args);
+    };
   }
   function processorMethodProxyWithBatchUpdate(name: string) {
     return function (...args: any) {
       // @ts-ignore
       return batchUpdate(() => {
         // @ts-ignore
-        return processor[name](...args)
-      })
-    }
+        return processor[name](...args);
+      });
+    };
   }
 
   function reactiveFirstArg(func: Function) {
     return function (arg1: any, ...args: any) {
-      let v = $state(arg1)
+      let v = $state(arg1);
       if (arg1) {
         // @ts-ignore
-        return func.call(this, v, ...args)
+        return func.call(this, v, ...args);
       }
       // @ts-ignore
-      return func.call(this, arg1, ...args)
-    }
+      return func.call(this, arg1, ...args);
+    };
   }
 </script>
 
@@ -243,45 +263,6 @@
     </TreeNode>
   {/snippet}
 </VirtualList>
-
-<!--
-<template>
-	<VirtualList class="he-tree" ref="vtlist" :items="visibleStats" :disabled="!virtualization" :itemKey="nodeKey">
-	  <template #prepend>
-		<slot name="prepend" :tree="self"></slot>
-	  </template>
-	  <template #default="{ item: stat, index }">
-		<TreeNode :vt-index="index" :class="[
-		  stat.class,
-		  {
-			'drag-placeholder-wrapper': stat.data === placeholderData,
-			'dragging-node': stat === dragNode,
-		  },
-		]" :style="stat.style" :stat="stat" :rtl="rtl" :btt="btt" :indent="indent" :table="table" :treeLine="treeLine"
-		  :treeLineOffset="treeLineOffset" :processor="processor" @click="$emit('click:node', stat)"
-		  @open="$emit('open:node', $event)" @close="$emit('close:node', $event)" @check="$emit('check:node', $event)">
-		  <template #default="{ indentStyle }">
-			<template v-if="stat.data === placeholderData">
-			  <div v-if="!table" class="drag-placeholder he-tree-drag-placeholder">
-				<slot name="placeholder" :tree="self"></slot>
-			  </div>
-			  <td v-else :style="indentStyle" :colspan="placeholderColspan">
-				<div class="drag-placeholder he-tree-drag-placeholder">
-				  <slot name="placeholder" :tree="self"></slot>
-				</div>
-			  </td>
-			</template>
-			<slot v-else :node="stat.data" :stat="stat" :indentStyle="indentStyle" :tree="self">{{ stat.data[textKey] }}
-			</slot>
-		  </template>
-		</TreeNode>
-	  </template>
-	  <template #append>
-		<slot name="append" :tree="self"></slot>
-	  </template>
-	</VirtualList>
-  </template>
--->
 
 <style>
   .he-tree--rtl {

@@ -1,5 +1,5 @@
-import fs from 'fs'
-import { makeBadge } from 'badge-maker'
+import fs from 'fs';
+import { makeBadge } from 'badge-maker';
 
 /**
  * @param {string} name
@@ -9,14 +9,14 @@ const formatSize = name =>
     parseInt(
       fs.readFileSync(`./.svelte-kit/output/minified-size-${name}.txt`, { encoding: 'utf-8' })
     ) / 1024
-  ).toFixed(1)} KB`
+  ).toFixed(1)} KB`;
 
 const format = {
   label: 'minified size',
   message: ['client', 'server'].map(formatSize).join(', '),
   color: '#08C'
-}
+};
 
-const svg = makeBadge(format)
+const svg = makeBadge(format);
 
-fs.writeFileSync('./docs/minified-size-badge.svg', svg)
+fs.writeFileSync('./docs/minified-size-badge.svg', svg);

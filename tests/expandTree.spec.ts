@@ -1,8 +1,8 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from '@playwright/test';
 
 test('add, remove all and add again works', async ({ page }) => {
-  await page.goto('/')
-  expect(3).toBe(3)
+  await page.goto('/');
+  expect(3).toBe(3);
 
   // const areaLocator = page.locator('text=Add Remove Panes');
   // await areaLocator.click();
@@ -54,4 +54,4 @@ test('add, remove all and add again works', async ({ page }) => {
   // await addPaneLocator.click();
   // expect(await removePaneLocator.isEnabled()).toBe(true);
   // expect(await panesLocator.count()).toBe(3);
-})
+});

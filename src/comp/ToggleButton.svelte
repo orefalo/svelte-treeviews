@@ -3,9 +3,9 @@
     pressed = $bindable(),
     label
   }: {
-    pressed: boolean
-    label: string
-  } = $props()
+    pressed: boolean;
+    label: string;
+  } = $props();
 </script>
 
 <button aria-pressed={pressed ? 'true' : 'false'} onclick={() => (pressed = !pressed)}>

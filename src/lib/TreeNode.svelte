@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
-  import type { Stat } from './treeutils'
+  import type { Snippet } from 'svelte';
+  import type { Stat } from './treeutils';
 
   let {
     stat,
@@ -23,103 +23,103 @@
     class: className,
     style
   }: {
-    stat: Stat<unknown>
-    rtl: boolean
-    btt: boolean
-    indent: number
-    treeLine: boolean
-    treeLineOffset: number
-    processor?: { afterOneCheckChanged: (s: Stat<unknown>) => boolean }
-    onOpen?: (stat: Stat<unknown>) => void
-    onClose?: Function /*(stat: Stat<unknown>) => void;*/
-    onCheck?: (stat: Stat<unknown>) => void
-    spot: Snippet<[{ indentStyle: string }]>
-    class: string
-    style: string
-  } = $props()
+    stat: Stat<unknown>;
+    rtl: boolean;
+    btt: boolean;
+    indent: number;
+    treeLine: boolean;
+    treeLineOffset: number;
+    processor?: { afterOneCheckChanged: (s: Stat<unknown>) => boolean };
+    onOpen?: (stat: Stat<unknown>) => void;
+    onClose?: Function /*(stat: Stat<unknown>) => void;*/;
+    onCheck?: (stat: Stat<unknown>) => void;
+    spot: Snippet<[{ indentStyle: string }]>;
+    class: string;
+    style: string;
+  } = $props();
 
   let indentStyle: string = $derived(
     `${!rtl ? 'paddingLeft' : 'paddingRight'}:${indent * (stat.level - 1)}px`
-  )
+  );
   let hLineStyle = $derived(
     `${rtl ? 'right' : 'left'}:${(stat.level - 2) * indent + treeLineOffset}px`
-  )
+  );
 
   $effect(() => {
-    const open = stat.open
+    const open = stat.open;
 
     if (justToggleOpen) {
-      return
+      return;
     }
-    open ? onOpen?.(stat) : onClose?.(stat)
+    open ? onOpen?.(stat) : onClose?.(stat);
 
-    afterToggleOpen()
-  })
+    afterToggleOpen();
+  });
 
   $effect(() => {
-    const checked = stat.checked
+    const checked = stat.checked;
     // fix issue: https://github.com/phphe/he-tree/issues/98
     // when open/close above node, the after nodes' states 'checked' and 'open' will be updated. It should be caused by Vue's key. We don't use Vue's key prop.
     if (justToggleOpen) {
-      return
+      return;
     }
     if (processor?.afterOneCheckChanged(stat)) {
-      onCheck?.(stat)
+      onCheck?.(stat);
     }
-  })
+  });
 
-  let justToggleOpen = false
+  let justToggleOpen = false;
   const afterToggleOpen = () => {
-    justToggleOpen = true
+    justToggleOpen = true;
     setTimeout(() => {
-      justToggleOpen = false
-    }, 100)
-  }
+      justToggleOpen = false;
+    }, 100);
+  };
 
   let vLines: Array<{
-    style: string
+    style: string;
   }> = $derived.by(() => {
-    const lines: Array<{ style: string }> = []
+    const lines: Array<{ style: string }> = [];
     const hasNextVisibleNode = (stat: Stat<unknown>) => {
       if (stat.parent) {
-        let i = stat.parent?.children.indexOf(stat)
+        let i = stat.parent?.children.indexOf(stat);
         do {
-          i++
-          let next = stat.parent.children[i]
+          i++;
+          let next = stat.parent.children[i];
           if (next) {
             if (!next.hidden) {
-              return true
+              return true;
             }
           } else {
-            break
+            break;
           }
           // eslint-disable-next-line no-constant-condition
-        } while (true)
+        } while (true);
       }
-      return false
-    }
-    const leftOrRight = rtl ? 'right' : 'left'
-    const bottomOrTop = btt ? 'top' : 'bottom'
-    let current: Stat<unknown> | null = stat
+      return false;
+    };
+    const leftOrRight = rtl ? 'right' : 'left';
+    const bottomOrTop = btt ? 'top' : 'bottom';
+    let current: Stat<unknown> | null = stat;
     while (current) {
-      let left = (current.level - 2) * indent + treeLineOffset
-      const hasNext = hasNextVisibleNode(current)
+      let left = (current.level - 2) * indent + treeLineOffset;
+      const hasNext = hasNextVisibleNode(current);
       const addLine = () => {
         lines.push({
           style: `${leftOrRight}:${left}px;${bottomOrTop}:${hasNext ? 0 : '50%'}`
-        })
-      }
+        });
+      };
       if (current === stat) {
         if (current.level > 1) {
-          addLine()
+          addLine();
         }
       } else if (hasNext) {
-        addLine()
+        addLine();
       }
-      current = current.parent
+      current = current.parent;
     }
-    return lines
-  })
+    return lines;
+  });
 </script>
 
 <div

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ToggleButton from './ToggleButton.svelte'
+  import ToggleButton from './ToggleButton.svelte';
 
-  let { isRTL = $bindable() }: { isRTL: boolean } = $props()
+  let { isRTL = $bindable() }: { isRTL: boolean } = $props();
 </script>
 
 <div class="input-output-toggle">

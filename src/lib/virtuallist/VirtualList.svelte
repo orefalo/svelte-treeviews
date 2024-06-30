@@ -1,36 +1,36 @@
 <script context="module" lang="ts">
-  type ResultType = boolean | { passive: boolean }
+  type ResultType = boolean | { passive: boolean };
   /**
    * the third argument for event bundler
    * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
    */
   const thirdEventArg = (() => {
-    let result: ResultType = false
+    let result: ResultType = false;
 
     try {
       const arg = Object.defineProperty({}, 'passive', {
         get() {
-          result = { passive: true }
-          return true
+          result = { passive: true };
+          return true;
         }
-      })
+      });
 
       //@ts-expect-error no overload match this call
-      window.addEventListener('testpassive', arg, arg)
+      window.addEventListener('testpassive', arg, arg);
 
       //@ts-expect-error property 'remove' does not exist
-      window.remove('testpassive', arg, arg)
+      window.remove('testpassive', arg, arg);
     } catch (_e) {
       /* */
     }
 
-    return result
-  })()
+    return result;
+  })();
 </script>
 
 <script lang="ts">
-  import { onMount, onDestroy, type Snippet } from 'svelte'
-  import SizeAndPositionManager from './SizeAndPositionManager'
+  import { onMount, onDestroy, type Snippet } from 'svelte';
+  import SizeAndPositionManager from './SizeAndPositionManager';
   import {
     ALIGNMENT,
     DIRECTION,
@@ -40,7 +40,7 @@
     type SlotAttributes,
     type VirtualRangeEvent,
     type VirtualItemSize
-  } from '.'
+  } from '.';
 
   const {
     height,
@@ -77,53 +77,53 @@
 
     ...props
   }: {
-    height: number | string
-    width: number | string
-    model: Array<any>
-    modelCount: number
-    itemSize: VirtualItemSize
-    estimatedItemSize?: number
-    getKey?: (i: number | string) => string
+    height: number | string;
+    width: number | string;
+    model: Array<any>;
+    modelCount: number;
+    itemSize: VirtualItemSize;
+    estimatedItemSize?: number;
+    getKey?: (i: number | string) => string;
     // positioning
-    scrollToIndex?: number | undefined
-    scrollOffset?: number | undefined
-    windowOverPadding?: number
-    scrollDirection?: DIRECTION
-    scrollToAlignment?: ALIGNMENT
-    scrollToBehaviour?: SCROLL_BEHAVIOR
+    scrollToIndex?: number | undefined;
+    scrollOffset?: number | undefined;
+    windowOverPadding?: number;
+    scrollDirection?: DIRECTION;
+    scrollToAlignment?: ALIGNMENT;
+    scrollToBehaviour?: SCROLL_BEHAVIOR;
     // snippets
-    header?: Snippet
-    slot: Snippet<[SlotAttributes<any>]>
-    footer?: Snippet
+    header?: Snippet;
+    slot: Snippet<[SlotAttributes<any>]>;
+    footer?: Snippet;
     // events
-    onVisibleRangeUpdate?: (range: VirtualRangeEvent) => void
-    onAfterScroll?: (event: AfterScrollEvent) => void
-    class?: string
-    style?: string
-  } = $props()
+    onVisibleRangeUpdate?: (range: VirtualRangeEvent) => void;
+    onAfterScroll?: (event: AfterScrollEvent) => void;
+    class?: string;
+    style?: string;
+  } = $props();
 
   const SCROLL_PROP = {
     [DIRECTION.VERTICAL]: 'top',
     [DIRECTION.HORIZONTAL]: 'left'
-  }
+  };
 
   const SCROLL_PROP_LEGACY = {
     [DIRECTION.VERTICAL]: 'scrollTop',
     [DIRECTION.HORIZONTAL]: 'scrollLeft'
-  }
+  };
 
   interface VState {
-    offset: number
-    scrollChangeReason: number
+    offset: number;
+    scrollChangeReason: number;
   }
 
   interface VProps {
-    scrollToIndex?: number
-    scrollToAlignment?: string
-    scrollOffset?: number
-    modelCount?: number
-    itemSize?: VirtualItemSize
-    estimatedItemSize?: number
+    scrollToIndex?: number;
+    scrollToAlignment?: string;
+    scrollOffset?: number;
+    modelCount?: number;
+    itemSize?: VirtualItemSize;
+    estimatedItemSize?: number;
   }
 
   const sizeAndPositionManager = new SizeAndPositionManager(
@@ -131,11 +131,11 @@
     modelCount,
     itemSize,
     estimatedItemSize
-  )
+  );
 
-  let mounted: boolean = false
-  let container: HTMLDivElement
-  let visibleItems: Array<SlotAttributes<any>> = $state([])
+  let mounted: boolean = false;
+  let container: HTMLDivElement;
+  let visibleItems: Array<SlotAttributes<any>> = $state([]);
 
   let curState: VState = $state({
     offset:
@@ -143,10 +143,10 @@
       (scrollToIndex !== undefined && modelCount && getOffsetForIndex(scrollToIndex)) ||
       0,
     scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
-  })
+  });
 
   //@ts-expect-error missing attributes, it's ok for initialization
-  let prevState: VState = {}
+  let prevState: VState = {};
   let prevProps: VProps = {
     scrollToIndex,
     scrollToAlignment,
@@ -154,94 +154,94 @@
     modelCount,
     itemSize,
     estimatedItemSize
-  }
+  };
 
-  let styleCache: { [rowidx: number]: string } = {}
-  let wrapperStyle = $state('')
-  let innerStyle = $state('')
-
-  $effect(() => {
-    // listen to updates:
-    //@ts-expect-error unused no side effect
-    scrollToIndex, scrollToAlignment, scrollOffset, modelCount, itemSize, estimatedItemSize
-
-    // on update:
-    propsUpdated()
-  })
-
-  $effect(() => {
-    // listen to updates:
-    curState
-
-    // on update:
-    stateUpdated()
-  })
+  let styleCache: { [rowidx: number]: string } = {};
+  let wrapperStyle = $state('');
+  let innerStyle = $state('');
 
   $effect(() => {
     // listen to updates:
     //@ts-expect-error unused no side effect
-    height, width
-    // on update:
-    if (mounted) recomputeSizes(0) // call scroll.reset
-  })
+    scrollToIndex, scrollToAlignment, scrollOffset, modelCount, itemSize, estimatedItemSize;
 
-  ;(() => {
+    // on update:
+    propsUpdated();
+  });
+
+  $effect(() => {
+    // listen to updates:
+    curState;
+
+    // on update:
+    stateUpdated();
+  });
+
+  $effect(() => {
+    // listen to updates:
+    //@ts-expect-error unused no side effect
+    height, width;
+    // on update:
+    if (mounted) recomputeSizes(0); // call scroll.reset
+  });
+  (() => {
     // init run before the DOM is even ready
     if (scrollDirection === DIRECTION.VERTICAL && typeof height !== 'number') {
       throw new Error(
         "virtual list's height must be a number when scrollDirection is 'vertical', got " + height
-      )
+      );
     }
     if (scrollDirection === DIRECTION.HORIZONTAL && typeof width !== 'number') {
       throw new Error(
         "virtual list's width must be a number if scrollDirection is 'horizontal', got " + width
-      )
+      );
     }
 
-    refresh() // Initial Load
-  })()
+    refresh(); // Initial Load
+  })();
 
   onMount(() => {
-    container.addEventListener('scroll', handleScroll, thirdEventArg)
+    container.addEventListener('scroll', handleScroll, thirdEventArg);
 
     if (scrollOffset !== undefined) {
-      scrollTo(scrollOffset)
+      scrollTo(scrollOffset);
     } else if (scrollToIndex !== undefined) {
-      scrollTo(getOffsetForIndex(scrollToIndex))
+      scrollTo(getOffsetForIndex(scrollToIndex));
     }
-    mounted = true
-  })
+    mounted = true;
+  });
 
   onDestroy(() => {
-    if (mounted) container.removeEventListener('scroll', handleScroll)
-  })
+    if (mounted) container.removeEventListener('scroll', handleScroll);
+  });
 
   function propsUpdated() {
-    if (!mounted) return
+    if (!mounted) return;
 
     if (scrollToIndex && scrollOffset) {
-      console.log('VirtualList: scrollToIndex and scrollOffset shall not be used together.')
+      console.log('VirtualList: scrollToIndex and scrollOffset shall not be used together.');
     }
 
     const scrollPropsHaveChanged =
-      prevProps.scrollToIndex !== scrollToIndex || prevProps.scrollToAlignment !== scrollToAlignment
+      prevProps.scrollToIndex !== scrollToIndex ||
+      prevProps.scrollToAlignment !== scrollToAlignment;
     const itemPropsHaveChanged =
       prevProps.modelCount !== modelCount ||
       prevProps.itemSize !== itemSize ||
-      prevProps.estimatedItemSize !== estimatedItemSize
+      prevProps.estimatedItemSize !== estimatedItemSize;
 
     if (itemPropsHaveChanged) {
-      sizeAndPositionManager.updateConfig(itemSize, modelCount, estimatedItemSize)
+      sizeAndPositionManager.updateConfig(itemSize, modelCount, estimatedItemSize);
 
-      recomputeSizes()
+      recomputeSizes();
     }
 
-    const scrollOffsetHaveChanged = prevProps.scrollOffset !== scrollOffset
+    const scrollOffsetHaveChanged = prevProps.scrollOffset !== scrollOffset;
     if (scrollOffsetHaveChanged) {
       curState = {
         offset: scrollOffset || 0,
         scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
-      }
+      };
     } else if (
       typeof scrollToIndex === 'number' &&
       (scrollPropsHaveChanged || itemPropsHaveChanged)
@@ -250,7 +250,7 @@
         offset: getOffsetForIndex(scrollToIndex, scrollToAlignment, modelCount),
 
         scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
-      }
+      };
     }
 
     prevProps = {
@@ -260,46 +260,46 @@
       modelCount,
       itemSize,
       estimatedItemSize
-    }
+    };
   }
 
   // updates component state and triggers refresh or scrollto accotdingly
   function stateUpdated() {
-    if (!mounted) return
+    if (!mounted) return;
 
-    const { offset, scrollChangeReason } = curState
+    const { offset, scrollChangeReason } = curState;
 
     if (prevState.offset !== offset || prevState.scrollChangeReason !== scrollChangeReason) {
-      refresh()
+      refresh();
     }
 
     if (prevState.offset !== offset && scrollChangeReason === SCROLL_CHANGE_REASON.REQUESTED) {
-      scrollTo(offset)
+      scrollTo(offset);
     }
 
-    prevState = curState
+    prevState = curState;
   }
 
   function refresh() {
-    const { offset } = curState
+    const { offset } = curState;
     let { start, end } = sizeAndPositionManager.getVisibleRange(
       //@ts-expect-error wrong type assignment
       scrollDirection === DIRECTION.VERTICAL ? height : width,
       offset,
       windowOverPadding
-    )
+    );
 
-    let updatedItems = []
+    let updatedItems = [];
 
-    const totalSize = sizeAndPositionManager.getTotalSize()
-    const heightUnit = typeof height === 'number' ? 'px' : ''
-    const widthUnit = typeof width === 'number' ? 'px' : ''
+    const totalSize = sizeAndPositionManager.getTotalSize();
+    const heightUnit = typeof height === 'number' ? 'px' : '';
+    const widthUnit = typeof width === 'number' ? 'px' : '';
     if (scrollDirection === DIRECTION.VERTICAL) {
-      wrapperStyle = `height:${height}${heightUnit};width:${width}${widthUnit};`
-      innerStyle = `flex-direction:column;height:${totalSize}px;`
+      wrapperStyle = `height:${height}${heightUnit};width:${width}${widthUnit};`;
+      innerStyle = `flex-direction:column;height:${totalSize}px;`;
     } else {
-      wrapperStyle = `height:${height}${heightUnit};width:${width}${widthUnit};`
-      innerStyle = `min-height:100%;width:${totalSize}px;`
+      wrapperStyle = `height:${height}${heightUnit};width:${width}${widthUnit};`;
+      innerStyle = `min-height:100%;width:${totalSize}px;`;
     }
 
     if (start !== undefined && end !== undefined) {
@@ -308,7 +308,7 @@
           item: model[index],
           index,
           style: getStyle(index)
-        })
+        });
       }
 
       if (onVisibleRangeUpdate) {
@@ -318,17 +318,17 @@
           scrollDirection === DIRECTION.VERTICAL ? height : width,
           offset,
           0
-        )
+        );
 
         onVisibleRangeUpdate({
           type: 'range.update',
           start: r.start,
           end: r.end
-        })
+        });
       }
     }
 
-    visibleItems = updatedItems
+    visibleItems = updatedItems;
   }
 
   function scrollTo(value: number) {
@@ -336,17 +336,17 @@
       container.scroll({
         [SCROLL_PROP[scrollDirection]]: value,
         behavior: scrollToBehaviour
-      })
+      });
     } else {
       //@ts-expect-error no index signature
-      container[SCROLL_PROP_LEGACY[scrollDirection]] = value
+      container[SCROLL_PROP_LEGACY[scrollDirection]] = value;
     }
   }
 
   export function recomputeSizes(startIndex: number = 0) {
-    styleCache = {}
-    sizeAndPositionManager.resetItem(startIndex)
-    refresh()
+    styleCache = {};
+    sizeAndPositionManager.resetItem(startIndex);
+    refresh();
   }
 
   function getOffsetForIndex(
@@ -355,9 +355,9 @@
     _modelCount: number = modelCount
   ): number {
     if (index < 0) {
-      index = 0
+      index = 0;
     } else if (index >= _modelCount) {
-      index = _modelCount - 1
+      index = _modelCount - 1;
     }
 
     return sizeAndPositionManager.getUpdatedOffsetForIndex(
@@ -366,39 +366,39 @@
       scrollDirection === DIRECTION.VERTICAL ? height : width,
       curState.offset || 0,
       index
-    )
+    );
   }
 
   const handleScroll = (event: Event) => {
     //@ts-expect-error no index signature
-    const offset = container[SCROLL_PROP_LEGACY[scrollDirection]]
+    const offset = container[SCROLL_PROP_LEGACY[scrollDirection]];
 
-    if (offset < 0 || curState.offset === offset || event.target !== container) return
+    if (offset < 0 || curState.offset === offset || event.target !== container) return;
 
     curState = {
       offset,
       scrollChangeReason: SCROLL_CHANGE_REASON.OBSERVED
-    }
+    };
 
     if (onAfterScroll) {
-      onAfterScroll({ type: 'scroll.update', offset, event })
+      onAfterScroll({ type: 'scroll.update', offset, event });
     }
-  }
+  };
 
   function getStyle(index: number): string {
-    if (styleCache[index]) return styleCache[index]
+    if (styleCache[index]) return styleCache[index];
 
-    const { size, offset } = sizeAndPositionManager.getSizeAndPositionForIndex(index)
+    const { size, offset } = sizeAndPositionManager.getSizeAndPositionForIndex(index);
 
-    let style
+    let style;
 
     if (scrollDirection === DIRECTION.VERTICAL) {
-      style = `left:0;width:100%;height:${size}px;position:absolute;top:${offset}px;`
+      style = `left:0;width:100%;height:${size}px;position:absolute;top:${offset}px;`;
     } else {
-      style = `top:0;width:${size}px;position:absolute;height:100%;left:${offset}px;`
+      style = `top:0;width:${size}px;position:absolute;height:100%;left:${offset}px;`;
     }
 
-    return (styleCache[index] = style)
+    return (styleCache[index] = style);
   }
 </script>
 

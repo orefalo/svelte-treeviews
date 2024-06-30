@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { base } from '$app/paths'
+  import { base } from '$app/paths';
 </script>
 
 <img alt="Minified Size" src="{base}/minified-size-badge.svg" />

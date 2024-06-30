@@ -1,6 +1,6 @@
-import adapter from '@sveltejs/adapter-static'
-import { sveltePreprocess } from 'svelte-preprocess'
-import path from 'path'
+import adapter from '@sveltejs/adapter-static';
+import { sveltePreprocess } from 'svelte-preprocess';
+import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -11,6 +11,7 @@ const config = {
       pages: 'docs',
       assets: 'docs'
     }),
+
     // IMPORTANT: if you update aliases, run `pnpm run dev` for the configuration to update (tsconfig.json)
     alias: {
       'svelte-treeviews': path.resolve('.', 'src/lib'),
@@ -21,6 +22,6 @@ const config = {
       relative: false
     }
   }
-}
+};
 
-export default config
+export default config;

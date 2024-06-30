@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { type Component } from 'svelte'
-  import type { SvelteExample } from './example'
-  import Highlighted from './Highlighted.svelte'
+  import { type Component } from 'svelte';
+  import type { SvelteExample } from './example';
+  import Highlighted from './Highlighted.svelte';
 
-  let { example }: { example: SvelteExample } = $props()
+  let { example }: { example: SvelteExample } = $props();
 
   //@ts-ignore
-  const p = example.component as Component<SvelteExample>
+  const p = example.component as Component<SvelteExample>;
 </script>
 
 <div>

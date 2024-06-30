@@ -1,21 +1,21 @@
 <script context="module" lang="ts">
   export interface Page {
-    title: string
-    path: string
+    title: string;
+    path: string;
   }
 
   export interface Section {
-    title: string
-    pages: Page[]
+    title: string;
+    pages: Page[];
   }
 </script>
 
 <script lang="ts">
-  import { page } from '$app/stores'
-  import { base } from '$app/paths'
-  import { pathIsCurrent } from './pathUtils'
+  import { page } from '$app/stores';
+  import { base } from '$app/paths';
+  import { pathIsCurrent } from './pathUtils';
 
-  let { contents = [] }: { contents: Section[] } = $props()
+  let { contents = [] }: { contents: Section[] } = $props();
 </script>
 
 <nav aria-label="Docs">

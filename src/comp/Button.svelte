@@ -1,8 +1,8 @@
 <script lang="ts">
   // @ts-nocheck
-  import { onMount } from 'svelte'
-  import { writable } from 'svelte/store'
-  import Ripple from './Ripple.svelte'
+  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
+  import Ripple from './Ripple.svelte';
 
   let {
     rippleBlur = 0,
@@ -23,7 +23,7 @@
     shadowActive = 2,
     disabled = false,
     children
-  } = $props()
+  } = $props();
 
   const shadows = {
     none: 'none',
@@ -34,28 +34,28 @@
     5: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
     6: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
     7: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-  }
+  };
 
   function handleRipple() {
-    const ripples = writable([])
+    const ripples = writable([]);
 
     return {
       subscribe: ripples.subscribe,
 
       add: (item: { x: number; y: number; size: number }) => {
         ripples.update(items => {
-          return [...items, item]
-        })
+          return [...items, item];
+        });
       },
       clear: () => {
         ripples.update(() => {
-          return []
-        })
+          return [];
+        });
       }
-    }
+    };
   }
 
-  export const ripples = handleRipple()
+  export const ripples = handleRipple();
 
   let rect: DOMRect,
     rippleBtn: HTMLButtonElement,
@@ -68,54 +68,54 @@
     locationY: number,
     locationX: number,
     // scale_ratio: number,
-    timer: string | number | NodeJS.Timeout
+    timer: string | number | NodeJS.Timeout;
 
-  let coords = $state({ x: 50, y: 50 })
-  let offsetX: number = $derived(Math.abs(w / 2 - coords.x))
-  let offsetY = $derived(Math.abs(h / 2 - coords.y))
-  let deltaX = $derived(w / 2 + offsetX)
-  let deltaY = $derived(h / 2 + offsetY)
-  let scale_ratio = $derived(Math.sqrt(Math.pow(deltaX, 2.2) + Math.pow(deltaY, 2.2)))
+  let coords = $state({ x: 50, y: 50 });
+  let offsetX: number = $derived(Math.abs(w / 2 - coords.x));
+  let offsetY = $derived(Math.abs(h / 2 - coords.y));
+  let deltaX = $derived(w / 2 + offsetX);
+  let deltaY = $derived(h / 2 + offsetY);
+  let scale_ratio = $derived(Math.sqrt(Math.pow(deltaX, 2.2) + Math.pow(deltaY, 2.2)));
 
   const debounce = () => {
-    clearTimeout(timer)
+    clearTimeout(timer);
     timer = setTimeout(
       () => {
-        ripples.clear()
+        ripples.clear();
       },
       speed + speed * 2
-    )
-  }
+    );
+  };
 
-  let touch: boolean
+  let touch: boolean;
 
   function handleClick(e: MouseEvent | Touch, type: string) {
     if (type === 'touch') {
-      touch = true
-      ripples.add({ x: e.pageX - locationX, y: e.pageY - locationY, size: scale_ratio })
+      touch = true;
+      ripples.add({ x: e.pageX - locationX, y: e.pageY - locationY, size: scale_ratio });
     } else {
       if (!touch) {
-        ripples.add({ x: e.clientX - locationX, y: e.clientY - locationY, size: scale_ratio })
+        ripples.add({ x: e.clientX - locationX, y: e.clientY - locationY, size: scale_ratio });
       }
-      touch = false
+      touch = false;
     }
-    debounce()
+    debounce();
   }
 
   onMount(() => {
-    w = rippleBtn.offsetWidth
-    h = rippleBtn.offsetHeight
-    rect = rippleBtn.getBoundingClientRect()
-    locationY = rect.top
-    locationX = rect.left
-  })
+    w = rippleBtn.offsetWidth;
+    h = rippleBtn.offsetHeight;
+    rect = rippleBtn.getBoundingClientRect();
+    locationY = rect.top;
+    locationX = rect.left;
+  });
 
   function onTouchStart(e: TouchEvent) {
-    handleClick(e.touches[0], 'touch')
+    handleClick(e.touches[0], 'touch');
   }
 
   function onMouseDown(e: MouseEvent) {
-    handleClick(e, 'click')
+    handleClick(e, 'click');
   }
 </script>
 

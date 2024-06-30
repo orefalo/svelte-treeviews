@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { tweened } from 'svelte/motion'
-  import { backOut } from 'svelte/easing'
+  import { onMount } from 'svelte';
+  import { tweened } from 'svelte/motion';
+  import { backOut } from 'svelte/easing';
 
   let {
     x,
@@ -12,22 +12,22 @@
     rippleBlur,
     opacityIn
   }: {
-    x: number
-    y: number
-    sizeIn: number
-    size: number
-    speed: number
-    rippleBlur: number
-    opacityIn: number
-  } = $props()
+    x: number;
+    y: number;
+    sizeIn: number;
+    size: number;
+    speed: number;
+    rippleBlur: number;
+    opacityIn: number;
+  } = $props();
 
   onMount(() => {
-    rippleOpacity.set(0)
-    rippleSize.set(size)
-  })
+    rippleOpacity.set(0);
+    rippleSize.set(size);
+  });
 
-  const rippleSize = tweened(sizeIn, { duration: speed })
-  const rippleOpacity = tweened(opacityIn, { duration: speed + speed * 2.5, easing: backOut })
+  const rippleSize = tweened(sizeIn, { duration: speed });
+  const rippleOpacity = tweened(opacityIn, { duration: speed + speed * 2.5, easing: backOut });
 </script>
 
 <defs>

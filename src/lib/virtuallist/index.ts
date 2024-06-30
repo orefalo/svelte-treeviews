@@ -1,40 +1,40 @@
-export type VirtualItemSize = number | number[] | ((item: unknown, index: number) => number)
+export type VirtualItemSize = number | number[] | ((item: unknown, index: number) => number);
 
-export { default as VirtualList } from './VirtualList.svelte'
+export { default as VirtualList } from './VirtualList.svelte';
 
 // use by the row() snippet
 export interface SlotAttributes<T> {
   // the actual item value
-  item: T
+  item: T;
   // The row's index being rendered, from the original dataset
   // The index is a string if the IDs are processed via the getKey() function
-  index: number | string
+  index: number | string;
   // the calculated style for this row
-  style: string
+  style: string;
 }
 
 export interface VirtualPosition {
-  size: number
-  offset: number
+  size: number;
+  offset: number;
 }
 
 export interface VirtualRange {
   // index of the first visible item
-  start: number
+  start: number;
   // index of the last visible item
-  end: number
+  end: number;
 }
 
 export interface VirtualRangeEvent extends VirtualRange {
-  type: 'range.update'
+  type: 'range.update';
 }
 
 export interface AfterScrollEvent {
-  type: 'scroll.update'
+  type: 'scroll.update';
   // either the value of `wrapper.scrollTop` or `wrapper.scrollLeft`
-  offset: number | string
+  offset: number | string;
   // the original event
-  event: Event
+  event: Event;
 }
 
 export enum SCROLL_BEHAVIOR {

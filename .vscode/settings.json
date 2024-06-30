@@ -17,8 +17,8 @@
     ".prettierignore": true,
     "pnpm-lock.yaml": true,
     "playwright.config.ts": true,
-    ".vscode": true,
-    ".svelte-kit": true
+    ".svelte-kit": true,
+    ".vscode": true
   },
   "hide-files.files": [
     ".husky",
@@ -32,8 +32,8 @@
     ".prettierignore",
     "pnpm-lock.yaml",
     "playwright.config.ts",
-    ".vscode",
-    ".svelte-kit"
+    ".svelte-kit",
+    ".vscode"
   ],
   "files.eol": "\n",
   "editor.insertSpaces": false,
@@ -42,5 +42,8 @@
   },
   "[javascript]": {
     "editor.tabSize": 4
+  },
+  "svelte.plugin.svelte.compilerWarnings": {
+    "css-unused-selector": "ignore"
   }
 }
