@@ -3,24 +3,24 @@
 </script>
 
 <!-- svelte-ignore a11y_missing_attribute -->
-<a class="he-tree__open-icon" class:open>
+<a class="treeicon" class:open>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42Z" />
   </svg>
 </a>
 
 <style>
-  .he-tree__open-icon {
+  .treeicon {
     cursor: pointer;
     user-select: none;
     display: inline-block;
   }
 
-  .he-tree__open-icon.open {
+  .treeicon.open {
     transform: rotate(90deg);
   }
 
-  .he-tree__open-icon svg {
+  .treeicon svg {
     width: 1em;
   }
 </style>

@@ -18,7 +18,8 @@
     "pnpm-lock.yaml": true,
     "playwright.config.ts": true,
     ".svelte-kit": true,
-    ".vscode": true
+    ".vscode": true,
+    "node_modules": true
   },
   "hide-files.files": [
     ".husky",
@@ -33,7 +34,8 @@
     "pnpm-lock.yaml",
     "playwright.config.ts",
     ".svelte-kit",
-    ".vscode"
+    ".vscode",
+    "node_modules"
   ],
   "files.eol": "\n",
   "editor.insertSpaces": false,

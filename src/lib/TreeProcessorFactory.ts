@@ -1,7 +1,7 @@
 import { TreeProcessor, type Options } from './treeutils';
 
-export function makeTreeProcessor<T>(data: T[], opt: Options<T>):TreeProcessor<T> {
-	const instance = new TreeProcessor<T>(opt)
+export function makeTreeProcessor(data: any[], opt: Options):TreeProcessor<T> {
+	const instance = new TreeProcessor(opt)
 	if (!opt.noInitialization)
 		instance.init()
 	return instance

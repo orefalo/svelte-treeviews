@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import type { Stat } from './treeutils';
+  import type { Stat } from './Stat';
 
   let {
     stat,
@@ -13,29 +13,31 @@
     treeLineOffset = 10,
     processor,
 
+    class: className,
+    style,
+
     // events
-    onOpen,
-    onClose,
-    onCheck,
+    onopen,
+    onclose,
+    oncheck,
 
     // snippets
-    spot,
-    class: className,
-    style
+    slot
   }: {
-    stat: Stat<unknown>;
+    stat: Stat;
     rtl: boolean;
     btt: boolean;
     indent: number;
     treeLine: boolean;
     treeLineOffset: number;
-    processor?: { afterOneCheckChanged: (s: Stat<unknown>) => boolean };
-    onOpen?: (stat: Stat<unknown>) => void;
-    onClose?: Function /*(stat: Stat<unknown>) => void;*/;
-    onCheck?: (stat: Stat<unknown>) => void;
-    spot: Snippet<[{ indentStyle: string }]>;
+    processor?: { afterOneCheckChanged: (s: Stat) => boolean };
     class: string;
     style: string;
+
+    onopen?: (stat: Stat) => void;
+    onclose?: Function /*(stat: Stat) => void;*/;
+    oncheck?: (stat: Stat) => void;
+    slot: Snippet<[{ indentStyle: string }]>;
   } = $props();
 
   let indentStyle: string = $derived(
@@ -51,7 +53,7 @@
     if (justToggleOpen) {
       return;
     }
-    open ? onOpen?.(stat) : onClose?.(stat);
+    open ? onopen?.(stat) : onclose?.(stat);
 
     afterToggleOpen();
   });
@@ -64,7 +66,7 @@
       return;
     }
     if (processor?.afterOneCheckChanged(stat)) {
-      onCheck?.(stat);
+      oncheck?.(stat);
     }
   });
 
@@ -80,7 +82,7 @@
     style: string;
   }> = $derived.by(() => {
     const lines: Array<{ style: string }> = [];
-    const hasNextVisibleNode = (stat: Stat<unknown>) => {
+    const hasNextVisibleNode = (stat: Stat) => {
       if (stat.parent) {
         let i = stat.parent?.children.indexOf(stat);
         do {
@@ -100,7 +102,7 @@
     };
     const leftOrRight = rtl ? 'right' : 'left';
     const bottomOrTop = btt ? 'top' : 'bottom';
-    let current: Stat<unknown> | null = stat;
+    let current: Stat | null = stat;
     while (current) {
       let left = (current.level - 2) * indent + treeLineOffset;
       const hasNext = hasNextVisibleNode(current);
@@ -135,7 +137,7 @@
     {/each}
   {/if}
   <div class="tree-node-inner">
-    {@render spot({ indentStyle })}
+    {@render slot({ indentStyle })}
   </div>
 </div>
 

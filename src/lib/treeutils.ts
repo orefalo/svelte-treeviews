@@ -1,49 +1,49 @@
 import * as hp from './jshelper';
-import { statDefault, type Stat } from './strat';
+import { statDefault, type Stat } from './Stat';
 
 export const CHILDREN = 'children'; // inner childrenKey
 
-class COptions<T> {
+class COptions {
   childrenKey: string = 'children';
   defaultOpen: boolean = false;
 
-  public statsHandler(stats: Stat<any>[]) {
+  public statsHandler(stats: Stat[]) {
     return stats;
   }
-  public statsFlatHandler(statsFlat: Stat<any>[]) {
+  public statsFlatHandler(statsFlat: Stat[]) {
     return statsFlat;
   }
-  public afterSetStat(_stat: Stat<any>, _parent: Stat<any> | null, _index: number) {}
-  public afterRemoveStat(_stat: Stat<any>) {}
-  public statHandler(stat: Stat<any>) {
+  public afterSetStat(_stat: Stat, _parent: Stat | null, _index: number) {}
+  public afterRemoveStat(_stat: Stat) {}
+  public statHandler(stat: Stat) {
     return stat;
   }
 }
 
-export class Options<T> extends COptions<T> {
-  public noInitialization?: boolean;
+export interface Options extends Partial<COptions> {
+  noInitialization?: boolean;
 }
 
 export class TreeProcessor<T> {
-  private data: any;
-  private stats: Stat<T>[] | null;
-  private statsFlat: Stat<T>[] | null;
-  private _statsMap: Map<T, Stat<T>> | null;
+  public data: any;
+  public stats: Stat[] | null;
+  public statsFlat: Stat[] | null;
+  private _statsMap: Map<T, Stat> | null;
   //  private initialized: boolean;
 
-  private options: COptions<T>;
+  private options: COptions;
 
-  constructor(opt?: COptions<T>) {
+  constructor(opt?: COptions) {
     this.stats = null;
     this.statsFlat = null;
     this._statsMap = null;
     // this.initialized = false;
-    this.options = opt ? opt : new COptions<T>();
+    this.options = opt ? opt : new COptions();
   }
 
   public init() {
     const { childrenKey } = this.options;
-    const td = new hp.TreeData([] as Stat<T>[]);
+    const td = new hp.TreeData([] as Stat[]);
     this._statsMap = new Map();
     hp.walkTreeData(
       this.data,
@@ -61,6 +61,7 @@ export class TreeProcessor<T> {
       },
       { childrenKey }
     );
+    
     const statsFlat: typeof td.rootChildren = [];
     td.walk(stat => {
       statsFlat.push(stat);
@@ -71,15 +72,15 @@ export class TreeProcessor<T> {
   }
 
   public getStat(nodeData: T) {
-    const r: Stat<T> = this._statsMap!.get(nodeData)!;
+    const r: Stat = this._statsMap!.get(nodeData)!;
     if (!r) {
       throw new StatNotFoundError(`Stat not found`);
     }
     return r;
   }
 
-  public has(nodeData: T | Stat<T>) {
-    // @ts-expect-error implicit any type
+  public has(nodeData: T | Stat) {
+  
     if (nodeData['isStat']) {
       // @ts-ignore
       return this.statsFlat.indexOf(nodeData) > -1;
@@ -97,7 +98,7 @@ export class TreeProcessor<T> {
     }
   }
 
-  private _getPathByStat(stat: Stat<T> | null): Array<number> {
+  private _getPathByStat(stat: Stat | null): Array<number> {
     if (stat === null) {
       return [];
     }
@@ -111,7 +112,7 @@ export class TreeProcessor<T> {
    * @param stat
    * @returns return false mean ignored
    */
-  public afterOneCheckChanged(stat: Stat<T>) {
+  public afterOneCheckChanged(stat: Stat) {
     const { checked } = stat;
     if (stat._ignoreCheckedOnce) {
       delete stat._ignoreCheckedOnce;
@@ -119,7 +120,7 @@ export class TreeProcessor<T> {
     }
 
     // change parent
-    const checkParent = (stat: Stat<T>) => {
+    const checkParent = (stat: Stat) => {
       const { parent } = stat;
       if (parent) {
         let hasChecked: boolean = false;
@@ -157,7 +158,7 @@ export class TreeProcessor<T> {
     );
     return true;
   }
-  private _ignoreCheckedOnce(stat: Stat<T>) {
+  private _ignoreCheckedOnce(stat: Stat) {
     stat._ignoreCheckedOnce = true;
     // cancel ignore immediately if not triggered
     setTimeout(() => {
@@ -166,10 +167,10 @@ export class TreeProcessor<T> {
       }
     }, 100);
   }
-  private isVisible(statOrNodeData: T | Stat<T>) {
+  private isVisible(statOrNodeData: T | Stat) {
     // @ts-ignore
-    const stat: Stat<T> = statOrNodeData["isStat"] ? statOrNodeData : this.getStat(statOrNodeData); // prettier-ignore
-    const walk: (stat: Stat<T> | null) => boolean = (stat: Stat<T> | null) => {
+    const stat: Stat = statOrNodeData["isStat"] ? statOrNodeData : this.getStat(statOrNodeData); // prettier-ignore
+    const walk: (stat: Stat | null) => boolean = (stat: Stat | null) => {
       return !stat || (!stat.hidden && stat.open && walk(stat.parent));
     };
     return Boolean(!stat.hidden && walk(stat.parent));
@@ -219,9 +220,9 @@ export class TreeProcessor<T> {
     }
   }
 
-  public openNodeAndParents(nodeOrStat: T | Stat<T>) {
+  public openNodeAndParents(nodeOrStat: T | Stat) {
     // @ts-ignore
-    const stat:Stat<T> = nodeOrStat["isStat"] ? nodeOrStat : this.getStat(nodeOrStat) // prettier-ignore
+    const stat:Stat = nodeOrStat["isStat"] ? nodeOrStat : this.getStat(nodeOrStat) // prettier-ignore
     for (const parentStat of this.iterateParent(stat, {
       withSelf: true
     })) {
@@ -230,7 +231,7 @@ export class TreeProcessor<T> {
   }
 
   // actions
-  private _calcFlatIndex(parent: Stat<T> | null, index: number) {
+  private _calcFlatIndex(parent: Stat | null, index: number) {
     let flatIndex = parent ? this.statsFlat!.indexOf(parent) + 1 : 0;
     const siblings = parent ? parent.children : this.stats!;
     for (let i = 0; i < index; i++) {
@@ -239,7 +240,7 @@ export class TreeProcessor<T> {
     return flatIndex;
   }
 
-  public add(nodeData: T, parent?: Stat<T> | null, index?: number | null) {
+  public add(nodeData: T, parent?: Stat | null, index?: number | null) {
     if (this.has(nodeData)) {
       throw `Can't add because data exists in tree`;
     }
@@ -247,7 +248,7 @@ export class TreeProcessor<T> {
     if (index == null) {
       index = siblings.length;
     }
-    const stat: Stat<T> = this.options.statHandler({
+    const stat: Stat = this.options.statHandler({
       ...statDefault(),
       open: Boolean(this.options.defaultOpen),
       data: nodeData,
@@ -266,7 +267,7 @@ export class TreeProcessor<T> {
     }
   }
 
-  public remove(stat: Stat<T>) {
+  public remove(stat: Stat) {
     const siblings = this.getSiblings(stat);
     if (siblings.includes(stat)) {
       hp.arrayRemove(siblings, stat);
@@ -281,7 +282,7 @@ export class TreeProcessor<T> {
     return false;
   }
 
-  public getSiblings(stat: Stat<T>) {
+  public getSiblings(stat: Stat) {
     const { parent } = stat;
     return parent ? parent.children : this.stats!;
   }
@@ -291,7 +292,7 @@ export class TreeProcessor<T> {
    * @param parent
    * @param index
    */
-  private _setPosition(stat: Stat<T>, parent: Stat<T> | null, index: number) {
+  private _setPosition(stat: Stat, parent: Stat | null, index: number) {
     const siblings = parent ? parent.children : this.stats!;
     siblings.splice(index, 0, stat);
     stat.parent = parent;
@@ -317,7 +318,7 @@ export class TreeProcessor<T> {
   }
 
   // this is a generqtor function '*'
-  public *iterateParent(stat: Stat<T>, opt?: { withSelf: boolean }) {
+  public *iterateParent(stat: Stat, opt?: { withSelf: boolean }) {
     let t = opt?.withSelf ? stat : stat.parent;
     while (t) {
       yield t;
@@ -325,7 +326,7 @@ export class TreeProcessor<T> {
     }
   }
 
-  public move(stat: Stat<T>, parent: Stat<T> | null, index: number) {
+  public move(stat: Stat, parent: Stat | null, index: number) {
     if (this.has(stat)) {
       if (stat.parent === parent && this.getSiblings(stat).indexOf(stat) === index) {
         return false;
@@ -360,8 +361,8 @@ export class TreeProcessor<T> {
    * @param stat
    * @returns
    */
-  private _flat(stat: Stat<T>) {
-    const r: Stat<T>[] = [];
+  private _flat(stat: Stat) {
+    const r: Stat[] = [];
     hp.walkTreeData(
       stat,
       child => {
@@ -376,11 +377,11 @@ export class TreeProcessor<T> {
    * 统计节点和其后代节点数量
    * @param stat
    */
-  private _count(stat: Stat<T>) {
+  private _count(stat: Stat) {
     return this._flat(stat).length;
   }
 
-  public getData(filter?: (data: T) => T, root?: Stat<T>) {
+  public getData(filter?: (data: T) => T, root?: Stat) {
     const { childrenKey } = this.options;
     const td = new hp.TreeData<T>([]);
     td.childrenKey = childrenKey;

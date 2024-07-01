@@ -1,4 +1,5 @@
-import { makeTreeProcessor, type Options } from './treeutils';
+import { makeTreeProcessor } from './TreeProcessorFactory';
+import type { Options } from './treeutils';
 export * from './treeutils';
 
 function filter<T>(func: Function | null | undefined, input: T): T {

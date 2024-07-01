@@ -79,7 +79,7 @@
   }: {
     height: number | string;
     width: number | string;
-    model: Array<any>;
+    model: any[];
     modelCount: number;
     itemSize: VirtualItemSize;
     estimatedItemSize?: number;
@@ -289,7 +289,7 @@
       windowOverPadding
     );
 
-    let updatedItems = [];
+    let updatedItems:Array<SlotAttributes<any>> = [];
 
     const totalSize = sizeAndPositionManager.getTotalSize();
     const heightUnit = typeof height === 'number' ? 'px' : '';
@@ -370,7 +370,6 @@
   }
 
   const handleScroll = (event: Event) => {
-    //@ts-expect-error no index signature
     const offset = container[SCROLL_PROP_LEGACY[scrollDirection]];
 
     if (offset < 0 || curState.offset === offset || event.target !== container) return;

@@ -2,9 +2,10 @@
   import { VirtualList } from '$lib/virtuallist';
   import TreeNode from './TreeNode.svelte';
   import * as hp from './jshelper';
-  import type { Stat, TreeProcessor } from './treeutils';
+  import { TreeProcessor } from './treeutils';
   import { svelteMakeTreeProcessor } from './TreeProcessorSvelte.svelte';
   import type { Snippet } from 'svelte';
+  import type { Stat } from './Stat';
 
   let {
     model,
@@ -45,30 +46,30 @@
     // todo: rename to model
     model: Array<unknown>;
     updateBehavior?: 'modify' | 'new' | 'disabled';
-    processor?: TreeProcessor;
+    processor?: TreeProcessor<Stat>;
     childrenKey?: string;
     textKey?: string;
     indent?: number;
     virtualization?: boolean;
     virtualizationPrerenderCount?: number;
     defaultOpen?: boolean;
-    statHandler?: (stat: Stat<any>) => Stat<any>;
+    statHandler?: (stat: Stat) => Stat;
     rtl?: boolean;
     btt?: boolean;
-    nodeKey?: 'index' | ((stat: Stat<any>, index: number) => any);
+    nodeKey?: 'index' | ((stat: Stat, index: number) => any);
     treeLine?: boolean;
     treeLineOffset?: number;
     prepend?: Snippet;
     append?: Snippet;
-    onNodeChecked?: (e: Stat<unknown>) => void;
-    onNodeClicked?: (e: Stat<unknown>) => void;
-    onNodeOpened?: (e: Stat<unknown>) => void;
-    onNodeClosed?: (e: Stat<unknown>) => void;
+    onNodeChecked?: (e: Stat) => void;
+    onNodeClicked?: (e: Stat) => void;
+    onNodeOpened?: (e: Stat) => void;
+    onNodeClosed?: (e: Stat) => void;
   } = $props();
 
-  let stats: TreeProcessor['stats'] = $state([]);
-  let statsFlat: TreeProcessor['statsFlat'] = [];
-  let dragNode: Stat<any> | null = null;
+  let stats: TreeProcessor<Stat>['stats'] = $state([]);
+  let statsFlat: TreeProcessor<Stat>['statsFlat'] = [];
+  let dragNode: Stat | null = null;
   let dragOvering: boolean = false;
   let placeholderData: {} = {};
   let placeholderColspan: number = 1;
@@ -96,14 +97,14 @@
     }
   });
 
-  function visibleStats(): Stat<unknown>[] {
+  function visibleStats(): Stat[] {
     // const { statsFlat, isVisible } = this;
     let items = statsFlat || [];
     if (btt) {
       items = items.slice();
       items.reverse();
     }
-    return items.filter((stat: Stat<unknown>) => operations.isVisible(stat));
+    return items.filter((stat: Stat) => isVisible(stat));
   }
   function rootChildren() {
     return stats;
@@ -129,38 +130,93 @@
     return true;
   }
 
-  function getOperations() {
-    return operations;
+  function getStat(statOrNodeData: any): Stat {
+    return reactiveFirstArg(processorMethodProxy('getStat'))(statOrNodeData);
   }
 
-  const operations = {
-    getStat: reactiveFirstArg(processorMethodProxy('getStat')) as TreeProcessor['getStat'],
-    has: reactiveFirstArg(processorMethodProxy('has')) as TreeProcessor['has'],
-    updateCheck: processorMethodProxy('updateCheck') as TreeProcessor['updateCheck'],
-    getChecked: processorMethodProxy('getChecked') as TreeProcessor['getChecked'],
-    getUnchecked: processorMethodProxy('getUnchecked') as TreeProcessor['getUnchecked'],
-    openAll: processorMethodProxy('openAll') as TreeProcessor['openAll'],
-    closeAll: processorMethodProxy('closeAll') as TreeProcessor['closeAll'],
-    openNodeAndParents: processorMethodProxy(
-      'openNodeAndParents'
-    ) as TreeProcessor['openNodeAndParents'],
-    isVisible: processorMethodProxy('isVisible') as TreeProcessor['isVisible'],
-    move: processorMethodProxyWithBatchUpdate('move') as TreeProcessor['move'],
-    add: reactiveFirstArg(processorMethodProxyWithBatchUpdate('add')) as TreeProcessor['add'],
-    remove: processorMethodProxy('remove') as TreeProcessor['remove'],
-    iterateParent: processorMethodProxy('iterateParent') as TreeProcessor['iterateParent'],
-    getSiblings: processorMethodProxy('getSiblings') as TreeProcessor['getSiblings'],
-    getData: processorMethodProxy('getData') as hp.ReplaceReturnType<
-      TreeProcessor['getData'],
-      any[]
-    >
-  };
+  function has(statOrNodeData: Stat | any): boolean {
+    return reactiveFirstArg(processorMethodProxy('has'))(statOrNodeData);
+  }
 
-  function addMulti(dataArr: any[], parent?: Stat<any> | null, startIndex?: number | null) {
+  function updateCheck(): void {
+    return reactiveFirstArg(processorMethodProxy('updateCheck'))(undefined);
+  }
+
+  function getChecked(withDemi): Stat[] {
+    return reactiveFirstArg(processorMethodProxy('getChecked'))(withDemi);
+  }
+
+  function getUnchecked(withDemi): Stat[] {
+    return reactiveFirstArg(processorMethodProxy('getUnchecked'))(withDemi);
+  }
+  function openAll(): void {
+    return reactiveFirstArg(processorMethodProxy('openAll'))(undefined);
+  }
+
+  function closeAll(): void {
+    return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
+  }
+
+  function openNodeAndParents(statOrNodeData: Stat | any): void {
+    return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(statOrNodeData);
+  }
+
+  function isVisible(statOrNodeData: Stat | any): boolean {
+    return reactiveFirstArg(processorMethodProxy('isVisible'))(statOrNodeData);
+  }
+
+  function move(stat: Stat, parent: Stat | null, index: number) {
+    return reactiveFirstArg(processorMethodProxy('move'))(stat, parent, index);
+  }
+
+  function add(nodeData: any, parent?: Stat | null, index?: number | null): void {
+    return reactiveFirstArg(processorMethodProxy('add'))(nodeData, parent, index);
+  }
+
+  function remove(stat: Stat): boolean {
+    return reactiveFirstArg(processorMethodProxy('remove'))(stat);
+  }
+
+  function iterateParent(stat: Stat, opt?: { withSelf: boolean }) {
+    return reactiveFirstArg(processorMethodProxy('iterateParent'))(stat, opt);
+  }
+
+  function getSiblings(stat: Stat): Stat[] {
+    return reactiveFirstArg(processorMethodProxy('getSiblings'))(stat);
+  }
+
+  function getData(filter?: (data: any) => any, root?: Stat): any[] {
+    return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
+  }
+
+  // const operations = {
+  //   //  getStat: reactiveFirstArg(processorMethodProxy('getStat')) as TreeProcessor['getStat'],
+  //   //  has: reactiveFirstArg(processorMethodProxy('has')) as TreeProcessor['has'],
+  //   //  updateCheck: processorMethodProxy('updateCheck') as TreeProcessor['updateCheck'],
+  //   //  getChecked: processorMethodProxy('getChecked') as TreeProcessor['getChecked'],
+  //   // getUnchecked: processorMethodProxy('getUnchecked') as TreeProcessor['getUnchecked'],
+  //   //  openAll: processorMethodProxy('openAll') as TreeProcessor['openAll'],
+  //   //closeAll: processorMethodProxy('closeAll') as TreeProcessor['closeAll'],
+  //   // openNodeAndParents: processorMethodProxy(
+  //   //   'openNodeAndParents'
+  //   // ) as TreeProcessor['openNodeAndParents'],
+  //   //isVisible: processorMethodProxy('isVisible') as TreeProcessor['isVisible'],
+  //   //move: processorMethodProxyWithBatchUpdate('move') as TreeProcessor['move'],
+  //   //add: reactiveFirstArg(processorMethodProxyWithBatchUpdate('add')) as TreeProcessor['add'],
+  //   // remove: processorMethodProxy('remove') as TreeProcessor['remove'],
+  //   // iterateParent: processorMethodProxy('iterateParent') as TreeProcessor['iterateParent'],
+  //   // getSiblings: processorMethodProxy('getSiblings') as TreeProcessor['getSiblings'],
+  //   // getData: processorMethodProxy('getData') as hp.ReplaceReturnType<
+  //   //   TreeProcessor['getData'],
+  //   //   any[]
+  //   // >
+  // };
+
+  function addMulti(dataArr: any[], parent?: Stat | null, startIndex?: number | null) {
     batchUpdate(() => {
       let index = startIndex;
       for (const data of dataArr) {
-        operations.add(data, parent, index);
+        add(data, parent, index);
         if (index != null) {
           index++;
         }
@@ -171,7 +227,7 @@
   function removeMulti(dataArr: any[]) {
     batchUpdate(() => {
       for (const data of dataArr) {
-        operations.remove(data);
+        remove(data);
       }
     });
   }
@@ -184,7 +240,7 @@
   function batchUpdate(task: () => any | Promise<any>) {
     const r = ignoreUpdate(task);
     if (!batchUpdateWaiting) {
-      _updateValue(updateBehavior === 'new' ? operations.getData() : valueComputed());
+      _updateValue(updateBehavior === 'new' ? getData() : valueComputed());
     }
     return r;
   }
@@ -215,7 +271,7 @@
 
   function reactiveFirstArg(func: Function) {
     return function (arg1: any, ...args: any) {
-      let v = $state(arg1);
+      const v = $state(arg1);
       if (arg1) {
         // @ts-ignore
         return func.call(this, v, ...args);
@@ -233,14 +289,14 @@
   model={stats}
   height={500}
   width="auto"
-  modelCount={stats.length}
+  modelCount={stats?.length || 0}
   itemSize={25}>
   {#snippet slot({ item: stat, style, index })}
     <TreeNode
-      zclass={stat.class +
+      class={stat.class +
         (stat.data === placeholderData ? ' drag-placeholder-wrapper' : '') +
         (stat === dragNode ? 'dragging-node' : '')}
-      zstyle={stat.style}
+      style={stat.style}
       {stat}
       {rtl}
       {btt}
@@ -248,10 +304,9 @@
       {treeLine}
       {treeLineOffset}
       {processor}
-      onclick={onNodeClicked && onNodeClicked(stat)}
-      onOpen={onNodeOpened && onNodeOpened(stat)}
-      onClose={onNodeClosed && onNodeClosed(stat)}
-      onCheck={onNodeChecked && onNodeChecked(stat)}>
+      onopen={(stat: Stat) => onNodeOpened && onNodeOpened(stat)}
+      onclose={(stat: Stat) => onNodeClosed && onNodeClosed(stat)}
+      oncheck={(stat: Stat) => onNodeChecked && onNodeChecked(stat)}>
       {#snippet slot({ indentStyle }: { indentStyle: string })}
         {#if stat.data === placeholderData}
           <div class="drag-placeholder he-tree-drag-placeholder">DRAG PLACEHOLDER</div>
