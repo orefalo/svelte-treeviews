@@ -61,7 +61,7 @@ export class TreeProcessor<T> {
       },
       { childrenKey }
     );
-    
+
     const statsFlat: typeof td.rootChildren = [];
     td.walk(stat => {
       statsFlat.push(stat);
@@ -80,7 +80,6 @@ export class TreeProcessor<T> {
   }
 
   public has(nodeData: T | Stat) {
-  
     if (nodeData['isStat']) {
       // @ts-ignore
       return this.statsFlat.indexOf(nodeData) > -1;
@@ -248,6 +247,7 @@ export class TreeProcessor<T> {
     if (index == null) {
       index = siblings.length;
     }
+
     const stat: Stat = this.options.statHandler({
       ...statDefault(),
       open: Boolean(this.options.defaultOpen),

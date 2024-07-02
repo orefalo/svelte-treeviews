@@ -10,7 +10,7 @@ const warnIgnores = {
   'css-unused-selector': {
     capture: /.*"(.*)"$/,
     ignore: [
-      /^\.he-tree--rtl/,
+      /^\.he-tree--rtl/
       // /^\.p\d+/,
       // /^\.sm\d+/,
       // /^\.md\d+/,
@@ -33,16 +33,15 @@ export default defineConfig({
     rollupOptions: {
       // Explicitely ignore warnings
       onwarn: (warning, handler) => {
-     
         const { message, code } = warning;
         // @ts-ignore
         const patterns = warnIgnores[code];
 
-        console.log("HEEEERRREE "+code)
+        console.log('HEEEERRREE ' + code);
         if (patterns != undefined) {
           /* Find the meat. */
           const meat = message.match(patterns.capture);
-          console.log(meat)
+          console.log(meat);
           if (meat != null) {
             for (var i = 0; i < patterns.ignore.length; i++) {
               if (meat[1].match(patterns.ignore[i]) != null) {

@@ -72,7 +72,7 @@ export default [
       '@typescript-eslint/no-implicit-any': 'off',
       'implicit any': 'off',
       'no-async-promise-executor': 'off',
-      '@typescript-eslint/no-unsafe-function-type':'off'
+      '@typescript-eslint/no-unsafe-function-type': 'off'
     }
   }
 ];

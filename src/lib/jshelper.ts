@@ -932,7 +932,7 @@ export function joinRows<T, Y>(
   }
   const m1 = new Map<unknown, T>();
   const m2 = new Map<unknown, Y>();
-  const r = [];
+  const r: any = [];
   rows2.forEach((row, index) => {
     // @ts-ignore
     const key = typeof key2 === 'function' ? key2(row, index) : row[key2];
@@ -1183,7 +1183,7 @@ export class TreeData<Node> {
   }
   getParentAndIndex(path: TreeDataPath) {
     const parentPath = path.slice();
-    const index = parentPath.pop();
+    const index = parentPath.pop() as number;
     return { parent: this.get(parentPath), index, parentPath };
   }
   getParent(path: TreeDataPath) {
@@ -1452,8 +1452,8 @@ export function bindContext<T extends Function>(action: T, context: any): T {
  * @returns
  */
 export function cacheFunction<T extends Function>(func: T, options: { capacity?: number } = {}) {
-  const cachedArgsArr = [];
-  let map: ArrayKeyMap<any>;
+  const cachedArgsArr:any[] = [];
+  let map: ArrayKeyMap<any> | null;
   const defaultValue = {};
   let noArgsCache = defaultValue;
   const wrapped = function (...args: any[]) {
@@ -1470,7 +1470,7 @@ export function cacheFunction<T extends Function>(func: T, options: { capacity?:
       map.set(args, func(...args));
       if (options.capacity !== null) {
         cachedArgsArr.push(args);
-        const removed = cachedArgsArr.splice(0, cachedArgsArr.length - options.capacity);
+        const removed = cachedArgsArr.splice(0, cachedArgsArr.length - (options.capacity||0));
         for (const args of removed) {
           map.delete(args);
         }

@@ -29,7 +29,7 @@ const DragEventService = {
   isTouch(e: MouseEvent | TouchEvent) {
     return e.type && e.type.startsWith('touch');
   },
-  _getStore(el: Element| Document | Window) {
+  _getStore(el: Element | Document | Window) {
     // @ts-ignore
     if (!el._wrapperStore) {
       // @ts-ignore

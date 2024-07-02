@@ -8,7 +8,6 @@ export interface Stat {
   parent: Stat | null;
   children: Stat[];
   level: number;
-
   hidden: boolean;
   checked: boolean | 0; // 0 mean just part of children checked
   // 0 mean just part of children checked
@@ -22,21 +21,22 @@ export interface Stat {
   // used to identify if the data is a node or the data of the node
   isStat: true;
 
-  _ignoreCheckedOnce: boolean
+  _ignoreCheckedOnce?: boolean;
 }
 
-export interface OptionsStat extends Partial<Stat> {
-  noInitialization?: boolean;
-}
-
-export function statDefault():OptionsStat {
+export function statDefault(): Stat {
   return {
-    isStat: true,
+    data: null,
+    open: false,
+    parent: null,
+    children: [],
+    level: 0,
     hidden: false,
     checked: false,
+    draggable: null,
+    droppable: null,
     style: null,
     class: null,
-    draggable: null,
-    droppable: null
-  } 
+    isStat: true
+  };
 }

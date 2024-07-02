@@ -289,7 +289,7 @@
       windowOverPadding
     );
 
-    let updatedItems:Array<SlotAttributes<any>> = [];
+    let updatedItems: Array<SlotAttributes<any>> = [];
 
     const totalSize = sizeAndPositionManager.getTotalSize();
     const heightUnit = typeof height === 'number' ? 'px' : '';
