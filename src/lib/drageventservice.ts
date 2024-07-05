@@ -94,9 +94,8 @@ const DragEventService = {
     // 以下写法将会使打包工具认为hp是上下文, 导致打包整个hp
     // hp.on(el, events[name][0], wrapper, ...args)
 
-    //@ts-expect-error any
+
     const p0 = events[name][0];
-    //@ts-expect-error any
     const p1 = events[name][1];
     // @ts-ignore
     hp.on.call(null, el, p0, wrapper, ...[...args, ...mouseArgs]);
@@ -109,9 +108,7 @@ const DragEventService = {
     for (let i = store.length - 1; i >= 0; i--) {
       const { handler: handler2, wrapper } = store[i];
       if (handler === handler2) {
-        //@ts-expect-error any
         const p0 = events[name][0];
-        //@ts-expect-error any
         const p1 = events[name][1];
         hp.off.call(null, el, p0, wrapper, ...[...args, ...mouseArgs]);
         hp.off.call(null, el, p1, wrapper, ...[...args, ...mouseArgs]);

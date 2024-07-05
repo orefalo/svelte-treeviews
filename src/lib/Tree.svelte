@@ -1,7 +1,6 @@
 <script lang="ts">
   import { VirtualList } from '$lib/virtuallist';
   import TreeNode from './TreeNode.svelte';
-  import * as hp from './jshelper';
   import { TreeProcessor } from './treeutils';
   import { svelteMakeTreeProcessor } from './TreeProcessorSvelte.svelte';
   import type { Snippet } from 'svelte';
@@ -44,7 +43,7 @@
     onNodeClosed
   }: {
     // todo: rename to model
-    model: Array<unknown>;
+    model: Array<any>;
     updateBehavior?: 'modify' | 'new' | 'disabled';
     processor?: TreeProcessor<Stat>;
     childrenKey?: string;

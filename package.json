@@ -59,15 +59,15 @@
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@playwright/test": "^1.45.0",
+    "@playwright/test": "^1.45.1",
     "@sveltejs/adapter-static": "^3.0.2",
     "@sveltejs/kit": "^2.5.18",
     "@sveltejs/package": "2.3.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.0-next.3",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.9",
-    "@typescript-eslint/eslint-plugin": "^7.14.1",
-    "@typescript-eslint/parser": "^7.14.1",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
     "badge-maker": "^4.0.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
@@ -76,10 +76,10 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-gitignore": "^0.1.0",
     "eslint-plugin-svelte": "^2.41.0",
-    "globals": "^15.7.0",
+    "globals": "^15.8.0",
     "highlight.js": "^11.9.0",
     "husky": "^9.0.11",
-    "minify": "^11.2.1",
+    "minify": "^11.3.0",
     "prettier": "^3.3.2",
     "prettier-plugin-svelte": "^3.2.5",
     "rimraf": "^5.0.7",
@@ -89,11 +89,11 @@
     "svelte-highlight": "^7.6.1",
     "svelte-preprocess": "^6.0.1",
     "tslib": "^2.6.3",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.0-alpha.34",
-    "vite": "^5.3.2"
+    "vite": "^5.3.3"
   },
   "peerDependencies": {
-    "svelte": "5.0.0-next.168"
+    "svelte": "5.0.0-next.175"
   }
 }
