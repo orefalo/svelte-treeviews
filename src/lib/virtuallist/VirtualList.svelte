@@ -79,7 +79,7 @@
   }: {
     height: number | string;
     width: number | string;
-    model: any[];
+    model: any[] | null;
     modelCount: number;
     itemSize: VirtualItemSize;
     estimatedItemSize?: number;

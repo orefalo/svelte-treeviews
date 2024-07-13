@@ -8,16 +8,16 @@
 import { ALIGNMENT, type VirtualItemSize, type VirtualRange, type VirtualPosition } from '.';
 
 export default class SizeAndPositionManager {
-  private model: Array<any>;
+  private model: Array<any> | null;
   private modelCount: number;
   private itemSize: VirtualItemSize;
   private estimatedItemSize?: number;
-  private itemSizeAndPositionData: Record<number, VirtualPosition>;
+  private itemSizeAndPositionData: Array<VirtualPosition>;
   private lastMeasuredIndex: number;
   private totalSize?: number;
 
   constructor(
-    model: Array<any>,
+    model: Array<any> | null,
     modelCount: number,
     itemSize: VirtualItemSize,
     estimatedItemSize?: number
@@ -26,7 +26,7 @@ export default class SizeAndPositionManager {
     this.itemSize = itemSize;
     this.modelCount = modelCount;
     this.estimatedItemSize = estimatedItemSize;
-    this.itemSizeAndPositionData = {};
+    this.itemSizeAndPositionData = [];
     this.lastMeasuredIndex = -1;
 
     this.checkForMismatchItemSizeAndItemCount();
@@ -38,7 +38,7 @@ export default class SizeAndPositionManager {
     return typeof this.itemSize === 'function';
   }
 
-  updateConfig(itemSize: VirtualItemSize, itemCount: number, estimatedItemSize?: number) {
+  updateConfig(itemSize: VirtualItemSize, itemCount: number, estimatedItemSize?: number): void {
     if (itemCount !== undefined) {
       this.modelCount = itemCount;
     }
@@ -60,17 +60,17 @@ export default class SizeAndPositionManager {
     }
   }
 
-  checkForMismatchItemSizeAndItemCount() {
+  checkForMismatchItemSizeAndItemCount(): void {
     if (Array.isArray(this.itemSize) && this.itemSize.length < this.modelCount) {
       throw Error(`When itemSize is an array, itemSize.length can't be smaller than itemCount`);
     }
   }
 
-  getSize(index: number) {
+  getSize(index: number): number {
     const { itemSize } = this;
 
     if (typeof itemSize === 'function') {
-      return itemSize(this.model[index], index);
+      return this.model ? itemSize(this.model[index], index) : 0;
     }
 
     return Array.isArray(itemSize) ? itemSize[index] : itemSize;
@@ -80,7 +80,7 @@ export default class SizeAndPositionManager {
    * Compute the totalSize and itemSizeAndPositionData at the start,
    * only when itemSize is a number or an array.
    */
-  computeTotalSizeAndPositionData() {
+  computeTotalSizeAndPositionData(): void {
     let totalSize = 0;
     for (let i = 0; i < this.modelCount; i++) {
       const size = this.getSize(i);
@@ -96,7 +96,7 @@ export default class SizeAndPositionManager {
     this.totalSize = totalSize;
   }
 
-  getLastMeasuredIndex() {
+  getLastMeasuredIndex(): number {
     return this.lastMeasuredIndex;
   }
 
@@ -104,9 +104,10 @@ export default class SizeAndPositionManager {
    * This method returns the size and position for the item at the specified index.
    *
    */
-  getSizeAndPositionForIndex(index: number) {
+  getSizeAndPositionForIndex(index: number): VirtualPosition {
     if (index < 0 || index >= this.modelCount) {
-      throw Error(`Requested index ${index} is outside of range 0..${this.modelCount}`);
+      return { size: 0, offset: 0 };
+      // throw Error(`Requested index ${index} is outside of range 0..${this.modelCount}`);
     }
 
     return this.justInTime
@@ -118,7 +119,7 @@ export default class SizeAndPositionManager {
    * This is used when itemSize is a function.
    * just-in-time calculates (or used cached values) for items leading up to the index.
    */
-  getJustInTimeSizeAndPositionForIndex(index: number) {
+  getJustInTimeSizeAndPositionForIndex(index: number): VirtualPosition {
     if (index > this.lastMeasuredIndex) {
       const lastMeasuredSizeAndPosition = this.getSizeAndPositionOfLastMeasuredItem();
       let offset = lastMeasuredSizeAndPosition.offset + lastMeasuredSizeAndPosition.size;
@@ -144,7 +145,7 @@ export default class SizeAndPositionManager {
     return this.itemSizeAndPositionData[index];
   }
 
-  getSizeAndPositionOfLastMeasuredItem() {
+  getSizeAndPositionOfLastMeasuredItem(): VirtualPosition {
     return this.lastMeasuredIndex >= 0
       ? this.itemSizeAndPositionData[this.lastMeasuredIndex]
       : { offset: 0, size: 0 };
@@ -262,7 +263,7 @@ export default class SizeAndPositionManager {
    * It will not immediately perform any calculations; they'll be performed the next time getSizeAndPositionForIndex() is called.
    *
    */
-  resetItem(index: number) {
+  resetItem(index: number): void {
     this.lastMeasuredIndex = Math.min(this.lastMeasuredIndex, index - 1);
   }
 

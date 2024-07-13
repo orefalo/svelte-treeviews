@@ -2408,7 +2408,7 @@ export type GetCalendarDay = {
  * @returns [GetCalendarDay x 7][]
  */
 export function getCalendar(year: number, month: number, startWeekDay = 0): GetCalendarDay[][] {
-	const results = [];
+	const results: Array<{year,month,date,text,currentMonth?, prevMonth?:boolean, nextMonth?:boolean}> = [];
 	const date = new Date(year, month - 1);
 	year = date.getFullYear();
 	month = date.getMonth() + 1;
@@ -2874,7 +2874,7 @@ export const extendedSessionStorage = cacheFunction(function () {
  * 事件处理. 类似event bus
  */
 export class EventProcessor {
-	eventStore = [];
+	eventStore: Array<{name, handler}> = [];
 	on(name: string, handler: any) {
 		this.eventStore.push({ name, handler });
 	}
@@ -2908,7 +2908,7 @@ export class EventProcessor {
 		return { off: off2, promise };
 	}
 	off(name: string, handler: any) {
-		const indexes = []; // to remove indexes; reverse; 倒序的
+		const indexes:Array<number> = []; // to remove indexes; reverse; 倒序的
 		const len = this.eventStore.length;
 		for (let i = 0; i < len; i++) {
 			const item = this.eventStore[i];
@@ -2922,7 +2922,7 @@ export class EventProcessor {
 	}
 	emit(name: string, ...args: any[]) {
 		// 重要: 先找到要执行的项放在新数组里, 因为执行项会改变事件项存储数组
-		const items = [];
+		const items: Array<{handler}> = [];
 		for (const item of this.eventStore) {
 			if (item.name === name) {
 				items.push(item);
@@ -2939,7 +2939,7 @@ export class EventProcessor {
  */
 export class CrossWindowEventProcessor extends EventProcessor {
 	storageName = '_crossWindow';
-	windows = [];
+	windows:Array<string> = [];
 	timeout = 200;
 	id: string;
 	ready: Promise<void>;
@@ -3250,7 +3250,7 @@ export class ArrayKeyMap<T> {
 	}
 	set(keys: any[], value: T) {
 		const { _map, _values } = this;
-		let t = [];
+		let t:Array<string> = [];
 		for (const key of keys) {
 			let str: string;
 			let count = 1;

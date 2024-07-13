@@ -6,21 +6,21 @@ import {
   manualChunksForAnalyzing
 } from './scripts/vite/minified-size-analyzing.js';
 
-const warnIgnores = {
-  'css-unused-selector': {
-    capture: /.*"(.*)"$/,
-    ignore: [
-      /^\.he-tree--rtl/
-      // /^\.p\d+/,
-      // /^\.sm\d+/,
-      // /^\.md\d+/,
-      // /^\.lg\d+/,
-      // /^\.xg\d+/,
-      // /^\.all\d+/,
-      // /^\.row(::after)?/
-    ]
-  }
-};
+// const warnIgnores = {
+//   'css-unused-selector': {
+//     capture: /.*"(.*)"$/,
+//     ignore: [
+//       /^\.he-tree--rtl/
+//       // /^\.p\d+/,
+//       // /^\.sm\d+/,
+//       // /^\.md\d+/,
+//       // /^\.lg\d+/,
+//       // /^\.xg\d+/,
+//       // /^\.all\d+/,
+//       // /^\.row(::after)?/
+//     ]
+//   }
+// };
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig({

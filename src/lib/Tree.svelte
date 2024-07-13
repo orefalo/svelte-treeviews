@@ -188,29 +188,6 @@
     return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
   }
 
-  // const operations = {
-  //   //  getStat: reactiveFirstArg(processorMethodProxy('getStat')) as TreeProcessor['getStat'],
-  //   //  has: reactiveFirstArg(processorMethodProxy('has')) as TreeProcessor['has'],
-  //   //  updateCheck: processorMethodProxy('updateCheck') as TreeProcessor['updateCheck'],
-  //   //  getChecked: processorMethodProxy('getChecked') as TreeProcessor['getChecked'],
-  //   // getUnchecked: processorMethodProxy('getUnchecked') as TreeProcessor['getUnchecked'],
-  //   //  openAll: processorMethodProxy('openAll') as TreeProcessor['openAll'],
-  //   //closeAll: processorMethodProxy('closeAll') as TreeProcessor['closeAll'],
-  //   // openNodeAndParents: processorMethodProxy(
-  //   //   'openNodeAndParents'
-  //   // ) as TreeProcessor['openNodeAndParents'],
-  //   //isVisible: processorMethodProxy('isVisible') as TreeProcessor['isVisible'],
-  //   //move: processorMethodProxyWithBatchUpdate('move') as TreeProcessor['move'],
-  //   //add: reactiveFirstArg(processorMethodProxyWithBatchUpdate('add')) as TreeProcessor['add'],
-  //   // remove: processorMethodProxy('remove') as TreeProcessor['remove'],
-  //   // iterateParent: processorMethodProxy('iterateParent') as TreeProcessor['iterateParent'],
-  //   // getSiblings: processorMethodProxy('getSiblings') as TreeProcessor['getSiblings'],
-  //   // getData: processorMethodProxy('getData') as hp.ReplaceReturnType<
-  //   //   TreeProcessor['getData'],
-  //   //   any[]
-  //   // >
-  // };
-
   function addMulti(dataArr: any[], parent?: Stat | null, startIndex?: number | null) {
     batchUpdate(() => {
       let index = startIndex;
@@ -230,11 +207,6 @@
       }
     });
   }
-
-  // function getRootEl() {
-  // 	// @ts-ignore
-  // 	return this.$refs.vtlist.listElRef as HTMLElement;
-  // }
 
   function batchUpdate(task: () => any | Promise<any>) {
     const r = ignoreUpdate(task);
