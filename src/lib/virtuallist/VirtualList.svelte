@@ -389,13 +389,10 @@
 
     const { size, offset } = sizeAndPositionManager.getSizeAndPositionForIndex(index);
 
-    let style;
-
-    if (scrollDirection === DIRECTION.VERTICAL) {
-      style = `left:0;width:100%;height:${size}px;position:absolute;top:${offset}px;`;
-    } else {
-      style = `top:0;width:${size}px;position:absolute;height:100%;left:${offset}px;`;
-    }
+    const style =
+      scrollDirection === DIRECTION.VERTICAL
+        ? `left:0;width:100%;height:${size}px;position:absolute;top:${offset}px;`
+        : `top:0;width:${size}px;position:absolute;height:100%;left:${offset}px;`;
 
     return (styleCache[index] = style);
   }

@@ -897,7 +897,6 @@ export class ArrayKeyMap<T> {
   }
 }
 
-
 /**
  * lisiten multi events, and can stop and resume them. start listening by default. start is alias for resume
  * @param info
@@ -911,7 +910,7 @@ export function extendedListen(
     options?: boolean | AddEventListenerOptions
   ][]
 ) {
-  let destroyFuncs:Array<Function> = [];
+  let destroyFuncs: Array<Function> = [];
   const listenAll = () => {
     if (r.listening) {
       return;

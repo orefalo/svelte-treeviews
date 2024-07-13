@@ -94,7 +94,6 @@ const DragEventService = {
     // 以下写法将会使打包工具认为hp是上下文, 导致打包整个hp
     // hp.on(el, events[name][0], wrapper, ...args)
 
-
     const p0 = events[name][0];
     const p1 = events[name][1];
     // @ts-ignore

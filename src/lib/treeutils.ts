@@ -71,7 +71,7 @@ export class TreeProcessor<T> {
     // this.initialized = true;
   }
 
-  public getStat(nodeData: T) {
+  public getStat(nodeData: T): Stat {
     const r: Stat = this._statsMap!.get(nodeData)!;
     if (!r) {
       throw new StatNotFoundError(`Stat not found`);
@@ -79,7 +79,7 @@ export class TreeProcessor<T> {
     return r;
   }
 
-  public has(nodeData: T | Stat) {
+  public has(nodeData: T | Stat): boolean {
     if (nodeData['isStat']) {
       // @ts-ignore
       return this.statsFlat.indexOf(nodeData) > -1;
@@ -111,7 +111,7 @@ export class TreeProcessor<T> {
    * @param stat
    * @returns return false mean ignored
    */
-  public afterOneCheckChanged(stat: Stat) {
+  public afterOneCheckChanged(stat: Stat): boolean {
     const { checked } = stat;
     if (stat._ignoreCheckedOnce) {
       delete stat._ignoreCheckedOnce;
