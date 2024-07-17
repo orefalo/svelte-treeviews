@@ -302,7 +302,7 @@
       innerStyle = `min-height:100%;width:${totalSize}px;`;
     }
 
-    if (start !== undefined && end !== undefined) {
+    if (model && start !== undefined && end !== undefined) {
       for (let index = start; index <= end; index++) {
         updatedItems.push({
           item: model[index],

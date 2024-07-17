@@ -12,12 +12,9 @@
 </script>
 
 <div>
-  <h3>Base Tree</h3>
-  <div>
-    <h3>Drop</h3>
-  </div>
+  <h3>Base Tree Example</h3>
   <hr />
-  <h4>Props</h4>
+  <h4>Properties</h4>
   <label>
     <input type="checkbox" value={defaultOpen} />
     defaultOpen

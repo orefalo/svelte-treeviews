@@ -125,7 +125,7 @@
 </script>
 
 <div
-  class={`tree-node ${className}`}
+  class={`tree-node ${className ? className : ''}`}
   class:tree-node--with-tree-line={treeLine}
   style={`${style} ${indentStyle}`}>
   {#if treeLine}
@@ -142,8 +142,15 @@
 </div>
 
 <style>
-  .tree-node--with-tree-line {
-    position: relative;
+  .rtl {
+    direction: rtl;
+  }
+
+  .drag-placeholder {
+    background: #ddf2f9;
+    border: 1px dashed #00d9ff;
+    height: 22px;
+    width: 100%;
   }
 
   .tree-line {

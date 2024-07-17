@@ -16,20 +16,24 @@
     childrenKey = 'children',
     // json.key used for leaf nodes
     textKey = 'text',
-    // node indent.
+    // node indent in px
     indent = 20,
+    // Enable virtual list
     virtualization = false,
-    //  Render count for virtual list at start.
+    //  The number of rendered list items at initialization. Suits for SSR(Server Side Render).
     virtualizationPrerenderCount = 20,
     // Open all nodes by default.
     defaultOpen = true,
     statHandler,
-    // From right to left
+    // Display from right to left.
     rtl = false,
-    //From bottom to top
+    // Display bottom to top
     btt = false,
+    // Use index when rendering node's indexes or return a unique value.
     nodeKey = 'index',
+    // Display tree line.
     treeLine = false,
+    // Horizontal displacement of tree lines, unit: pixels.
     treeLineOffset = 8,
 
     // snippets
@@ -40,7 +44,8 @@
     onNodeChecked,
     onNodeClicked,
     onNodeOpened,
-    onNodeClosed
+    onNodeClosed,
+    onUpdateValue
   }: {
     // todo: rename to model
     model: Array<any>;
@@ -64,6 +69,7 @@
     onNodeClicked?: (e: Stat) => void;
     onNodeOpened?: (e: Stat) => void;
     onNodeClosed?: (e: Stat) => void;
+    onUpdateValue?: (e: Stat) => void;
   } = $props();
 
   let stats: TreeProcessor<Stat>['stats'] = $state([]);
@@ -105,12 +111,13 @@
     }
     return items.filter((stat: Stat) => isVisible(stat));
   }
+
   function rootChildren() {
     return stats;
   }
 
   function _emitValue(value: any[]) {
-    // @ts-ignore
+    // TODO fix this
     this.$emit('update:modelValue', value);
   }
   /**
@@ -129,65 +136,62 @@
     return true;
   }
 
+  // Get stat by node data.
   function getStat(statOrNodeData: any): Stat {
     return reactiveFirstArg(processorMethodProxy('getStat'))(statOrNodeData);
   }
 
+  // Detect the tree if has the stat of given node data.
   function has(statOrNodeData: Stat | any): boolean {
     return reactiveFirstArg(processorMethodProxy('has'))(statOrNodeData);
   }
 
+  // Recalculate checked state of all nodes from end to root
   function updateCheck(): void {
     return reactiveFirstArg(processorMethodProxy('updateCheck'))(undefined);
   }
 
+  // Get all checked nodes. Param withDemi means including half checked
   function getChecked(withDemi): Stat[] {
     return reactiveFirstArg(processorMethodProxy('getChecked'))(withDemi);
   }
 
+  // Get all unchecked nodes. Param withDemi means including half checked.
   function getUnchecked(withDemi): Stat[] {
     return reactiveFirstArg(processorMethodProxy('getUnchecked'))(withDemi);
   }
+
+  // Open all nodes
   function openAll(): void {
     return reactiveFirstArg(processorMethodProxy('openAll'))(undefined);
   }
 
-  function closeAll(): void {
-    return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
-  }
-
+  // Open a node and its all parents to make it visible. The argument nodeDataOrStat can be node data or node stat
   function openNodeAndParents(statOrNodeData: Stat | any): void {
     return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(statOrNodeData);
   }
 
+  // Close all nodes
+  function closeAll(): void {
+    return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
+  }
+
+  // Detect if node is visible. When parent invisible or closed, children are invisible. Param statOrNodeData can be node data or stat.
   function isVisible(statOrNodeData: Stat | any): boolean {
     return reactiveFirstArg(processorMethodProxy('isVisible'))(statOrNodeData);
   }
 
+  // Move node. parent is null means root. Similar to add
   function move(stat: Stat, parent: Stat | null, index: number) {
     return reactiveFirstArg(processorMethodProxy('move'))(stat, parent, index);
   }
 
+  // Add node. parent is null means root.
   function add(nodeData: any, parent?: Stat | null, index?: number | null): void {
     return reactiveFirstArg(processorMethodProxy('add'))(nodeData, parent, index);
   }
 
-  function remove(stat: Stat): boolean {
-    return reactiveFirstArg(processorMethodProxy('remove'))(stat);
-  }
-
-  function iterateParent(stat: Stat, opt?: { withSelf: boolean }) {
-    return reactiveFirstArg(processorMethodProxy('iterateParent'))(stat, opt);
-  }
-
-  function getSiblings(stat: Stat): Stat[] {
-    return reactiveFirstArg(processorMethodProxy('getSiblings'))(stat);
-  }
-
-  function getData(filter?: (data: any) => any, root?: Stat): any[] {
-    return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
-  }
-
+  // Add multiple continuously nodes. parent is null means root.
   function addMulti(dataArr: any[], parent?: Stat | null, startIndex?: number | null) {
     batchUpdate(() => {
       let index = startIndex;
@@ -200,6 +204,12 @@
     });
   }
 
+  // Remove node
+  function remove(stat: Stat): boolean {
+    return reactiveFirstArg(processorMethodProxy('remove'))(stat);
+  }
+
+  // Remove multiple nodes.
   function removeMulti(dataArr: any[]) {
     batchUpdate(() => {
       for (const data of dataArr) {
@@ -208,6 +218,31 @@
     });
   }
 
+  // Iterate all parents of a node. Param opt.withSelf means including it self
+  // ie.
+  // for (const parentStat of tree.iterateParent(nodeStat, { withSelf: false })) {
+  //
+  //}
+  function iterateParent(stat: Stat, opt?: { withSelf: boolean }) {
+    return reactiveFirstArg(processorMethodProxy('iterateParent'))(stat, opt);
+  }
+
+  // Get all siblings of a node including it self.
+  function getSiblings(stat: Stat): Stat[] {
+    return reactiveFirstArg(processorMethodProxy('getSiblings'))(stat);
+  }
+
+  // Get the root element of the tree component
+  function getRootEl() {
+    return el;
+  }
+
+  // Generate and get current data without stat. Param filter can handle each node data
+  function getData(filter?: (data: any) => any, root?: Stat): any[] {
+    return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
+  }
+
+  // Merge multiple data update actions, to make it only emit new data once
   function batchUpdate(task: () => any | Promise<any>) {
     const r = ignoreUpdate(task);
     if (!batchUpdateWaiting) {
@@ -254,7 +289,7 @@
 </script>
 
 <VirtualList
-  class={`he-tree${rtl ? ' he-tree--rtl rtl' : ''}${dragOvering ? 'he-tree--drag-overing drag-overing' : ''}`}
+  class={`he-tree${rtl ? ' he-tree--rtl rtl' : ''}${dragOvering ? ' he-tree--drag-overing drag-overing' : ''}`}
   header={prepend}
   footer={append}
   model={stats}
@@ -263,34 +298,36 @@
   modelCount={stats?.length || 0}
   itemSize={25}>
   {#snippet slot({ item: stat, style, index })}
-    <TreeNode
-      class={stat.class +
-        (stat.data === placeholderData ? ' drag-placeholder-wrapper' : '') +
-        (stat === dragNode ? 'dragging-node' : '')}
-      style={stat.style}
-      {stat}
-      {rtl}
-      {btt}
-      {indent}
-      {treeLine}
-      {treeLineOffset}
-      {processor}
-      onopen={(stat: Stat) => onNodeOpened && onNodeOpened(stat)}
-      onclose={(stat: Stat) => onNodeClosed && onNodeClosed(stat)}
-      oncheck={(stat: Stat) => onNodeChecked && onNodeChecked(stat)}>
-      {#snippet slot({ indentStyle }: { indentStyle: string })}
-        {#if stat.data === placeholderData}
-          <div class="drag-placeholder he-tree-drag-placeholder">DRAG PLACEHOLDER</div>
-        {:else}
-          <!-- <slot v-else :node="stat.data" :stat="stat" :indentStyle="indentStyle" :tree="self">{{ stat.data[textKey] }} -->
-          <div style={indentStyle}>{stat.data[textKey]}</div>
-        {/if}
-      {/snippet}
-    </TreeNode>
+    {#if stat}
+      <TreeNode
+        class={(stat.class ? stat.class : '') +
+          (stat.data === placeholderData ? ' drag-placeholder-wrapper' : '') +
+          (stat === dragNode ? 'dragging-node' : '')}
+        style={stat.style}
+        {stat}
+        {rtl}
+        {btt}
+        {indent}
+        {treeLine}
+        {treeLineOffset}
+        {processor}
+        onopen={(stat: Stat) => onNodeOpened && onNodeOpened(stat)}
+        onclose={(stat: Stat) => onNodeClosed && onNodeClosed(stat)}
+        oncheck={(stat: Stat) => onNodeChecked && onNodeChecked(stat)}>
+        {#snippet slot({ indentStyle }: { indentStyle: string })}
+          {#if stat.data === placeholderData}
+            <div class="drag-placeholder he-tree-drag-placeholder">DRAG PLACEHOLDER</div>
+          {:else}
+            <!-- <slot v-else :node="stat.data" :stat="stat" :indentStyle="indentStyle" :tree="self">{{ stat.data[textKey] }} -->
+            <div style={indentStyle}>{stat.data[textKey]}</div>
+          {/if}
+        {/snippet}
+      </TreeNode>
+    {/if}
   {/snippet}
 </VirtualList>
 
-<style>
+<style global>
   .he-tree--rtl {
     direction: rtl;
   }
