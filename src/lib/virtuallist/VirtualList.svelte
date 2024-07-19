@@ -39,7 +39,8 @@
     type AfterScrollEvent,
     type SlotAttributes,
     type VirtualRangeEvent,
-    type VirtualItemSize
+    type VirtualItemSize,
+    type VirtualListModel
   } from '.';
 
   const {
@@ -53,6 +54,8 @@
     // usefull when using a partial loader
     estimatedItemSize,
     getKey,
+
+    isDisabled,
 
     // positioning
     scrollToIndex,
@@ -79,11 +82,14 @@
   }: {
     height: number | string;
     width: number | string;
-    model: any[] | null;
+    model: VirtualListModel<any>[];
     modelCount: number;
     itemSize: VirtualItemSize;
     estimatedItemSize?: number;
     getKey?: (i: number | string) => string;
+
+    isDisabled?: boolean;
+
     // positioning
     scrollToIndex?: number | undefined;
     scrollOffset?: number | undefined;
@@ -281,6 +287,8 @@
   }
 
   function refresh() {
+    if (model.length === 0 || isDisabled) return;
+
     const { offset } = curState;
     let { start, end } = sizeAndPositionManager.getVisibleRange(
       //@ts-expect-error wrong type assignment
@@ -407,15 +415,20 @@
     {@render header()}
   {/if}
   <div class="virtual-list-inner" style={innerStyle}>
-    {#each visibleItems as el}
-      {@render slot({
-        item: el.item,
-        style: el.style,
-        index: getKey ? getKey(el.index) : el.index
-      })}
-    {/each}
+    {#if isDisabled}
+      {#each model as el}
+        {@render slot(el)}
+      {/each}
+    {:else}
+      {#each visibleItems as el}
+        {@render slot({
+          item: el.item,
+          style: el.style,
+          index: getKey ? getKey(el.index) : el.index
+        })}
+      {/each}
+    {/if}
   </div>
-
   {#if footer}
     {@render footer()}
   {/if}

@@ -769,8 +769,12 @@ export function binarySearch<T>(
     maxTimes: 1000,
     ...opt
   };
-  let { start, end } = opt;
-  const { returnNearestIfNoHit, maxTimes } = opt;
+  let start = opt.start as number
+  let end = opt.end as number
+  const returnNearestIfNoHit=opt.returnNearestIfNoHit
+  const maxTimes = opt.maxTimes as number
+ // let { start, end } = opt;
+ //  const { returnNearestIfNoHit, maxTimes } = opt;
   let midNum;
   let mid;
   if (!start) {

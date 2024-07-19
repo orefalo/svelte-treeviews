@@ -26,15 +26,15 @@ export interface Options extends Partial<COptions> {
 
 export class TreeProcessor {
   public nodeData: NodeData;
-  public nodeInfos: NodeInfo[] | null;
-  public nodeInfosFlat: NodeInfo[] | null;
+  public nodeInfos: NodeInfo[];
+  public nodeInfosFlat: NodeInfo[];
   private _infosMap: Map<NodeData, NodeInfo> | null;
 
   private options: COptions;
 
   constructor(opt?: COptions) {
-    this.nodeInfos = null;
-    this.nodeInfosFlat = null;
+    this.nodeInfos = [];
+    this.nodeInfosFlat = [];
     this._infosMap = null;
 
     this.options = opt ? opt : new COptions();
@@ -73,7 +73,7 @@ export class TreeProcessor {
   public getStat(nodeData: NodeData): NodeInfo {
     const r: NodeInfo = this._infosMap!.get(nodeData)!;
     if (!r) {
-      throw new StatNotFoundError(`Stat not found`);
+      throw new NodeInfoNotFoundError("NodeInfo not found");
     }
     return r;
   }
@@ -88,7 +88,7 @@ export class TreeProcessor {
         const r = this.getStat(nodeInfoOrNodeData);
         return Boolean(r);
       } catch (error) {
-        if (error instanceof StatNotFoundError) {
+        if (error instanceof NodeInfoNotFoundError) {
           return false;
         }
         throw error;
@@ -165,6 +165,7 @@ export class TreeProcessor {
       }
     }, 100);
   }
+
   private isVisible(nodeInfoOrNodeData: NodeData | NodeInfo) {
     // @ts-ignore
     const nodeInfo: NodeInfo = nodeInfoOrNodeData["isNodeInfo"] ? nodeInfoOrNodeData : this.getStat(nodeInfoOrNodeData); // prettier-ignore
@@ -399,7 +400,7 @@ export class TreeProcessor {
   }
 }
 
-class StatNotFoundError extends Error {
+class NodeInfoNotFoundError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'StatNotFoundError';

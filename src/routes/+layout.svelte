@@ -24,7 +24,7 @@
     {
       title: 'General Examples',
       pages: [
-        { title: 'Vertical', path: '/examples/vertical' }
+        { title: 'Basic Tree', path: '/examples/basictree' }
         // { title: 'Horizontal', path: '/examples/horizontal' },
         // { title: 'Variable Height', path: '/examples/variableheight' },
         // { title: 'Positioning', path: '/examples/positioning' },

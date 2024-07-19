@@ -39,7 +39,7 @@
     onclose: (nodeInfo: NodeInfo) => void;
     oncheck: (nodeInfo: NodeInfo) => void;
 
-    slot: Snippet<[{ nodeData: any; nodeInfo: NodeInfo; tree }]>;
+    slot: Snippet<[{ nodeData: any; nodeInfo: NodeInfo; }]>;
   } = $props();
 
   let indentStyle = $derived(
@@ -105,14 +105,14 @@
     };
     const leftOrRight = rtl ? 'right' : 'left';
     const bottomOrTop = btt ? 'top' : 'bottom';
-    
+
     let current: NodeInfo | null = nodeInfo;
     while (current) {
       const left = (current.level - 2) * indent + treeLineOffset;
       const hasNext = hasNextVisibleNode(current);
       const addLine = () => {
         lines.push({
-          style: `${leftOrRight}:${left}px;${bottomOrTop}:${hasNext ? 0 : '50%'}`
+          style: `${leftOrRight}:${left}px;${bottomOrTop}:${hasNext ? '0' : '50%'}`
         });
       };
       if (current === nodeInfo) {
@@ -135,13 +135,13 @@
   {#if treeLine}
     {#each vLines as line}
       <div class="tree-line tree-vline" style={line.style}></div>
-      {#if nodeInfo.level > 1}
-        <div class="tree-line tree-hline" style={hLineStyle}></div>
-      {/if}
     {/each}
+    {#if nodeInfo.level > 1}
+      <div class="tree-line tree-hline" style={hLineStyle}></div>
+    {/if}
   {/if}
   <div class="tree-node-inner">
-    {@render slot({})}
+    {@render slot({ nodeData: nodeInfo.nodeData, nodeInfo: nodeInfo })}
   </div>
 </div>
 

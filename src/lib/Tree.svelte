@@ -3,7 +3,6 @@
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor';
   import { svelteMakeTreeProcessor } from './TreeProcessor.svelte.js';
-  import type { Snippet } from 'svelte';
   import type { NodeData, NodeInfo } from './NodeInfo';
 
   let {
@@ -73,7 +72,7 @@
     onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
   } = $props();
 
-  let NodeInfos: TreeProcessor['nodeInfos'] = $state([]);
+  let nodeInfos: TreeProcessor['nodeInfos'] = $state([]);
   let statsFlat: TreeProcessor['nodeInfosFlat'] = [];
   let dragNode: NodeInfo | null = null;
   let dragOvering: boolean = false;
@@ -98,7 +97,7 @@
       //const { processor } = this
       processor.nodeData = model;
       processor.init();
-      NodeInfos = processor.nodeInfos!;
+      nodeInfos = processor.nodeInfos!;
       statsFlat = processor.nodeInfosFlat!;
     }
   });
@@ -114,7 +113,7 @@
   }
 
   function rootChildren() {
-    return NodeInfos;
+    return nodeInfos;
   }
 
   function _emitValue(value: any[]) {
@@ -283,18 +282,18 @@
 
 <VirtualList
   class={`he-tree${rtl ? ' he-tree--rtl rtl' : ''}${dragOvering ? ' he-tree--drag-overing drag-overing' : ''}`}
-  model={NodeInfos}
+  model={nodeInfos}
   height={500}
   width="auto"
-  modelCount={NodeInfos?.length || 0}
+  modelCount={nodeInfos?.length || 0}
   itemSize={25}>
-  {#snippet slot({ item: stat, style, index })}
-    {#if stat}
+  {#snippet slot({ item: nodeInfo, style, index })}
+    {#if nodeInfo}
       <TreeNode
-        class={(stat.class ? stat.class : '') +
-          (stat.data === placeholderData ? ' drag-placeholder-wrapper' : '') +
-          (stat === dragNode ? 'dragging-node' : '')}
-        style={stat.style}
+        class={(nodeInfo.class ? nodeInfo.class : '') +
+          (nodeInfo.data === placeholderData ? ' drag-placeholder-wrapper' : '') +
+          (nodeInfo === dragNode ? ' dragging-node' : '')}
+        style={nodeInfo.style}
         {nodeInfo}
         {rtl}
         {btt}
@@ -302,15 +301,16 @@
         {treeLine}
         {treeLineOffset}
         {processor}
-        onopen={(stat: NodeInfo) => onNodeOpened && onNodeOpened(stat)}
-        onclose={(stat: NodeInfo) => onNodeClosed && onNodeClosed(stat)}
-        oncheck={(stat: NodeInfo) => onNodeChecked && onNodeChecked(stat)}>
+        onopen={(nodeInfo: NodeInfo) => onNodeOpened && onNodeOpened(nodeInfo)}
+        onclose={(nodeInfo: NodeInfo) => onNodeClosed && onNodeClosed(nodeInfo)}
+        oncheck={(nodeInfo: NodeInfo) => onNodeChecked && onNodeChecked(nodeInfo)}>
         {#snippet slot()}
-          {#if stat.data === placeholderData}
+          {#if nodeInfo.data === placeholderData}
             <div class="drag-placeholder he-tree-drag-placeholder">DRAG PLACEHOLDER</div>
           {:else}
             <!-- <slot v-else :node="stat.data" :stat="stat" :indentStyle="indentStyle" :tree="self">{{ stat.data[textKey] }} -->
-            <div style={indentStyle}>{stat.data[textKey]}</div>
+            <!-- <div style={indentStyle}>{nodeInfo.data[textKey]}</div> -->
+            <div>{nodeInfo.data[textKey]}</div>
           {/if}
         {/snippet}
       </TreeNode>
