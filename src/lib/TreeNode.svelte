@@ -1,9 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import type { Stat } from './Stat';
+  import type { NodeInfo } from './NodeInfo';
+
+  const _emptyFunction = () => {};
 
   let {
-    stat,
+    nodeInfo,
     // right or left layout
     rtl = false,
     // bottomOrTop
@@ -12,61 +14,62 @@
     treeLine = true,
     treeLineOffset = 10,
     processor,
-
-    class: className,
-    style,
+    class: className = '',
+    style = '',
 
     // events
-    onopen,
-    onclose,
-    oncheck,
+    onopen = _emptyFunction,
+    onclose = _emptyFunction,
+    oncheck = _emptyFunction,
 
     // snippets
     slot
   }: {
-    stat: Stat;
+    nodeInfo: NodeInfo;
     rtl: boolean;
     btt: boolean;
     indent: number;
     treeLine: boolean;
     treeLineOffset: number;
-    processor?: { afterOneCheckChanged: (s: Stat) => boolean };
+    processor?: { afterOneCheckChanged: (s: NodeInfo) => boolean };
     class: string;
     style: string;
 
-    onopen?: (stat: Stat) => void;
-    onclose?: Function /*(stat: Stat) => void;*/;
-    oncheck?: (stat: Stat) => void;
-    slot: Snippet<[{ indentStyle: string }]>;
+    onopen: (nodeInfo: NodeInfo) => void;
+    onclose: (nodeInfo: NodeInfo) => void;
+    oncheck: (nodeInfo: NodeInfo) => void;
+
+    slot: Snippet<[{ nodeData: any; nodeInfo: NodeInfo; tree }]>;
   } = $props();
 
-  let indentStyle: string = $derived(
-    `${!rtl ? 'paddingLeft' : 'paddingRight'}:${indent * (stat.level - 1)}px`
+  let indentStyle = $derived(
+    `${!rtl ? 'paddingLeft' : 'paddingRight'}:${indent * (nodeInfo.level - 1)}px`
   );
+
   let hLineStyle = $derived(
-    `${rtl ? 'right' : 'left'}:${(stat.level - 2) * indent + treeLineOffset}px`
+    `${rtl ? 'right' : 'left'}:${(nodeInfo.level - 2) * indent + treeLineOffset}px`
   );
 
   $effect(() => {
-    const open = stat.open;
+    const open = nodeInfo.open;
 
     if (justToggleOpen) {
       return;
     }
-    open ? onopen?.(stat) : onclose?.(stat);
+    open ? onopen(nodeInfo) : onclose(nodeInfo);
 
     afterToggleOpen();
   });
 
   $effect(() => {
-    const checked = stat.checked;
+    const checked = nodeInfo.checked;
     // fix issue: https://github.com/phphe/he-tree/issues/98
     // when open/close above node, the after nodes' states 'checked' and 'open' will be updated. It should be caused by Vue's key. We don't use Vue's key prop.
     if (justToggleOpen) {
       return;
     }
-    if (processor?.afterOneCheckChanged(stat)) {
-      oncheck?.(stat);
+    if (processor?.afterOneCheckChanged(nodeInfo)) {
+      oncheck(nodeInfo);
     }
   });
 
@@ -78,16 +81,16 @@
     }, 100);
   };
 
-  let vLines: Array<{
+  const vLines: Array<{
     style: string;
   }> = $derived.by(() => {
     const lines: Array<{ style: string }> = [];
-    const hasNextVisibleNode = (stat: Stat) => {
-      if (stat.parent) {
-        let i = stat.parent?.children.indexOf(stat);
+    const hasNextVisibleNode = (nodeInfo: NodeInfo) => {
+      if (nodeInfo.parent) {
+        let i = nodeInfo.parent?.children.indexOf(nodeInfo);
         do {
           i++;
-          let next = stat.parent.children[i];
+          const next = nodeInfo.parent.children[i];
           if (next) {
             if (!next.hidden) {
               return true;
@@ -102,16 +105,17 @@
     };
     const leftOrRight = rtl ? 'right' : 'left';
     const bottomOrTop = btt ? 'top' : 'bottom';
-    let current: Stat | null = stat;
+    
+    let current: NodeInfo | null = nodeInfo;
     while (current) {
-      let left = (current.level - 2) * indent + treeLineOffset;
+      const left = (current.level - 2) * indent + treeLineOffset;
       const hasNext = hasNextVisibleNode(current);
       const addLine = () => {
         lines.push({
           style: `${leftOrRight}:${left}px;${bottomOrTop}:${hasNext ? 0 : '50%'}`
         });
       };
-      if (current === stat) {
+      if (current === nodeInfo) {
         if (current.level > 1) {
           addLine();
         }
@@ -125,19 +129,19 @@
 </script>
 
 <div
-  class={`tree-node ${className ? className : ''}`}
+  class={`tree-node ${className}`}
   class:tree-node--with-tree-line={treeLine}
   style={`${style} ${indentStyle}`}>
   {#if treeLine}
     {#each vLines as line}
       <div class="tree-line tree-vline" style={line.style}></div>
-      {#if stat.level > 1}
+      {#if nodeInfo.level > 1}
         <div class="tree-line tree-hline" style={hLineStyle}></div>
       {/if}
     {/each}
   {/if}
   <div class="tree-node-inner">
-    {@render slot({ indentStyle })}
+    {@render slot({})}
   </div>
 </div>
 

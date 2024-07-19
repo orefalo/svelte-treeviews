@@ -11,4 +11,4 @@
 !.env.example
 *.log
 .eslintcache
-vite.config.js.timestamp-*
+vite.config.js.timestamp-*.idea

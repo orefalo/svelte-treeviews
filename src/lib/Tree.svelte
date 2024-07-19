@@ -1,13 +1,15 @@
 <script lang="ts">
   import { VirtualList } from '$lib/virtuallist';
   import TreeNode from './TreeNode.svelte';
-  import { TreeProcessor } from './treeutils';
-  import { svelteMakeTreeProcessor } from './TreeProcessorSvelte.svelte';
+  import { TreeProcessor } from './TreeProcessor';
+  import { svelteMakeTreeProcessor } from './TreeProcessor.svelte.js';
   import type { Snippet } from 'svelte';
-  import type { Stat } from './Stat';
+  import type { NodeData, NodeInfo } from './NodeInfo';
 
   let {
     model,
+
+    // specifies how onUpdateValue() is triggered
     updateBehavior = 'modify',
     processor = svelteMakeTreeProcessor([], {
       noInitialization: true
@@ -24,7 +26,7 @@
     virtualizationPrerenderCount = 20,
     // Open all nodes by default.
     defaultOpen = true,
-    statHandler,
+
     // Display from right to left.
     rtl = false,
     // Display bottom to top
@@ -36,10 +38,7 @@
     // Horizontal displacement of tree lines, unit: pixels.
     treeLineOffset = 8,
 
-    // snippets
-    prepend,
-    append,
-
+    statHandler,
     //
     onNodeChecked,
     onNodeClicked,
@@ -47,38 +46,40 @@
     onNodeClosed,
     onUpdateValue
   }: {
-    // todo: rename to model
-    model: Array<any>;
+    model: Array<NodeData>;
     updateBehavior?: 'modify' | 'new' | 'disabled';
-    processor?: TreeProcessor<Stat>;
+    processor?: TreeProcessor;
     childrenKey?: string;
     textKey?: string;
     indent?: number;
     virtualization?: boolean;
     virtualizationPrerenderCount?: number;
     defaultOpen?: boolean;
-    statHandler?: (stat: Stat) => Stat;
+    statHandler?: (nodeInfo: NodeInfo) => NodeInfo;
     rtl?: boolean;
     btt?: boolean;
-    nodeKey?: 'index' | ((stat: Stat, index: number) => any);
+    nodeKey?: 'index' | ((nodeInfo: NodeInfo, index: number) => any);
     treeLine?: boolean;
     treeLineOffset?: number;
-    prepend?: Snippet;
-    append?: Snippet;
-    onNodeChecked?: (e: Stat) => void;
-    onNodeClicked?: (e: Stat) => void;
-    onNodeOpened?: (e: Stat) => void;
-    onNodeClosed?: (e: Stat) => void;
-    onUpdateValue?: (e: Stat) => void;
+    // Triggered when node checked changed
+    onNodeChecked?: (e: NodeInfo) => void;
+    // Triggered when click node
+    onNodeClicked?: (e: NodeInfo) => void;
+    // Triggered when close node
+    onNodeOpened?: (e: NodeInfo) => void;
+    // Triggered when open node
+    onNodeClosed?: (e: NodeInfo) => void;
+    // Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior
+    onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
   } = $props();
 
-  let stats: TreeProcessor<Stat>['stats'] = $state([]);
-  let statsFlat: TreeProcessor<Stat>['statsFlat'] = [];
-  let dragNode: Stat | null = null;
+  let NodeInfos: TreeProcessor['nodeInfos'] = $state([]);
+  let statsFlat: TreeProcessor['nodeInfosFlat'] = [];
+  let dragNode: NodeInfo | null = null;
   let dragOvering: boolean = false;
   let placeholderData: {} = {};
-  let placeholderColspan: number = 1;
   let batchUpdateWaiting: boolean = false;
+
   let _ignoreValueChangeOnce: boolean = false;
 
   function valueComputed() {
@@ -95,25 +96,25 @@
       _ignoreValueChangeOnce = false;
     } else {
       //const { processor } = this
-      processor.data = model;
+      processor.nodeData = model;
       processor.init();
-      stats = processor.stats!;
-      statsFlat = processor.statsFlat!;
+      NodeInfos = processor.nodeInfos!;
+      statsFlat = processor.nodeInfosFlat!;
     }
   });
 
-  function visibleStats(): Stat[] {
+  function visibleStats(): NodeInfo[] {
     // const { statsFlat, isVisible } = this;
     let items = statsFlat || [];
     if (btt) {
       items = items.slice();
       items.reverse();
     }
-    return items.filter((stat: Stat) => isVisible(stat));
+    return items.filter((stat: NodeInfo) => isVisible(stat));
   }
 
   function rootChildren() {
-    return stats;
+    return NodeInfos;
   }
 
   function _emitValue(value: any[]) {
@@ -137,13 +138,13 @@
   }
 
   // Get stat by node data.
-  function getStat(statOrNodeData: any): Stat {
-    return reactiveFirstArg(processorMethodProxy('getStat'))(statOrNodeData);
+  function getNodeInfo(NodeInfoOrNodeData: any): NodeInfo {
+    return reactiveFirstArg(processorMethodProxy('getNodeInfo'))(NodeInfoOrNodeData);
   }
 
   // Detect the tree if has the stat of given node data.
-  function has(statOrNodeData: Stat | any): boolean {
-    return reactiveFirstArg(processorMethodProxy('has'))(statOrNodeData);
+  function has(NodeInfoOrNodeData: NodeInfo | any): boolean {
+    return reactiveFirstArg(processorMethodProxy('has'))(NodeInfoOrNodeData);
   }
 
   // Recalculate checked state of all nodes from end to root
@@ -152,12 +153,12 @@
   }
 
   // Get all checked nodes. Param withDemi means including half checked
-  function getChecked(withDemi): Stat[] {
+  function getChecked(withDemi): NodeInfo[] {
     return reactiveFirstArg(processorMethodProxy('getChecked'))(withDemi);
   }
 
   // Get all unchecked nodes. Param withDemi means including half checked.
-  function getUnchecked(withDemi): Stat[] {
+  function getUnchecked(withDemi): NodeInfo[] {
     return reactiveFirstArg(processorMethodProxy('getUnchecked'))(withDemi);
   }
 
@@ -167,8 +168,8 @@
   }
 
   // Open a node and its all parents to make it visible. The argument nodeDataOrStat can be node data or node stat
-  function openNodeAndParents(statOrNodeData: Stat | any): void {
-    return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(statOrNodeData);
+  function openNodeAndParents(NodeInfoOrNodeData: NodeInfo | any): void {
+    return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(NodeInfoOrNodeData);
   }
 
   // Close all nodes
@@ -177,22 +178,22 @@
   }
 
   // Detect if node is visible. When parent invisible or closed, children are invisible. Param statOrNodeData can be node data or stat.
-  function isVisible(statOrNodeData: Stat | any): boolean {
-    return reactiveFirstArg(processorMethodProxy('isVisible'))(statOrNodeData);
+  function isVisible(NodeInfoOrNodeData: NodeInfo | any): boolean {
+    return reactiveFirstArg(processorMethodProxy('isVisible'))(NodeInfoOrNodeData);
   }
 
   // Move node. parent is null means root. Similar to add
-  function move(stat: Stat, parent: Stat | null, index: number) {
+  function move(stat: NodeInfo, parent: NodeInfo | null, index: number) {
     return reactiveFirstArg(processorMethodProxy('move'))(stat, parent, index);
   }
 
   // Add node. parent is null means root.
-  function add(nodeData: any, parent?: Stat | null, index?: number | null): void {
+  function add(nodeData: any, parent?: NodeInfo | null, index?: number | null): void {
     return reactiveFirstArg(processorMethodProxy('add'))(nodeData, parent, index);
   }
 
   // Add multiple continuously nodes. parent is null means root.
-  function addMulti(dataArr: any[], parent?: Stat | null, startIndex?: number | null) {
+  function addMulti(dataArr: any[], parent?: NodeInfo | null, startIndex?: number | null) {
     batchUpdate(() => {
       let index = startIndex;
       for (const data of dataArr) {
@@ -205,8 +206,8 @@
   }
 
   // Remove node
-  function remove(stat: Stat): boolean {
-    return reactiveFirstArg(processorMethodProxy('remove'))(stat);
+  function remove(nodeInfo: NodeInfo): boolean {
+    return reactiveFirstArg(processorMethodProxy('remove'))(nodeInfo);
   }
 
   // Remove multiple nodes.
@@ -219,39 +220,31 @@
   }
 
   // Iterate all parents of a node. Param opt.withSelf means including it self
-  // ie.
-  // for (const parentStat of tree.iterateParent(nodeStat, { withSelf: false })) {
-  //
-  //}
-  function iterateParent(stat: Stat, opt?: { withSelf: boolean }) {
+  // ie. for (const parentStat of tree.iterateParent(nodeStat, { withSelf: false })) { ... }
+  function iterateParent(stat: NodeInfo, opt?: { withSelf: boolean }) {
     return reactiveFirstArg(processorMethodProxy('iterateParent'))(stat, opt);
   }
 
   // Get all siblings of a node including it self.
-  function getSiblings(stat: Stat): Stat[] {
+  function getSiblings(stat: NodeInfo): NodeInfo[] {
     return reactiveFirstArg(processorMethodProxy('getSiblings'))(stat);
   }
 
-  // Get the root element of the tree component
-  function getRootEl() {
-    return el;
-  }
-
   // Generate and get current data without stat. Param filter can handle each node data
-  function getData(filter?: (data: any) => any, root?: Stat): any[] {
+  function getData(filter?: (data: any) => any, root?: NodeInfo): any[] {
     return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
   }
 
   // Merge multiple data update actions, to make it only emit new data once
   function batchUpdate(task: () => any | Promise<any>) {
-    const r = ignoreUpdate(task);
+    const r = _ignoreUpdate(task);
     if (!batchUpdateWaiting) {
       _updateValue(updateBehavior === 'new' ? getData() : valueComputed());
     }
     return r;
   }
 
-  function ignoreUpdate(task: () => any | Promise<any>) {
+  function _ignoreUpdate(task: () => any | Promise<any>) {
     const old = batchUpdateWaiting;
     batchUpdateWaiting = true;
     const r = task();
@@ -290,12 +283,10 @@
 
 <VirtualList
   class={`he-tree${rtl ? ' he-tree--rtl rtl' : ''}${dragOvering ? ' he-tree--drag-overing drag-overing' : ''}`}
-  header={prepend}
-  footer={append}
-  model={stats}
+  model={NodeInfos}
   height={500}
   width="auto"
-  modelCount={stats?.length || 0}
+  modelCount={NodeInfos?.length || 0}
   itemSize={25}>
   {#snippet slot({ item: stat, style, index })}
     {#if stat}
@@ -304,17 +295,17 @@
           (stat.data === placeholderData ? ' drag-placeholder-wrapper' : '') +
           (stat === dragNode ? 'dragging-node' : '')}
         style={stat.style}
-        {stat}
+        {nodeInfo}
         {rtl}
         {btt}
         {indent}
         {treeLine}
         {treeLineOffset}
         {processor}
-        onopen={(stat: Stat) => onNodeOpened && onNodeOpened(stat)}
-        onclose={(stat: Stat) => onNodeClosed && onNodeClosed(stat)}
-        oncheck={(stat: Stat) => onNodeChecked && onNodeChecked(stat)}>
-        {#snippet slot({ indentStyle }: { indentStyle: string })}
+        onopen={(stat: NodeInfo) => onNodeOpened && onNodeOpened(stat)}
+        onclose={(stat: NodeInfo) => onNodeClosed && onNodeClosed(stat)}
+        oncheck={(stat: NodeInfo) => onNodeChecked && onNodeChecked(stat)}>
+        {#snippet slot()}
           {#if stat.data === placeholderData}
             <div class="drag-placeholder he-tree-drag-placeholder">DRAG PLACEHOLDER</div>
           {:else}

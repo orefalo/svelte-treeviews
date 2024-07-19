@@ -1,5 +1,5 @@
 import * as hp from './jshelper';
-import { statDefault, type Stat } from './Stat';
+import { defaults, type NodeInfo, type NodeData } from './NodeInfo';
 
 export const CHILDREN = 'children'; // inner childrenKey
 
@@ -7,16 +7,16 @@ class COptions {
   childrenKey: string = 'children';
   defaultOpen: boolean = false;
 
-  public statsHandler(stats: Stat[]) {
+  public statsHandler(stats: NodeInfo[]) {
     return stats;
   }
-  public statsFlatHandler(statsFlat: Stat[]) {
+  public statsFlatHandler(statsFlat: NodeInfo[]) {
     return statsFlat;
   }
-  public afterSetStat(_stat: Stat, _parent: Stat | null, _index: number) {}
-  public afterRemoveStat(_stat: Stat) {}
-  public statHandler(stat: Stat) {
-    return stat;
+  public afterSetStat(_stat: NodeInfo, _parent: NodeInfo | null, _index: number) {}
+  public afterRemoveStat(_stat: NodeInfo) {}
+  public statHandler(nodeInfo: NodeInfo) {
+    return nodeInfo;
   }
 }
 
@@ -24,69 +24,68 @@ export interface Options extends Partial<COptions> {
   noInitialization?: boolean;
 }
 
-export class TreeProcessor<T> {
-  public data: any;
-  public stats: Stat[] | null;
-  public statsFlat: Stat[] | null;
-  private _statsMap: Map<T, Stat> | null;
-  //  private initialized: boolean;
+export class TreeProcessor {
+  public nodeData: NodeData;
+  public nodeInfos: NodeInfo[] | null;
+  public nodeInfosFlat: NodeInfo[] | null;
+  private _infosMap: Map<NodeData, NodeInfo> | null;
 
   private options: COptions;
 
   constructor(opt?: COptions) {
-    this.stats = null;
-    this.statsFlat = null;
-    this._statsMap = null;
-    // this.initialized = false;
+    this.nodeInfos = null;
+    this.nodeInfosFlat = null;
+    this._infosMap = null;
+
     this.options = opt ? opt : new COptions();
   }
 
   public init() {
     const { childrenKey } = this.options;
-    const td = new hp.TreeData([] as Stat[]);
-    this._statsMap = new Map();
+    const td = new hp.TreeData([] as NodeInfo[]);
+    this._infosMap = new Map();
     hp.walkTreeData(
-      this.data,
+      this.nodeData,
       (nodeData, index, parent, path) => {
-        const stat = this.options.statHandler({
-          ...statDefault(),
-          data: nodeData,
+        const nodeInfo = this.options.statHandler({
+          ...defaults(),
+          nodeData: nodeData,
           open: Boolean(this.options.defaultOpen),
           parent: td.getParent(path),
           children: [],
           level: path.length
         });
-        this._statsMap!.set(nodeData, stat);
-        td.set(path, stat);
+        this._infosMap!.set(nodeData, nodeInfo);
+        td.set(path, nodeInfo);
       },
       { childrenKey }
     );
 
     const statsFlat: typeof td.rootChildren = [];
-    td.walk(stat => {
-      statsFlat.push(stat);
+    td.walk(nodeInfo => {
+      statsFlat.push(nodeInfo);
     });
-    this.stats = this.options.statsHandler(td.rootChildren);
-    this.statsFlat = this.options.statsFlatHandler(statsFlat);
+    this.nodeInfos = this.options.statsHandler(td.rootChildren);
+    this.nodeInfosFlat = this.options.statsFlatHandler(statsFlat);
     // this.initialized = true;
   }
 
-  public getStat(nodeData: T): Stat {
-    const r: Stat = this._statsMap!.get(nodeData)!;
+  public getStat(nodeData: NodeData): NodeInfo {
+    const r: NodeInfo = this._infosMap!.get(nodeData)!;
     if (!r) {
       throw new StatNotFoundError(`Stat not found`);
     }
     return r;
   }
 
-  public has(nodeData: T | Stat): boolean {
-    if (nodeData['isStat']) {
+  public has(nodeInfoOrNodeData: NodeData | NodeInfo): boolean {
+    if (nodeInfoOrNodeData['isNodeInfo']) {
       // @ts-ignore
-      return this.statsFlat.indexOf(nodeData) > -1;
+      return this.nodeInfosFlat.indexOf(nodeInfoOrNodeData) > -1;
     } else {
       try {
         // @ts-ignore
-        const r = this.getStat(nodeData);
+        const r = this.getStat(nodeInfoOrNodeData);
         return Boolean(r);
       } catch (error) {
         if (error instanceof StatNotFoundError) {
@@ -97,30 +96,30 @@ export class TreeProcessor<T> {
     }
   }
 
-  private _getPathByStat(stat: Stat | null): Array<number> {
-    if (stat === null) {
+  private _getPathByStat(nodeInfo: NodeInfo | null): Array<number> {
+    if (nodeInfo === null) {
       return [];
     }
-    const siblings = this.getSiblings(stat);
-    const index = siblings.indexOf(stat);
-    return [...(stat.parent ? this._getPathByStat(stat.parent) : []), index];
+    const siblings = this.getSiblings(nodeInfo);
+    const index = siblings.indexOf(nodeInfo);
+    return [...(nodeInfo.parent ? this._getPathByStat(nodeInfo.parent) : []), index];
   }
 
   /**
-   * call it after a stat's `checked` changed
-   * @param stat
+   * call it after a nodeInfo's `checked` changed
+   * @param nodeInfo
    * @returns return false mean ignored
    */
-  public afterOneCheckChanged(stat: Stat): boolean {
-    const { checked } = stat;
-    if (stat._ignoreCheckedOnce) {
-      delete stat._ignoreCheckedOnce;
+  public afterOneCheckChanged(nodeInfo: NodeInfo): boolean {
+    const { checked } = nodeInfo;
+    if (nodeInfo._ignoreCheckedOnce) {
+      delete nodeInfo._ignoreCheckedOnce;
       return false;
     }
 
     // change parent
-    const checkParent = (stat: Stat) => {
-      const { parent } = stat;
+    const checkParent = (nodeInfo: NodeInfo) => {
+      const { parent } = nodeInfo;
       if (parent) {
         let hasChecked: boolean = false;
         let hasUnchecked: boolean = false;
@@ -143,10 +142,10 @@ export class TreeProcessor<T> {
         checkParent(parent);
       }
     };
-    checkParent(stat);
+    checkParent(nodeInfo);
     // change children
     hp.walkTreeData(
-      stat.children,
+      nodeInfo.children,
       child => {
         if (child.checked !== checked) {
           this._ignoreCheckedOnce(child);
@@ -157,29 +156,29 @@ export class TreeProcessor<T> {
     );
     return true;
   }
-  private _ignoreCheckedOnce(stat: Stat) {
-    stat._ignoreCheckedOnce = true;
+  private _ignoreCheckedOnce(nodeInfo: NodeInfo) {
+    nodeInfo._ignoreCheckedOnce = true;
     // cancel ignore immediately if not triggered
     setTimeout(() => {
-      if (stat._ignoreCheckedOnce) {
-        stat._ignoreCheckedOnce = false;
+      if (nodeInfo._ignoreCheckedOnce) {
+        nodeInfo._ignoreCheckedOnce = false;
       }
     }, 100);
   }
-  private isVisible(statOrNodeData: T | Stat) {
+  private isVisible(nodeInfoOrNodeData: NodeData | NodeInfo) {
     // @ts-ignore
-    const stat: Stat = statOrNodeData["isStat"] ? statOrNodeData : this.getStat(statOrNodeData); // prettier-ignore
-    const walk: (stat: Stat | null) => boolean = (stat: Stat | null) => {
-      return !stat || (!stat.hidden && stat.open && walk(stat.parent));
+    const nodeInfo: NodeInfo = nodeInfoOrNodeData["isNodeInfo"] ? nodeInfoOrNodeData : this.getStat(nodeInfoOrNodeData); // prettier-ignore
+    const walk: (nodeInfo: NodeInfo | null) => boolean = (nodeInfo: NodeInfo | null) => {
+      return !nodeInfo || (!nodeInfo.hidden && nodeInfo.open && walk(nodeInfo.parent));
     };
-    return Boolean(!stat.hidden && walk(stat.parent));
+    return Boolean(!nodeInfo.hidden && walk(nodeInfo.parent));
   }
   /**
    * call it to update all stats' `checked`
    */
   public updateCheck() {
     hp.walkTreeData(
-      this.stats!,
+      this.nodeInfos!,
       stat => {
         if (stat.children && stat.children.length > 0) {
           const checked = stat.children.every(v => v.checked);
@@ -193,12 +192,12 @@ export class TreeProcessor<T> {
     );
   }
   public getChecked(withDemi = false) {
-    return this.statsFlat!.filter(v => {
+    return this.nodeInfosFlat!.filter(v => {
       return v.checked || (withDemi && v.checked === 0);
     });
   }
   public getUnchecked(withDemi = true) {
-    return this.statsFlat!.filter(v => {
+    return this.nodeInfosFlat!.filter(v => {
       return withDemi ? !v.checked : v.checked === false;
     });
   }
@@ -206,7 +205,7 @@ export class TreeProcessor<T> {
    * open all nodes
    */
   public openAll() {
-    for (const stat of this.statsFlat!) {
+    for (const stat of this.nodeInfosFlat!) {
       stat.open = true;
     }
   }
@@ -214,14 +213,14 @@ export class TreeProcessor<T> {
    * close all nodes
    */
   public closeAll() {
-    for (const stat of this.statsFlat!) {
+    for (const stat of this.nodeInfosFlat!) {
       stat.open = false;
     }
   }
 
-  public openNodeAndParents(nodeOrStat: T | Stat) {
+  public openNodeAndParents(nodeDataOrNodeInfo: NodeData | NodeInfo) {
     // @ts-ignore
-    const stat:Stat = nodeOrStat["isStat"] ? nodeOrStat : this.getStat(nodeOrStat) // prettier-ignore
+    const stat:NodeInfo = nodeDataOrNodeInfo["isNodeInfo"] ? nodeDataOrNodeInfo : this.getStat(nodeDataOrNodeInfo) // prettier-ignore
     for (const parentStat of this.iterateParent(stat, {
       withSelf: true
     })) {
@@ -230,28 +229,28 @@ export class TreeProcessor<T> {
   }
 
   // actions
-  private _calcFlatIndex(parent: Stat | null, index: number) {
-    let flatIndex = parent ? this.statsFlat!.indexOf(parent) + 1 : 0;
-    const siblings = parent ? parent.children : this.stats!;
+  private _calcFlatIndex(parent: NodeInfo | null, index: number) {
+    let flatIndex = parent ? this.nodeInfosFlat!.indexOf(parent) + 1 : 0;
+    const siblings = parent ? parent.children : this.nodeInfos!;
     for (let i = 0; i < index; i++) {
       flatIndex += this._count(siblings[i]);
     }
     return flatIndex;
   }
 
-  public add(nodeData: T, parent?: Stat | null, index?: number | null) {
+  public add(nodeData: NodeData, parent?: NodeInfo | null, index?: number | null) {
     if (this.has(nodeData)) {
       throw `Can't add because data exists in tree`;
     }
-    const siblings = parent ? parent.children : this.stats!;
+    const siblings = parent ? parent.children : this.nodeInfos!;
     if (index == null) {
       index = siblings.length;
     }
 
-    const stat: Stat = this.options.statHandler({
-      ...statDefault(),
+    const stat: NodeInfo = this.options.statHandler({
+      ...defaults(),
       open: Boolean(this.options.defaultOpen),
-      data: nodeData,
+      nodeData: nodeData,
       parent: parent || null,
       children: [],
       level: parent ? parent.level + 1 : 1
@@ -267,46 +266,43 @@ export class TreeProcessor<T> {
     }
   }
 
-  public remove(stat: Stat) {
-    const siblings = this.getSiblings(stat);
-    if (siblings.includes(stat)) {
-      hp.arrayRemove(siblings, stat);
-      const stats = this._flat(stat);
-      this.statsFlat!.splice(this.statsFlat!.indexOf(stat), stats.length);
+  public remove(nodeInfo: NodeInfo) {
+    const siblings = this.getSiblings(nodeInfo);
+    if (siblings.includes(nodeInfo)) {
+      hp.arrayRemove(siblings, nodeInfo);
+      const stats = this._flat(nodeInfo);
+      this.nodeInfosFlat!.splice(this.nodeInfosFlat!.indexOf(nodeInfo), stats.length);
       for (const stat of stats) {
-        this._statsMap!.delete(stat.data);
+        this._infosMap!.delete(stat.nodeData);
       }
-      this.options.afterRemoveStat(stat);
+      this.options.afterRemoveStat(nodeInfo);
       return true;
     }
     return false;
   }
 
-  public getSiblings(stat: Stat) {
-    const { parent } = stat;
-    return parent ? parent.children : this.stats!;
+  public getSiblings(nodeInfo: NodeInfo) {
+    const { parent } = nodeInfo;
+    return parent ? parent.children : this.nodeInfos!;
   }
   /**
-   * The node should not exsit.
-   * @param node
-   * @param parent
-   * @param index
+   * The node should not exist.
    */
-  private _setPosition(stat: Stat, parent: Stat | null, index: number) {
-    const siblings = parent ? parent.children : this.stats!;
-    siblings.splice(index, 0, stat);
-    stat.parent = parent;
-    stat.level = parent ? parent.level + 1 : 1;
+  private _setPosition(nodeInfo: NodeInfo, parent: NodeInfo | null, index: number) {
+    const siblings = parent ? parent.children : this.nodeInfos!;
+    siblings.splice(index, 0, nodeInfo);
+    nodeInfo.parent = parent;
+    nodeInfo.level = parent ? parent.level + 1 : 1;
     const flatIndex = this._calcFlatIndex(parent, index);
-    const stats = this._flat(stat);
-    this.statsFlat!.splice(flatIndex, 0, ...stats);
+    const stats = this._flat(nodeInfo);
+    this.nodeInfosFlat!.splice(flatIndex, 0, ...stats);
     for (const stat of stats) {
-      if (!this._statsMap!.has(stat.data)) {
-        this._statsMap!.set(stat.data, stat);
+      if (!this._infosMap!.has(stat.nodeData)) {
+        this._infosMap!.set(stat.nodeData, stat);
       }
     }
     hp.walkTreeData(
-      stat,
+      nodeInfo,
       (node, index, parent) => {
         if (parent) {
           node.level = parent.level + 1;
@@ -314,11 +310,11 @@ export class TreeProcessor<T> {
       },
       { childrenKey: CHILDREN }
     );
-    this.options.afterSetStat(stat, parent, index);
+    this.options.afterSetStat(nodeInfo, parent, index);
   }
 
   // this is a generqtor function '*'
-  public *iterateParent(stat: Stat, opt?: { withSelf: boolean }) {
+  public *iterateParent(stat: NodeInfo, opt?: { withSelf: boolean }) {
     let t = opt?.withSelf ? stat : stat.parent;
     while (t) {
       yield t;
@@ -326,45 +322,45 @@ export class TreeProcessor<T> {
     }
   }
 
-  public move(stat: Stat, parent: Stat | null, index: number) {
-    if (this.has(stat)) {
-      if (stat.parent === parent && this.getSiblings(stat).indexOf(stat) === index) {
+  public move(nodeInfo: NodeInfo, parent: NodeInfo | null, index: number) {
+    if (this.has(nodeInfo)) {
+      if (nodeInfo.parent === parent && this.getSiblings(nodeInfo).indexOf(nodeInfo) === index) {
         return false;
       }
       // check if is self
-      if (stat === parent) {
+      if (nodeInfo === parent) {
         // 不允许移动目标为自己
         throw new Error(`Can't move node to it self`);
       }
       // check if is descendant
-      if (parent && stat.level < parent.level) {
+      if (parent && nodeInfo.level < parent.level) {
         let t;
         for (const item of this.iterateParent(parent)) {
-          if (item.level === stat.level) {
+          if (item.level === nodeInfo.level) {
             t = item;
             break;
           }
         }
-        if (stat === t) {
+        if (nodeInfo === t) {
           // 不允许移动节点到其后代节点下
           throw new Error(`Can't move node to its descendant`);
         }
       }
-      this.remove(stat);
+      this.remove(nodeInfo);
     }
-    this._setPosition(stat, parent, index);
+    this._setPosition(nodeInfo, parent, index);
     return true;
   }
   /**
-   * convert stat and its children to one-dimensional array
+   * convert nodeInfo and its children to one-dimensional array
    * 转换节点和其后代节点为一维数组
-   * @param stat
+   * @param nodeInfo
    * @returns
    */
-  private _flat(stat: Stat) {
-    const r: Stat[] = [];
+  private _flat(nodeInfo: NodeInfo) {
+    const r: NodeInfo[] = [];
     hp.walkTreeData(
-      stat,
+      nodeInfo,
       child => {
         r.push(child);
       },
@@ -373,22 +369,22 @@ export class TreeProcessor<T> {
     return r;
   }
   /**
-   * get count of stat and its all children
+   * get count of nodeInfo and its all children
    * 统计节点和其后代节点数量
-   * @param stat
+   * @param nodeInfo
    */
-  private _count(stat: Stat) {
-    return this._flat(stat).length;
+  private _count(nodeInfo: NodeInfo) {
+    return this._flat(nodeInfo).length;
   }
 
-  public getData(filter?: (data: T) => T, root?: Stat) {
+  public getData(filter?: (data: NodeData) => NodeData, root?: NodeInfo) {
     const { childrenKey } = this.options;
-    const td = new hp.TreeData<T>([]);
+    const td = new hp.TreeData<NodeData>([]);
     td.childrenKey = childrenKey;
     hp.walkTreeData(
-      root || this.stats!,
+      root || this.nodeInfos!,
       (stat, index, parent, path) => {
-        let newData = { ...stat.data, [childrenKey]: [] };
+        let newData = { ...stat.nodeData, [childrenKey]: [] };
         if (filter) {
           // @ts-ignore
           newData = filter(newData);

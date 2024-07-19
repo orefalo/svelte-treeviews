@@ -13,10 +13,6 @@ function arrayLast<T>(arr: T[]) {
   return arr[arr.length - 1];
 }
 
-// function toArrayIfNot<T>(arrOrNot: T | T[]): T[] {
-//   return isArray(arrOrNot) ? arrOrNot : [arrOrNot];
-// }
-
 /**
  * If n greater than `max`, return `max`, else n.
  * 如果n大于max, 返回max, 否则n.
@@ -24,9 +20,9 @@ function arrayLast<T>(arr: T[]) {
  * @param max
  * @returns
  */
-function notGreaterThan<T>(n: T, max: T) {
-  return n < max ? n : max;
-}
+// function notGreaterThan<T>(n: T, max: T) {
+//   return n < max ? n : max;
+// }
 
 //YES
 export function arrayRemove(arr: any[], v: any) {
@@ -329,7 +325,7 @@ export function walkTreeData<T>(
       childrenKey: 'children'
     }
   );
-  const { childrenKey } = opt;
+  const childrenKey = opt.childrenKey as string;
   const rootChildren = isArray(obj) ? obj : [obj];
   //
   class StopException {}
@@ -440,9 +436,12 @@ export function cloneTreeData<T>(
   if (options) {
     Object.assign(opt, options);
   }
-  const { childrenKey, nodeHandler } = opt;
+
+  const childrenKey = opt.childrenKey as string;
+  const nodeHandler = opt.nodeHandler;
+
   const td = new TreeData();
-  td.childrenKey = childrenKey;
+  td.childrenKey = childrenKey as string;
   walkTreeData(
     root,
     (node, index, parent, path) => {

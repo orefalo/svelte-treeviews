@@ -1,32 +1,34 @@
 // Todo: rename to NodeDecorator
 
-export interface Stat {
-  // TODO: that's the catch all, see if can be removed
+export type NodeData = any;
+
+export interface NodeInfo {
+  // TODO: that's the catch all, check if can be removed
   //  [x: string]: any;
-  data: any;
+  nodeData: NodeData;
   open: boolean;
-  parent: Stat | null;
-  children: Stat[];
+  parent: NodeInfo | null;
+  children: NodeInfo[];
   level: number;
   hidden: boolean;
   checked: boolean | 0; // 0 mean just part of children checked
   // 0 mean just part of children checked
-  draggable: boolean | null; //null mean inhert parent
-  //null mean inhert parent
-  droppable: boolean | null; //null mean inhert parent
-  //null mean inhert parent
+  draggable: boolean | null; //null mean inherit parent
+  //null mean inherit parent
+  droppable: boolean | null; //null mean inherit parent
+  //null mean inherit parent
   style: string | null;
   class: string | null;
 
   // used to identify if the data is a node or the data of the node
-  isStat: true;
+  isNodeInfo: true;
 
   _ignoreCheckedOnce?: boolean;
 }
 
-export function statDefault(): Stat {
+export function defaults(): NodeInfo {
   return {
-    data: null,
+    nodeData: null,
     open: false,
     parent: null,
     children: [],
@@ -37,6 +39,6 @@ export function statDefault(): Stat {
     droppable: null,
     style: null,
     class: null,
-    isStat: true
+    isNodeInfo: true
   };
 }
