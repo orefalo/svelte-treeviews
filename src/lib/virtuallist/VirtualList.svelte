@@ -67,7 +67,7 @@
 
     // snippets
     footer,
-    slot,
+    vl_slot,
     header,
 
     // events
@@ -99,7 +99,7 @@
     scrollToBehaviour?: SCROLL_BEHAVIOR;
     // snippets
     header?: Snippet;
-    slot: Snippet<[SlotAttributes<any>]>;
+    vl_slot: Snippet<[SlotAttributes<any>]>;
     footer?: Snippet;
     // events
     onVisibleRangeUpdate?: (range: VirtualRangeEvent) => void;
@@ -417,11 +417,11 @@
   <div class="virtual-list-inner" style={innerStyle}>
     {#if isDisabled}
       {#each model as el}
-        {@render slot(el)}
+        {@render vl_slot(el)}
       {/each}
     {:else}
       {#each visibleItems as el}
-        {@render slot({
+        {@render vl_slot({
           item: el.item,
           style: el.style,
           index: getKey ? getKey(el.index) : el.index

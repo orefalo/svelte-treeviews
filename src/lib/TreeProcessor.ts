@@ -73,7 +73,7 @@ export class TreeProcessor {
   public getStat(nodeData: NodeData): NodeInfo {
     const r: NodeInfo = this._infosMap!.get(nodeData)!;
     if (!r) {
-      throw new NodeInfoNotFoundError("NodeInfo not found");
+      throw new NodeInfoNotFoundError('NodeInfo not found');
     }
     return r;
   }

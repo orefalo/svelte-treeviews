@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import type { NodeInfo } from './NodeInfo';
+  import type { NodeData, NodeInfo } from './NodeInfo';
 
   const _emptyFunction = () => {};
 
@@ -17,13 +17,13 @@
     class: className = '',
     style = '',
 
+    // snippets
+    tn_slot,
+
     // events
     onopen = _emptyFunction,
     onclose = _emptyFunction,
-    oncheck = _emptyFunction,
-
-    // snippets
-    slot
+    oncheck = _emptyFunction
   }: {
     nodeInfo: NodeInfo;
     rtl: boolean;
@@ -35,11 +35,11 @@
     class: string;
     style: string;
 
+    tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
+
     onopen: (nodeInfo: NodeInfo) => void;
     onclose: (nodeInfo: NodeInfo) => void;
     oncheck: (nodeInfo: NodeInfo) => void;
-
-    slot: Snippet<[{ nodeData: any; nodeInfo: NodeInfo; }]>;
   } = $props();
 
   let indentStyle = $derived(
@@ -141,7 +141,7 @@
     {/if}
   {/if}
   <div class="tree-node-inner">
-    {@render slot({ nodeData: nodeInfo.nodeData, nodeInfo: nodeInfo })}
+    {@render tn_slot({ data: nodeInfo.nodeData, info: nodeInfo })}
   </div>
 </div>
 

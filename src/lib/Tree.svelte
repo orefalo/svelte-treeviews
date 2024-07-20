@@ -4,6 +4,7 @@
   import { TreeProcessor } from './TreeProcessor';
   import { svelteMakeTreeProcessor } from './TreeProcessor.svelte.js';
   import type { NodeData, NodeInfo } from './NodeInfo';
+  import type { Snippet } from 'svelte';
 
   let {
     model,
@@ -25,7 +26,6 @@
     virtualizationPrerenderCount = 20,
     // Open all nodes by default.
     defaultOpen = true,
-
     // Display from right to left.
     rtl = false,
     // Display bottom to top
@@ -36,13 +36,29 @@
     treeLine = false,
     // Horizontal displacement of tree lines, unit: pixels.
     treeLineOffset = 8,
+    // css class
+    class: className = '',
 
-    statHandler,
-    //
+    nodeInfoHandler,
+
+    // SLOTS
+    // to customize the rendering of treenodes
+    tree_slot,
+    // to customize the rendering of the drag/drop area
+    placeholder,
+
+    // EVENTS
+
+    // Triggered when node checked changed
     onNodeChecked,
+    // Triggered when click node
     onNodeClicked,
+    // Triggered when close node
     onNodeOpened,
+    // Triggered when open node
     onNodeClosed,
+    // Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior
+
     onUpdateValue
   }: {
     model: Array<NodeData>;
@@ -54,21 +70,26 @@
     virtualization?: boolean;
     virtualizationPrerenderCount?: number;
     defaultOpen?: boolean;
-    statHandler?: (nodeInfo: NodeInfo) => NodeInfo;
     rtl?: boolean;
     btt?: boolean;
     nodeKey?: 'index' | ((nodeInfo: NodeInfo, index: number) => any);
     treeLine?: boolean;
     treeLineOffset?: number;
-    // Triggered when node checked changed
+    class?: string;
+
+    // handler
+    //TODO rename nodeInfoHandler
+    nodeInfoHandler?: (nodeInfo: NodeInfo) => NodeInfo;
+
+    // slots
+    tree_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
+    placeholder?: Snippet;
+
+    // events
     onNodeChecked?: (e: NodeInfo) => void;
-    // Triggered when click node
     onNodeClicked?: (e: NodeInfo) => void;
-    // Triggered when close node
     onNodeOpened?: (e: NodeInfo) => void;
-    // Triggered when open node
     onNodeClosed?: (e: NodeInfo) => void;
-    // Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior
     onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
   } = $props();
 
@@ -117,8 +138,8 @@
   }
 
   function _emitValue(value: any[]) {
-    // TODO fix this
-    this.$emit('update:modelValue', value);
+    if (onUpdateValue) onUpdateValue(value);
+    // this.$emit('update:modelValue', value);
   }
   /**
    * private method
@@ -287,7 +308,7 @@
   width="auto"
   modelCount={nodeInfos?.length || 0}
   itemSize={25}>
-  {#snippet slot({ item: nodeInfo, style, index })}
+  {#snippet vl_slot({ item: nodeInfo, style, index })}
     {#if nodeInfo}
       <TreeNode
         class={(nodeInfo.class ? nodeInfo.class : '') +
@@ -304,13 +325,15 @@
         onopen={(nodeInfo: NodeInfo) => onNodeOpened && onNodeOpened(nodeInfo)}
         onclose={(nodeInfo: NodeInfo) => onNodeClosed && onNodeClosed(nodeInfo)}
         oncheck={(nodeInfo: NodeInfo) => onNodeChecked && onNodeChecked(nodeInfo)}>
-        {#snippet slot()}
-          {#if nodeInfo.data === placeholderData}
-            <div class="drag-placeholder he-tree-drag-placeholder">DRAG PLACEHOLDER</div>
+        {#snippet tn_slot({ data, info })}
+          {#if nodeInfo.nodeData === placeholderData}
+            <div class="drag-placeholder he-tree-drag-placeholder">
+              {#if placeholder}
+                {@render placeholder()}
+              {/if}
+            </div>
           {:else}
-            <!-- <slot v-else :node="stat.data" :stat="stat" :indentStyle="indentStyle" :tree="self">{{ stat.data[textKey] }} -->
-            <!-- <div style={indentStyle}>{nodeInfo.data[textKey]}</div> -->
-            <div>{nodeInfo.data[textKey]}</div>
+            {@render tree_slot({ data, info })}
           {/if}
         {/snippet}
       </TreeNode>
