@@ -13,17 +13,6 @@ function arrayLast<T>(arr: T[]) {
   return arr[arr.length - 1];
 }
 
-/**
- * If n greater than `max`, return `max`, else n.
- * 如果n大于max, 返回max, 否则n.
- * @param n
- * @param max
- * @returns
- */
-// function notGreaterThan<T>(n: T, max: T) {
-//   return n < max ? n : max;
-// }
-
 //YES
 export function arrayRemove(arr: any[], v: any) {
   let index;
@@ -40,6 +29,7 @@ export type IterateAllOptions = {
   reverse?: boolean;
   exclude?: (info: { value: any; index: number } | { value: any; key: string }) => boolean;
 };
+
 export function* iterateAll<T>(
   val: string | any[] | object | NodeList | HTMLCollection,
   opt: IterateAllOptions = {}

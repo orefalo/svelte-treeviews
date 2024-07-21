@@ -1,7 +1,7 @@
-// Todo: rename to NodeDecorator
-
+// NodeData is your data! 
 export type NodeData = any;
 
+// NodeInfo is the medadata to hold a not in a tree
 export interface NodeInfo {
   // TODO: that's the catch all, check if can be removed
   //  [x: string]: any;

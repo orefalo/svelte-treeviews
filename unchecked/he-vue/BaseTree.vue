@@ -66,7 +66,7 @@
 // If the scrolling is not smooth, do not deal with it, because it is caused by the Dev tool.
 import { PropType, defineComponent, isVue2, isVue3, reactive } from 'vue-demi';
 import * as hp from 'helper-js';
-import VirtualList from '../virtual-list';
+import VirtualList from './VirtualList.vue';
 import TreeNode from './TreeNode.vue';
 import { vueMakeTreeProcessor, Stat, TreeProcessor } from './TreeProcessorVue';
 

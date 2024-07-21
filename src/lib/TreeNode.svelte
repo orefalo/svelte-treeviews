@@ -37,9 +37,9 @@
 
     tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
 
-    onopen: (nodeInfo: NodeInfo) => void;
-    onclose: (nodeInfo: NodeInfo) => void;
-    oncheck: (nodeInfo: NodeInfo) => void;
+    onopen: (info: NodeInfo) => void;
+    onclose: (info: NodeInfo) => void;
+    oncheck: (info: NodeInfo) => void;
   } = $props();
 
   let indentStyle = $derived(

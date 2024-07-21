@@ -7,7 +7,7 @@ export interface VirtualListModel<T> {
   item: T;
   // The row's index being rendered, from the original dataset
   // The index is a string if the IDs are processed via the getKey() function
-  index: number | string;
+  index?: number | string;
 }
 
 // use by the row() snippet

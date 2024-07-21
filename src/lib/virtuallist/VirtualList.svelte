@@ -46,12 +46,14 @@
   const {
     height,
     width = '100%',
+    // data in the model
+    // TODO: implement a partial loader
     model = [],
     // total model count, typically model.length unless a partial loader is used
     modelCount,
     // items are the view, size of item n, can be a function
     itemSize,
-    // usefull when using a partial loader
+    // useful when using a partial loader
     estimatedItemSize,
     getKey,
 
@@ -76,9 +78,7 @@
 
     // dom
     class: className = '',
-    style = '',
-
-    ...props
+    style = ''
   }: {
     height: number | string;
     width: number | string;
@@ -406,11 +406,7 @@
   }
 </script>
 
-<div
-  bind:this={container}
-  class="virtual-list-wrapper ${className}"
-  style={wrapperStyle}
-  {...props}>
+<div bind:this={container} class="virtual-list-wrapper ${className}" style={wrapperStyle}>
   {#if header}
     {@render header()}
   {/if}

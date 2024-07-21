@@ -1,12 +1,18 @@
-import { makeTreeProcessor } from './TreeProcessorFactory';
-import type { Options } from './TreeProcessor';
-export * from './TreeProcessor';
+
+import { TreeProcessor, type Options } from './TreeProcessor';
+//export * from './TreeProcessor';
+
+function newTreeProcessor(data: any[], opt: Options): TreeProcessor {
+  const instance = new TreeProcessor(opt);
+  if (!opt.noInitialization) instance.init();
+  return instance;
+}
 
 function filter<T>(func: Function | null | undefined, input: T): T {
   return func ? func(input) : input;
 }
 
-export function svelteMakeTreeProcessor<T>(data: T[], options: Options = {}) {
+export function treeProcessorFactory<T>(data: T[], options: Options = {}) {
   let _statHandler2: (input: T) => T | undefined;
 
   const opt = {
@@ -27,5 +33,5 @@ export function svelteMakeTreeProcessor<T>(data: T[], options: Options = {}) {
       return filter(options.statsFlatHandler, inputReactive);
     }
   };
-  return makeTreeProcessor(data, opt as Options);
+  return newTreeProcessor(data, opt as Options);
 }
