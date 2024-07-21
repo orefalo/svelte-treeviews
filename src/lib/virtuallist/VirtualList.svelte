@@ -42,6 +42,7 @@
     type VirtualItemSize,
     type VirtualListModel
   } from '.';
+  import type { NodeInfo } from '$lib/NodeInfo';
 
   const {
     height,
@@ -55,7 +56,6 @@
     itemSize,
     // useful when using a partial loader
     estimatedItemSize,
-    getKey,
 
     isDisabled,
 
@@ -82,11 +82,10 @@
   }: {
     height: number | string;
     width: number | string;
-    model: VirtualListModel<any>[];
+    model: NodeInfo[];
     modelCount: number;
     itemSize: VirtualItemSize;
     estimatedItemSize?: number;
-    getKey?: (i: number | string) => string;
 
     isDisabled?: boolean;
 
@@ -97,10 +96,12 @@
     scrollDirection?: DIRECTION;
     scrollToAlignment?: ALIGNMENT;
     scrollToBehaviour?: SCROLL_BEHAVIOR;
+
     // snippets
     header?: Snippet;
-    vl_slot: Snippet<[SlotAttributes<any>]>;
+    vl_slot: Snippet<[{ item: NodeInfo; style: string; index: number }]>;
     footer?: Snippet;
+
     // events
     onVisibleRangeUpdate?: (range: VirtualRangeEvent) => void;
     onAfterScroll?: (event: AfterScrollEvent) => void;
@@ -420,7 +421,7 @@
         {@render vl_slot({
           item: el.item,
           style: el.style,
-          index: getKey ? getKey(el.index) : el.index
+          index: el.index
         })}
       {/each}
     {/if}

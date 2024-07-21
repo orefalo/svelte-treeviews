@@ -1,4 +1,4 @@
-// NodeData is your data! 
+// NodeData is your data!
 export type NodeData = any;
 
 // NodeInfo is the medadata to hold a not in a tree

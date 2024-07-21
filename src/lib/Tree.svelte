@@ -317,7 +317,7 @@
     {#if nodeInfo}
       <TreeNode
         class={clsx(nodeInfo.class, {
-          'drag-placeholder-wrapper': nodeInfo.data === placeholderData,
+          'drag-placeholder-wrapper': nodeInfo.nodeData === placeholderData,
           'dragging-node': nodeInfo === dragNode
         })}
         style={nodeInfo.style}
@@ -351,6 +351,13 @@
 <style global>
   .he-tree--rtl {
     direction: rtl;
+  }
+
+  .drag-placeholder {
+    background: #ddf2f9;
+    border: 1px dashed #00d9ff;
+    height: 22px;
+    width: 100%;
   }
 
   .he-tree-drag-placeholder {

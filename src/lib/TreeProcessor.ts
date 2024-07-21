@@ -3,9 +3,10 @@ import { defaults, type NodeInfo, type NodeData } from './NodeInfo';
 
 export const CHILDREN = 'children'; // inner childrenKey
 
-class COptions {
+export class Options {
   childrenKey: string = 'children';
   defaultOpen: boolean = false;
+  noInitialization?: boolean = false;
 
   public statsHandler(stats: NodeInfo[]) {
     return stats;
@@ -20,27 +21,26 @@ class COptions {
   }
 }
 
-export interface Options extends Partial<COptions> {
-  noInitialization?: boolean;
-}
+export interface PartialOptions extends Partial<Options> {}
 
 export class TreeProcessor {
   public nodeData: NodeData;
   public nodeInfos: NodeInfo[];
   public nodeInfosFlat: NodeInfo[];
+
+  // used to find info from data
   private _infosMap: Map<NodeData, NodeInfo> | null;
+  private options: Options;
 
-  private options: COptions;
-
-  constructor(opt?: COptions) {
+  constructor(opt?: Options) {
     this.nodeInfos = [];
     this.nodeInfosFlat = [];
     this._infosMap = null;
-    this.options = opt ? opt : new COptions();
+    this.options = opt ? opt : new Options();
   }
 
   public init() {
-    const { childrenKey } = this.options;
+    const childrenKey = this.options.childrenKey;
     const td = new hp.TreeData([] as NodeInfo[]);
     this._infosMap = new Map();
     hp.walkTreeData(
@@ -85,7 +85,8 @@ export class TreeProcessor {
       try {
         // @ts-ignore
         const r = this.getNodeInfo(infoOrData);
-        return Boolean(r);
+        //TODO that's just a return true
+        return Boolean(r).valueOf();
       } catch (error) {
         if (error instanceof NodeInfoNotFoundError) {
           return false;
@@ -120,8 +121,8 @@ export class TreeProcessor {
     const checkParent = (info: NodeInfo) => {
       const parent = info.parent;
       if (parent) {
-        let hasChecked: boolean = false;
-        let hasUnchecked: boolean = false;
+        let hasChecked = false;
+        let hasUnchecked = false;
         for (const child of parent.children) {
           if (child.checked || child.checked === 0) {
             hasChecked = true;
@@ -142,7 +143,6 @@ export class TreeProcessor {
       }
     };
 
-
     checkParent(info);
 
     // change children
@@ -158,6 +158,7 @@ export class TreeProcessor {
     );
     return true;
   }
+
   private _ignoreCheckedOnce(info: NodeInfo) {
     info._ignoreCheckedOnce = true;
     // cancel ignore immediately if not triggered

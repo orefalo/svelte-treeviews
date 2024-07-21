@@ -150,13 +150,6 @@
     direction: rtl;
   }
 
-  .drag-placeholder {
-    background: #ddf2f9;
-    border: 1px dashed #00d9ff;
-    height: 22px;
-    width: 100%;
-  }
-
   .tree-line {
     position: absolute;
     background-color: #bbbbbb;
