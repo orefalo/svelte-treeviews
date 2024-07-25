@@ -413,8 +413,8 @@
   {/if}
   <div class="virtual-list-inner" style={innerStyle}>
     {#if isDisabled}
-      {#each model as el}
-        {@render vl_slot(el)}
+      {#each model as item, index}
+        {@render vl_slot({item, style:"", index})}
       {/each}
     {:else}
       {#each visibleItems as el}

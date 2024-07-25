@@ -1,3 +1,4 @@
+import type { NodeInfo } from './NodeInfo';
 import { Options, TreeProcessor, type PartialOptions } from './TreeProcessor';
 //export * from './TreeProcessor';
 
@@ -6,22 +7,22 @@ function filter<T>(func: Function | null | undefined, input: T): T {
 }
 
 export function treeProcessorFactory<T>(data: T[], options: PartialOptions = {}) {
-  let _statHandler2: (input: T) => T | undefined;
+  let preProcessor: (input: NodeInfo) => NodeInfo;
 
   const opt = {
     ...options,
-    statHandler(input: any) {
-      if (_statHandler2 !== undefined) {
-        input = _statHandler2(input);
+    statHandler(input: NodeInfo) {
+      if (preProcessor !== undefined) {
+        input = preProcessor(input);
       }
       let inputReactive = $state(input);
       return filter(options.statHandler, inputReactive);
     },
-    statsHandler(input: unknown) {
+    statsHandler(input: NodeInfo[]) {
       let inputReactive = $state(input);
       return filter(options.statsHandler, inputReactive);
     },
-    statsFlatHandler(input: unknown) {
+    statsFlatHandler(input: NodeInfo) {
       let inputReactive = $state(input);
       return filter(options.statsFlatHandler, inputReactive);
     }

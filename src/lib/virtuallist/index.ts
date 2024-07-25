@@ -7,13 +7,13 @@ export interface VirtualListModel<T> {
   item: T;
   // The row's index being rendered, from the original dataset
   // The index is a string if the IDs are processed via the getKey() function
-  index?: number | string;
+  index: number;
 }
 
 // use by the row() snippet
 export interface SlotAttributes<T> extends VirtualListModel<T> {
   // the calculated style for this row
-  style?: string;
+  style: string;
 }
 
 export interface VirtualPosition {
