@@ -169,14 +169,14 @@ export class TreeProcessor {
     }, 100);
   }
 
-  // private isVisible(infoOrData: NodeData | NodeInfo) {
-  //   // @ts-ignore
-  //   const info: NodeInfo = infoOrData["isNodeInfo"] ? infoOrData : this.getNodeInfo(infoOrData); // prettier-ignore
-  //   const walk: (ei: NodeInfo | null) => boolean = (nodeInfo: NodeInfo | null) => {
-  //     return !nodeInfo || (!nodeInfo.hidden && nodeInfo.open && walk(nodeInfo.parent));
-  //   };
-  //   return Boolean(!info.hidden && walk(info.parent));
-  // }
+  public isVisible(infoOrData: NodeData | NodeInfo) {
+    // @ts-ignore
+    const info: NodeInfo = infoOrData["isNodeInfo"] ? infoOrData : this.getNodeInfo(infoOrData); // prettier-ignore
+    const walk: (ei: NodeInfo | null) => boolean = (nodeInfo: NodeInfo | null) => {
+      return !nodeInfo || (!nodeInfo.hidden && nodeInfo.open && walk(nodeInfo.parent));
+    };
+    return Boolean(!info.hidden && walk(info.parent));
+  }
   /**
    * call it to update all stats' `checked`
    */
@@ -334,7 +334,7 @@ export class TreeProcessor {
       // check if is self
       if (info === parent) {
         // 不允许移动目标为自己
-        throw new Error(`Can't move node to it self`);
+        throw new Error(`Can't move node to itself`);
       }
       // check if is descendant
       if (parent && info.level < parent.level) {

@@ -158,58 +158,69 @@
   }
 
   // Get stat by node data.
-  function getNodeInfo(NodeInfoOrNodeData: NodeInfo | NodeData): NodeInfo {
-    return reactiveFirstArg(processorMethodProxy('getNodeInfo'))(NodeInfoOrNodeData);
+  function getNodeInfo(nodeInfoOrNodeData: NodeInfo | NodeData): NodeInfo {
+    // return reactiveFirstArg(processorMethodProxy('getNodeInfo'))(nodeInfoOrNodeData);
+    return processor.getNodeInfo(nodeInfoOrNodeData);
   }
 
   // Detect the tree if has the stat of given node data.
-  function has(NodeInfoOrNodeData: NodeInfo | NodeData): boolean {
-    return reactiveFirstArg(processorMethodProxy('has'))(NodeInfoOrNodeData);
+  function has(nodeInfoOrNodeData: NodeInfo | NodeData): boolean {
+    // return reactiveFirstArg(processorMethodProxy('has'))(nodeInfoOrNodeData);
+    return processor.has(nodeInfoOrNodeData);
   }
 
   // Recalculate checked state of all nodes from end to root
   function updateCheck(): void {
-    return reactiveFirstArg(processorMethodProxy('updateCheck'))(undefined);
+    // return reactiveFirstArg(processorMethodProxy('updateCheck'))(undefined);
+    processor.updateCheck();
   }
 
   // Get all checked nodes. Param withDemi means including half checked
   function getChecked(withDemi): NodeInfo[] {
-    return reactiveFirstArg(processorMethodProxy('getChecked'))(withDemi);
+    // return reactiveFirstArg(processorMethodProxy('getChecked'))(withDemi);
+    return processor.getChecked(withDemi);
   }
 
   // Get all unchecked nodes. Param withDemi means including half checked.
   function getUnchecked(withDemi): NodeInfo[] {
-    return reactiveFirstArg(processorMethodProxy('getUnchecked'))(withDemi);
+    return processor.getUnchecked(withDemi);
+    // return reactiveFirstArg(processorMethodProxy('getUnchecked'))(withDemi);
   }
 
   // Open all nodes
   function openAll(): void {
-    return reactiveFirstArg(processorMethodProxy('openAll'))(undefined);
+    processor.openAll();
+    // return reactiveFirstArg(processorMethodProxy('openAll'))(undefined);
   }
 
   // Open a node and its all parents to make it visible. The argument nodeDataOrStat can be node data or node stat
-  function openNodeAndParents(NodeInfoOrNodeData: NodeInfo | NodeData): void {
-    return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(NodeInfoOrNodeData);
+  function openNodeAndParents(nodeInfoOrNodeData: NodeInfo | NodeData): void {
+    processor.openNodeAndParents(nodeInfoOrNodeData);
+    // return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(nodeInfoOrNodeData);
   }
 
   // Close all nodes
   function closeAll(): void {
-    return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
+    processor.closeAll();
+    // return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
   }
 
   // Detect if node is visible. When parent invisible or closed, children are invisible. Param statOrNodeData can be node data or stat.
   function isVisible(NodeInfoOrNodeData: NodeInfo | NodeData): boolean {
-    return reactiveFirstArg(processorMethodProxy('isVisible'))(NodeInfoOrNodeData);
+    return processor.isVisible(NodeInfoOrNodeData);
+    // return reactiveFirstArg(processorMethodProxy('isVisible'))(NodeInfoOrNodeData);
   }
 
   // Move node. parent is null means root. Similar to add
   function move(info: NodeInfo, parent: NodeInfo | null, index: number) {
-    return reactiveFirstArg(processorMethodProxy('move'))(info, parent, index);
+    return processor.move(info, parent, index);
+    // return reactiveFirstArg(processorMethodProxy('move'))(info, parent, index);
   }
 
   // Add node. parent is null means root.
   function add(data: NodeData, parent?: NodeInfo | null, index?: number | null): void {
-    return reactiveFirstArg(processorMethodProxy('add'))(data, parent, index);
+    return processor.add(data, parent, index);
+    //return reactiveFirstArg(processorMethodProxy('add'))(data, parent, index);
   }
 
   // Add multiple continuously nodes. parent is null means root.
@@ -227,7 +238,8 @@
 
   // Remove node
   function remove(info: NodeInfo): boolean {
-    return reactiveFirstArg(processorMethodProxy('remove'))(info);
+    // return reactiveFirstArg(processorMethodProxy('remove'))(info);
+    return processor.remove(info);
   }
 
   // Remove multiple nodes.
@@ -242,17 +254,20 @@
   // Iterate all parents of a node. Param opt.withSelf means including it self
   // ie. for (const parentStat of tree.iterateParent(nodeStat, { withSelf: false })) { ... }
   function iterateParent(info: NodeInfo, opt?: { withSelf: boolean }) {
-    return reactiveFirstArg(processorMethodProxy('iterateParent'))(info, opt);
+    return processor.iterateParent(info, opt);
+    // return reactiveFirstArg(processorMethodProxy('iterateParent'))(info, opt);
   }
 
   // Get all siblings of a node including it self.
   function getSiblings(info: NodeInfo): NodeInfo[] {
-    return reactiveFirstArg(processorMethodProxy('getSiblings'))(info);
+    return processor.getSiblings(info);
+    // return reactiveFirstArg(processorMethodProxy('getSiblings'))(info);
   }
 
   // Generate and get current data without stat. Param filter can handle each node data
   function getData(filter?: (data: NodeData) => any, root?: NodeInfo): any[] {
-    return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
+    return processor.getData(filter, root);
+    // return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
   }
 
   // Merge multiple data update actions, to make it only emit new data once
@@ -272,33 +287,33 @@
     return r;
   }
 
-  function processorMethodProxy(name: string) {
-    return function (...args: any) {
-      // @ts-ignore
-      return processor[name](...args);
-    };
-  }
-  function processorMethodProxyWithBatchUpdate(name: string) {
-    return function (...args: any) {
-      // @ts-ignore
-      return batchUpdate(() => {
-        // @ts-ignore
-        return processor[name](...args);
-      });
-    };
-  }
+  // function processorMethodProxy(name: string) {
+  //   return function (...args: any) {
+  //     // @ts-ignore
+  //     return processor[name](...args);
+  //   };
+  // }
+  // function processorMethodProxyWithBatchUpdate(name: string) {
+  //   return function (...args: any) {
+  //     // @ts-ignore
+  //     return batchUpdate(() => {
+  //       // @ts-ignore
+  //       return processor[name](...args);
+  //     });
+  //   };
+  // }
 
-  function reactiveFirstArg(func: Function) {
-    return function (arg1: any, ...args: any) {
-      const v = $state(arg1);
-      if (arg1) {
-        // @ts-ignore
-        return func.call(this, v, ...args);
-      }
-      // @ts-ignore
-      return func.call(this, arg1, ...args);
-    };
-  }
+  // function reactiveFirstArg(func: Function) {
+  //   return function (arg1: any, ...args: any) {
+  //     const v = $state(arg1);
+  //     if (arg1) {
+  //       // @ts-ignore
+  //       return func.call(this, v, ...args);
+  //     }
+  //     // @ts-ignore
+  //     return func.call(this, arg1, ...args);
+  //   };
+  // }
 </script>
 
 <VirtualList
