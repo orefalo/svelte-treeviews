@@ -1,12 +1,14 @@
 import type { NodeInfo } from './NodeInfo';
 import { Options, TreeProcessor, type PartialOptions } from './TreeProcessor';
-//export * from './TreeProcessor';
 
+
+// output=func(input)
 function filter<T>(func: Function | null | undefined, input: T): T {
   return func ? func(input) : input;
 }
 
-export function treeProcessorFactory<T>(data: T[], options: PartialOptions = {}) {
+
+export function createTreeProcessor<T>(data: T[], options: Options) {
   let preProcessor: (input: NodeInfo) => NodeInfo;
 
   const opt = {

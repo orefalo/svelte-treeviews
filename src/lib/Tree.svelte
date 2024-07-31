@@ -2,7 +2,7 @@
   import { VirtualList } from '$lib/virtuallist';
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor';
-  import { treeProcessorFactory } from './TreeProcessorFactory.svelte.js';
+  import { createTreeProcessor } from './TreeProcessorFactory.svelte.js';
   import type { NodeData, NodeInfo } from './NodeInfo';
   import type { Snippet } from 'svelte';
   import clsx from 'clsx';
@@ -12,7 +12,8 @@
 
     // specifies how onUpdateValue() is triggered
     updateBehavior = 'modify',
-    processor = treeProcessorFactory([], {
+    processor = createTreeProcessor([], {
+      // do not call init(), will be called manually later
       noInitialization: true
     }),
     // json.key is used for sub nodes
@@ -40,7 +41,10 @@
     // css class
     class: className = '',
 
-    nodeInfoHandler,
+    style = '',
+
+    // used to apply changes to the nodeInfo prior to processor()
+    nodeInfoPreProcessor,
 
     // SLOTS
     // to customize the rendering of treenodes
@@ -77,9 +81,10 @@
     treeLine?: boolean;
     treeLineOffset?: number;
     class?: string;
+    style?: string;
 
     // handler
-    nodeInfoHandler?: (info: NodeInfo) => NodeInfo;
+    nodeInfoPreProcessor?: (info: NodeInfo) => NodeInfo;
 
     // slots
     tree_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
@@ -93,6 +98,7 @@
     onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
   } = $props();
 
+  // used to hold the meta-data of each node
   let nodeInfos: TreeProcessor['nodeInfos'] = $state([]);
 
   // used to render the tree
@@ -107,12 +113,14 @@
   $effect(() => {
     // look for model changes
     model;
+    console.log("model change detected")
 
     // TODO: change this? isDragging triggered in Vue2 because its array is not same with Vue3
     const isDragging = dragOvering || dragNode;
     if (isDragging || _ignoreValueChangeOnce) {
       _ignoreValueChangeOnce = false;
     } else {
+      console.log("Initializing model")
       processor.nodeData = model;
       processor.init();
       nodeInfos = processor.nodeInfos!;
@@ -322,6 +330,7 @@
     rtl && 'he-tree--rtl rtl',
     dragOvering && 'he-tree--drag-overing drag-overing'
   )}
+  {style}
   height={500}
   isDisabled={!virtualization}
   width="auto"

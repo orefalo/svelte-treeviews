@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import type { NodeData, NodeInfo } from './NodeInfo';
+  import clsx from 'clsx';
 
   const _emptyFunction = () => {};
 
@@ -32,8 +33,8 @@
     treeLine: boolean;
     treeLineOffset: number;
     processor?: { afterOneCheckChanged: (s: NodeInfo) => boolean };
-    class: string;
-    style: string;
+    class?: string;
+    style?: string;
 
     tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
 
@@ -98,7 +99,6 @@
           } else {
             break;
           }
-          // eslint-disable-next-line no-constant-condition
         } while (true);
       }
       return false;
@@ -129,8 +129,7 @@
 </script>
 
 <div
-  class={`tree-node ${className}`}
-  class:tree-node--with-tree-line={treeLine}
+  class={clsx('tree-node', className, treeLine && 'tree-node--with-tree-line')}
   style={`${style} ${indentStyle}`}>
   {#if treeLine}
     {#each vLines as line}

@@ -52,13 +52,7 @@
       {#if info.children.length}
         <span>{info.open ? '-' : '+'}</span>
       {/if}
-      <input
-        type="checkbox"
-        value={info.checked}
-        onclick={() => {
-          info.open = !info.open;
-        }} 
-        />
+      <input type="checkbox" value={info.checked} onclick={() => (info.open = !info.open)} />
       {data.text}
     {/snippet}
   </Tree>

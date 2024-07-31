@@ -4,20 +4,21 @@ import { defaults, type NodeInfo, type NodeData } from './NodeInfo';
 export const CHILDREN = 'children'; // inner childrenKey
 
 export class Options {
-  childrenKey: string = 'children';
+  childrenKey: string = CHILDREN;
   defaultOpen: boolean = false;
+  // when true, the init() method must be called manually
   noInitialization?: boolean = false;
 
-  public statsHandler(stats: NodeInfo[]) {
-    return stats;
+  public statsHandler(infos: NodeInfo[]) {
+    return infos;
   }
-  public statsFlatHandler(statsFlat: NodeInfo[]) {
-    return statsFlat;
+  public statsFlatHandler(infosFlat: NodeInfo[]) {
+    return infosFlat;
   }
-  public afterSetStat(_stat: NodeInfo, _parent: NodeInfo | null, _index: number) {}
-  public afterRemoveStat(_stat: NodeInfo) {}
-  public statHandler(nodeInfo: NodeInfo) {
-    return nodeInfo;
+  public afterSetStat(_info: NodeInfo, _parent: NodeInfo | null, _index: number) {}
+  public afterRemoveStat(_info: NodeInfo) {}
+  public statHandler(info: NodeInfo) {
+    return info;
   }
 }
 
@@ -40,6 +41,7 @@ export class TreeProcessor {
   }
 
   public init() {
+    console.log("TreeProcessor.init() called")
     const childrenKey = this.options.childrenKey;
     const td = new hp.TreeData([] as NodeInfo[]);
     this._infosMap = new Map();
@@ -60,12 +62,12 @@ export class TreeProcessor {
       { childrenKey }
     );
 
-    const statsFlat: typeof td.rootChildren = [];
+    const flat: typeof td.rootChildren = [];
     td.walk(nodeInfo => {
-      statsFlat.push(nodeInfo);
+      flat.push(nodeInfo);
     });
     this.nodeInfos = this.options.statsHandler(td.rootChildren);
-    this.nodeInfosFlat = this.options.statsFlatHandler(statsFlat);
+    this.nodeInfosFlat = this.options.statsFlatHandler(flat);
     // this.initialized = true;
   }
 
@@ -387,8 +389,8 @@ export class TreeProcessor {
     td.childrenKey = childrenKey;
     hp.walkTreeData(
       root || this.nodeInfos!,
-      (stat, index, parent, path) => {
-        let newData = { ...stat.nodeData, [childrenKey]: [] };
+      (info, index, parent, path) => {
+        let newData = { ...info.nodeData, [childrenKey]: [] };
         if (filter) {
           // @ts-ignore
           newData = filter(newData);
