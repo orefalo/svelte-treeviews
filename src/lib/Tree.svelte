@@ -1,7 +1,7 @@
 <script lang="ts">
   import { VirtualList } from '$lib/virtuallist';
   import TreeNode from './TreeNode.svelte';
-  import { TreeProcessor } from './TreeProcessor';
+  import { CHILDREN, TreeProcessor } from './TreeProcessor';
   import { createTreeProcessor } from './TreeProcessorFactory.svelte.js';
   import type { NodeData, NodeInfo } from './NodeInfo';
   import type { Snippet } from 'svelte';
@@ -17,7 +17,7 @@
       noInitialization: true
     }),
     // json.key is used for sub nodes
-    childrenKey = 'children',
+    childrenKey = CHILDREN,
     // json.key used for leaf nodes
     textKey = 'text',
     // node indent in px
@@ -113,14 +113,14 @@
   $effect(() => {
     // look for model changes
     model;
-    console.log("model change detected")
+    console.log('model change detected');
 
     // TODO: change this? isDragging triggered in Vue2 because its array is not same with Vue3
     const isDragging = dragOvering || dragNode;
     if (isDragging || _ignoreValueChangeOnce) {
       _ignoreValueChangeOnce = false;
     } else {
-      console.log("Initializing model")
+      console.log('Initializing model');
       processor.nodeData = model;
       processor.init();
       nodeInfos = processor.nodeInfos!;

@@ -1,28 +1,8 @@
 import * as hp from './jshelper';
-import { defaults, type NodeInfo, type NodeData } from './NodeInfo';
+import { defaults, type NodeData, type NodeInfo } from './NodeInfo';
+import { Options } from '$lib/Options.svelte.js';
 
 export const CHILDREN = 'children'; // inner childrenKey
-
-export class Options {
-  childrenKey: string = CHILDREN;
-  defaultOpen: boolean = false;
-  // when true, the init() method must be called manually
-  noInitialization?: boolean = false;
-
-  public statsHandler(infos: NodeInfo[]) {
-    return infos;
-  }
-  public statsFlatHandler(infosFlat: NodeInfo[]) {
-    return infosFlat;
-  }
-  public afterSetStat(_info: NodeInfo, _parent: NodeInfo | null, _index: number) {}
-  public afterRemoveStat(_info: NodeInfo) {}
-  public statHandler(info: NodeInfo) {
-    return info;
-  }
-}
-
-export interface PartialOptions extends Partial<Options> {}
 
 export class TreeProcessor {
   public nodeData: NodeData;
@@ -41,14 +21,14 @@ export class TreeProcessor {
   }
 
   public init() {
-    console.log("TreeProcessor.init() called")
+    console.log('TreeProcessor.init() called');
     const childrenKey = this.options.childrenKey;
     const td = new hp.TreeData([] as NodeInfo[]);
     this._infosMap = new Map();
     hp.walkTreeData(
       this.nodeData,
       (nodeData, index, parent, path) => {
-        const nodeInfo = this.options.statHandler({
+        const nodeInfo = this.options.infoHandler({
           ...defaults(),
           nodeData: nodeData,
           open: Boolean(this.options.defaultOpen),
@@ -66,8 +46,8 @@ export class TreeProcessor {
     td.walk(nodeInfo => {
       flat.push(nodeInfo);
     });
-    this.nodeInfos = this.options.statsHandler(td.rootChildren);
-    this.nodeInfosFlat = this.options.statsFlatHandler(flat);
+    this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
+    this.nodeInfosFlat = this.options.InfoNodesFlatHandler(flat);
     // this.initialized = true;
   }
 
@@ -253,7 +233,7 @@ export class TreeProcessor {
       index = siblings.length;
     }
 
-    const info: NodeInfo = this.options.statHandler({
+    const info: NodeInfo = this.options.infoHandler({
       ...defaults(),
       open: Boolean(this.options.defaultOpen),
       nodeData: data,
@@ -281,7 +261,7 @@ export class TreeProcessor {
       for (const stat of stats) {
         this._infosMap!.delete(stat.nodeData);
       }
-      this.options.afterRemoveStat(info);
+      this.options.afterRemoveInfoNode(info);
       return true;
     }
     return false;
@@ -316,7 +296,7 @@ export class TreeProcessor {
       },
       { childrenKey: CHILDREN }
     );
-    this.options.afterSetStat(info, parent, index);
+    this.options.afterSetInfoNode(info, parent, index);
   }
 
   // this is a generqtor function '*'
