@@ -12,6 +12,7 @@ export class TreeProcessor {
   // used to find info from data
   private _infosMap: Map<NodeData, NodeInfo> | null;
   private options: Options;
+  private initialized: boolean = false;
 
   constructor(opt?: Options) {
     this.nodeInfos = [];
@@ -21,34 +22,36 @@ export class TreeProcessor {
   }
 
   public init() {
-    console.log('TreeProcessor.init() called');
-    const childrenKey = this.options.childrenKey;
-    const td = new hp.TreeData([] as NodeInfo[]);
-    this._infosMap = new Map();
-    hp.walkTreeData(
-      this.nodeData,
-      (nodeData, index, parent, path) => {
-        const nodeInfo = this.options.infoHandler({
-          ...defaults(),
-          nodeData: nodeData,
-          open: Boolean(this.options.defaultOpen),
-          parent: td.getParent(path),
-          children: [],
-          level: path.length
-        });
-        this._infosMap!.set(nodeData, nodeInfo);
-        td.set(path, nodeInfo);
-      },
-      { childrenKey }
-    );
+    if (!this.initialized) {
+      console.log('TreeProcessor.init() called');
+      const childrenKey = this.options.childrenKey;
+      const td = new hp.TreeData([] as NodeInfo[]);
+      this._infosMap = new Map();
+      hp.walkTreeData(
+        this.nodeData,
+        (nodeData, index, parent, path) => {
+          const nodeInfo = this.options.infoHandler({
+            ...defaults(),
+            nodeData: nodeData,
+            open: Boolean(this.options.defaultOpen),
+            parent: td.getParent(path),
+            children: [],
+            level: path.length
+          });
+          this._infosMap!.set(nodeData, nodeInfo);
+          td.set(path, nodeInfo);
+        },
+        { childrenKey }
+      );
 
-    const flat: typeof td.rootChildren = [];
-    td.walk(nodeInfo => {
-      flat.push(nodeInfo);
-    });
-    this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
-    this.nodeInfosFlat = this.options.InfoNodesFlatHandler(flat);
-    // this.initialized = true;
+      const flat: typeof td.rootChildren = [];
+      td.walk(nodeInfo => {
+        flat.push(nodeInfo);
+      });
+      this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
+      this.nodeInfosFlat = this.options.InfoNodesFlatHandler(flat);
+      this.initialized = true;
+    }
   }
 
   public getNodeInfo(data: NodeData): NodeInfo {
