@@ -395,6 +395,7 @@ export function findInfoInTreeData<T>(
     },
     opt
   );
+  // @ts-expect-error used before assigned
   return r;
 }
 

@@ -61,11 +61,11 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@playwright/test": "^1.45.3",
     "@sveltejs/adapter-static": "^3.0.2",
-    "@sveltejs/kit": "^2.5.19",
+    "@sveltejs/kit": "^2.5.20",
     "@sveltejs/package": "2.3.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.0-next.3",
     "@types/eslint": "^9.6.0",
-    "@types/node": "^22.0.2",
+    "@types/node": "^22.1.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "badge-maker": "^4.0.0",
@@ -95,6 +95,6 @@
     "vite": "^5.3.5"
   },
   "peerDependencies": {
-    "svelte": "5.0.0-next.205"
+    "svelte": "5.0.0-next.208"
   }
 }

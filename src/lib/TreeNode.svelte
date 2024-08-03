@@ -54,6 +54,8 @@
   $effect(() => {
     const open = nodeInfo.open;
 
+    console.log('toggleOpen');
+
     if (justToggleOpen) {
       return;
     }

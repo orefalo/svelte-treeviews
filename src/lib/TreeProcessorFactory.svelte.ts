@@ -7,7 +7,7 @@ import { Options, PreProcessorOptions, type PartialOptions } from '$lib/Options.
 //   return func ? func(input) : input;
 // }
 
-export function createTreeProcessor<T>(data: T[], options: Options) {
+export function createTreeProcessor<T>(data: T[], options: PartialOptions) {
   // let preProcessor: (input: NodeInfo) => NodeInfo;
 
   // const opt = {

@@ -294,34 +294,6 @@
     batchUpdateWaiting = old;
     return r;
   }
-
-  // function processorMethodProxy(name: string) {
-  //   return function (...args: any) {
-  //     // @ts-ignore
-  //     return processor[name](...args);
-  //   };
-  // }
-  // function processorMethodProxyWithBatchUpdate(name: string) {
-  //   return function (...args: any) {
-  //     // @ts-ignore
-  //     return batchUpdate(() => {
-  //       // @ts-ignore
-  //       return processor[name](...args);
-  //     });
-  //   };
-  // }
-
-  // function reactiveFirstArg(func: Function) {
-  //   return function (arg1: any, ...args: any) {
-  //     const v = $state(arg1);
-  //     if (arg1) {
-  //       // @ts-ignore
-  //       return func.call(this, v, ...args);
-  //     }
-  //     // @ts-ignore
-  //     return func.call(this, arg1, ...args);
-  //   };
-  // }
 </script>
 
 <VirtualList

@@ -7,7 +7,7 @@ export class Options {
   // when true, the init() method must be called manually
   noInitialization?: boolean = false;
 
-  constructor(o?: Options) {
+  constructor(o?: PartialOptions) {
     this.childrenKey = o?.childrenKey || CHILDREN;
     this.defaultOpen = o?.defaultOpen || false;
     this.noInitialization = o?.noInitialization || false;
@@ -38,7 +38,7 @@ export class PreProcessorOptions extends Options {
     return func ? func(input) : input;
   }
 
-  constructor(o: Options) {
+  constructor(o: PartialOptions) {
     super(o);
   }
 
