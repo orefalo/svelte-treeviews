@@ -1,5 +1,5 @@
 import * as hp from './jshelper';
-import { defaults, type NodeData, type NodeInfo } from './NodeInfo';
+import { NodeInfo, type NodeData } from './NodeInfo';
 import { Options } from '$lib/Options.svelte.js';
 
 export const CHILDREN = 'children'; // inner childrenKey
@@ -30,14 +30,15 @@ export class TreeProcessor {
       hp.walkTreeData(
         this.nodeData,
         (nodeData, index, parent, path) => {
-          const nodeInfo = this.options.infoHandler({
-            ...defaults(),
-            nodeData: nodeData,
-            open: Boolean(this.options.defaultOpen),
-            parent: td.getParent(path),
-            children: [],
-            level: path.length
-          });
+          const nodeInfo = this.options.infoHandler(
+            new NodeInfo({
+              nodeData: nodeData,
+              open: Boolean(this.options.defaultOpen),
+              parent: td.getParent(path),
+              children: [],
+              level: path.length
+            })
+          );
           this._infosMap!.set(nodeData, nodeInfo);
           td.set(path, nodeInfo);
         },
@@ -63,7 +64,7 @@ export class TreeProcessor {
   }
 
   public has(infoOrData: NodeData | NodeInfo): boolean {
-    if (infoOrData['isNodeInfo']) {
+    if (infoOrData instanceof NodeInfo) {
       // @ts-ignore
       return this.nodeInfosFlat.indexOf(infoOrData) > -1;
     } else {
@@ -156,7 +157,7 @@ export class TreeProcessor {
 
   public isVisible(infoOrData: NodeData | NodeInfo) {
     // @ts-ignore
-    const info: NodeInfo = infoOrData["isNodeInfo"] ? infoOrData : this.getNodeInfo(infoOrData); // prettier-ignore
+    const info: NodeInfo =  infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData); // prettier-ignore
     const walk: (ei: NodeInfo | null) => boolean = (nodeInfo: NodeInfo | null) => {
       return !nodeInfo || (!nodeInfo.hidden && nodeInfo.open && walk(nodeInfo.parent));
     };
@@ -209,7 +210,7 @@ export class TreeProcessor {
 
   public openNodeAndParents(infoOrData: NodeData | NodeInfo) {
     // @ts-ignore
-    const stat:NodeInfo = infoOrData["isNodeInfo"] ? infoOrData : this.getNodeInfo(infoOrData) // prettier-ignore
+    const stat:NodeInfo = infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData) // prettier-ignore
     for (const parentStat of this.iterateParent(stat, {
       withSelf: true
     })) {
@@ -236,14 +237,15 @@ export class TreeProcessor {
       index = siblings.length;
     }
 
-    const info: NodeInfo = this.options.infoHandler({
-      ...defaults(),
-      open: Boolean(this.options.defaultOpen),
-      nodeData: data,
-      parent: parent || null,
-      children: [],
-      level: parent ? parent.level + 1 : 1
-    });
+    const info: NodeInfo = this.options.infoHandler(
+      new NodeInfo({
+        open: Boolean(this.options.defaultOpen),
+        nodeData: data,
+        parent: parent || null,
+        children: [],
+        level: parent ? parent.level + 1 : 1
+      })
+    );
     this._setPosition(info, parent || null, index);
     // @ts-expect-error implicit any type
     const children = data[this.childrenKey];

@@ -22,9 +22,10 @@
     tn_slot,
 
     // events
-    onopen = _emptyFunction,
-    onclose = _emptyFunction,
-    oncheck = _emptyFunction
+    onNodeOpened: onopen = _emptyFunction,
+    onNodeclosed: onclose = _emptyFunction,
+    onNodeChecked: oncheck = _emptyFunction,
+    // onclick = _emptyFunction
   }: {
     nodeInfo: NodeInfo;
     rtl: boolean;
@@ -38,9 +39,10 @@
 
     tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
 
-    onopen: (info: NodeInfo) => void;
-    onclose: (info: NodeInfo) => void;
-    oncheck: (info: NodeInfo) => void;
+    onNodeOpened: (info: NodeInfo) => void;
+    onNodeclosed: (info: NodeInfo) => void;
+    onNodeChecked: (info: NodeInfo) => void;
+    // onclick: (info: NodeInfo) => void;
   } = $props();
 
   let indentStyle = $derived(
