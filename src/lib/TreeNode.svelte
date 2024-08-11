@@ -3,8 +3,6 @@
   import type { NodeData, NodeInfo } from './NodeInfo';
   import clsx from 'clsx';
 
-  const _emptyFunction = () => {};
-
   let {
     nodeInfo,
     // right or left layout
@@ -22,10 +20,9 @@
     tn_slot,
 
     // events
-    onNodeOpened: onopen = _emptyFunction,
-    onNodeclosed: onclose = _emptyFunction,
-    onNodeChecked: oncheck = _emptyFunction,
-    // onclick = _emptyFunction
+    onNodeOpened: onopen,
+    onNodeclosed: onclose,
+    onNodeChecked: oncheck,
   }: {
     nodeInfo: NodeInfo;
     rtl: boolean;
@@ -39,9 +36,9 @@
 
     tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
 
-    onNodeOpened: (info: NodeInfo) => void;
-    onNodeclosed: (info: NodeInfo) => void;
-    onNodeChecked: (info: NodeInfo) => void;
+    onNodeOpened?: (info: NodeInfo) => void;
+    onNodeclosed?: (info: NodeInfo) => void;
+    onNodeChecked?: (info: NodeInfo) => void;
     // onclick: (info: NodeInfo) => void;
   } = $props();
 
@@ -61,7 +58,7 @@
     if (justToggleOpen) {
       return;
     }
-    open ? onopen(nodeInfo) : onclose(nodeInfo);
+    open ? onopen?.(nodeInfo) : onclose?.(nodeInfo);
 
     afterToggleOpen();
   });
@@ -74,7 +71,7 @@
       return;
     }
     if (processor?.afterOneCheckChanged(nodeInfo)) {
-      oncheck(nodeInfo);
+      oncheck?.(nodeInfo);
     }
   });
 

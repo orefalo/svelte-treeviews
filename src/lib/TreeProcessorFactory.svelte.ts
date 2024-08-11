@@ -1,6 +1,6 @@
 // import type { NodeInfo } from './NodeInfo';
 import { TreeProcessor } from './TreeProcessor';
-import { Options, PreProcessorOptions, type PartialOptions } from '$lib/Options.svelte.js';
+import { PreProcessorOptions, type PartialOptions } from '$lib/Options.svelte.js';
 
 // output=func(input)
 // function filter<T>(func: Function | null | undefined, input: T): T {
