@@ -22,7 +22,7 @@
     // events
     onNodeOpened: onopen,
     onNodeclosed: onclose,
-    onNodeChecked: oncheck,
+    onNodeChecked: oncheck
   }: {
     nodeInfo: NodeInfo;
     rtl: boolean;
@@ -32,7 +32,7 @@
     treeLineOffset: number;
     processor?: { afterOneCheckChanged: (s: NodeInfo) => boolean };
     class?: string;
-    style?: string;
+    style: string | null;
 
     tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
 
@@ -51,7 +51,7 @@
   );
 
   $effect(() => {
-    const open = nodeInfo.open;
+    const open = nodeInfo.expended;
 
     console.log('toggleOpen');
 

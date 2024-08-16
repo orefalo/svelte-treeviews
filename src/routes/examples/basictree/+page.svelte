@@ -1,6 +1,5 @@
-<script setup lang="ts">
+<script lang="ts">
   import { Tree } from 'svelte-treeviews';
-
   import data0 from '../data.json';
   import { NodeInfo } from 'svelte-treeviews/NodeInfo';
 
@@ -49,11 +48,11 @@
     {treeLine}
     virtualization={true}
     style="height: 500px">
-    {#snippet tree_slot({ data, info }:{data:any, info:NodeInfo})}
+    {#snippet tree_slot({ data, info }: { data: any; info: NodeInfo })}
       {#if info.children.length}
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <span onclick={() => info.toggleOpen()}>{info.open ? '-' : '+'}</span>
+        <span onclick={() => info.toggleExpand()}>{info.expended ? '-' : '+'}</span>
       {/if}
       <input type="checkbox" value={info.checked} onclick={() => info.toggleChecked()} />
       {data.text}
@@ -61,5 +60,3 @@
   </Tree>
 </div>
 
-<style>
-</style>

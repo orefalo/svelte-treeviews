@@ -16,6 +16,7 @@
 	const treeMap = {
 		/* child label: parent node */
 	};
+	
 	function initTreeMap(tree) {
 		if (tree.children) {
 			for (const child of tree.children) {
@@ -26,11 +27,11 @@
 	};
 	initTreeMap(tree);
 
-	function rebuildChildren(node, checkAsParent = true) {
+	function rebuildChildrenCheckboxes(node, checkAsParent = true) {
 		if (node.children) {
 			for (const child of node.children) {
 				if (checkAsParent) child.checked = !!node.checked;
-				rebuildChildren(child, checkAsParent);
+				rebuildChildrenCheckboxes(child, checkAsParent);
 			}
 			node.indeterminate =
 				node.children.some((c) => c.indeterminate) ||
@@ -38,10 +39,10 @@
 		}
 	};
 
-	function rebuildTree (e, checkAsParent = true) {
+	function rebuildTreeCheckboxes (e, checkAsParent = true) {
 		const node = e.detail.node;
 		let parent = treeMap[node.label];
-		rebuildChildren(node, checkAsParent);
+		rebuildChildrenCheckboxes(node, checkAsParent);
 		while (parent) {
 			const allCheck = parent.children.every((c) => !!c.checked);
 			if (allCheck) {
@@ -66,11 +67,11 @@
 		// console.log(tree)
 	}
 	// init the tree state
-	rebuildTree({detail: { node: tree }}, false);
+	rebuildTreeCheckboxes({detail: { node: tree }}, false);
 </script>
 
 <div>
-	<Node {tree} on:toggle={rebuildTree} />
+	<Node {tree} on:toggle={rebuildTreeCheckboxes} />
 </div>
 
 <style>

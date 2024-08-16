@@ -1,5 +1,5 @@
 // import type { NodeInfo } from './NodeInfo';
-import { TreeProcessor } from './TreeProcessor';
+import { TreeProcessor } from './TreeProcessor.svelte';
 import { PreProcessorOptions, type PartialOptions } from '$lib/Options.svelte.js';
 
 // output=func(input)

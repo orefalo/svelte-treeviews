@@ -6,8 +6,8 @@ export const CHILDREN = 'children'; // inner childrenKey
 
 export class TreeProcessor {
   public nodeData: NodeData;
-  public nodeInfos: NodeInfo[];
-  public nodeInfosFlat: NodeInfo[];
+  public nodeInfos: NodeInfo[] = $state([]);
+  public nodeInfosFlat: NodeInfo[] = $state([]);
 
   // used to find info from data
   private _infosMap: Map<NodeData, NodeInfo> | null;
@@ -15,8 +15,8 @@ export class TreeProcessor {
   private initialized: boolean = false;
 
   constructor(opt?: Options) {
-    this.nodeInfos = [];
-    this.nodeInfosFlat = [];
+    // this.nodeInfos = [];
+    // this.nodeInfosFlat
     this._infosMap = null;
     this.options = opt ? opt : new Options();
   }
@@ -33,7 +33,7 @@ export class TreeProcessor {
           const nodeInfo = this.options.infoHandler(
             new NodeInfo({
               nodeData: nodeData,
-              open: Boolean(this.options.defaultOpen),
+              expended: Boolean(this.options.defaultOpen),
               parent: td.getParent(path),
               children: [],
               level: path.length
@@ -159,14 +159,14 @@ export class TreeProcessor {
     // @ts-ignore
     const info: NodeInfo =  infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData); // prettier-ignore
     const walk: (ei: NodeInfo | null) => boolean = (nodeInfo: NodeInfo | null) => {
-      return !nodeInfo || (!nodeInfo.hidden && nodeInfo.open && walk(nodeInfo.parent));
+      return !nodeInfo || (!nodeInfo.hidden && nodeInfo.expended && walk(nodeInfo.parent));
     };
     return Boolean(!info.hidden && walk(info.parent));
   }
   /**
    * call it to update all stats' `checked`
    */
-  public updateCheck() {
+  public updateCheckboxes() {
     hp.walkTreeData(
       this.nodeInfos!,
       info => {
@@ -195,16 +195,16 @@ export class TreeProcessor {
    * open all nodes
    */
   public openAll() {
-    for (const stat of this.nodeInfosFlat!) {
-      stat.open = true;
+    for (const i of this.nodeInfosFlat!) {
+      i.expended = true;
     }
   }
   /**
    * close all nodes
    */
   public closeAll() {
-    for (const stat of this.nodeInfosFlat!) {
-      stat.open = false;
+    for (const i of this.nodeInfosFlat!) {
+      i.expended = false;
     }
   }
 
@@ -214,7 +214,7 @@ export class TreeProcessor {
     for (const parentStat of this.iterateParent(stat, {
       withSelf: true
     })) {
-      parentStat.open = true;
+      parentStat.expended = true;
     }
   }
 
@@ -239,7 +239,7 @@ export class TreeProcessor {
 
     const info: NodeInfo = this.options.infoHandler(
       new NodeInfo({
-        open: Boolean(this.options.defaultOpen),
+        expended: Boolean(this.options.defaultOpen),
         nodeData: data,
         parent: parent || null,
         children: [],

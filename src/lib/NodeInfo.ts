@@ -6,7 +6,7 @@ export class NodeInfo {
   // TODO: that's the catch all, check if can be removed
   //  [x: string]: any;
   nodeData: NodeData;
-  open: boolean;
+  expended: boolean;
   parent: NodeInfo | null;
   children: NodeInfo[];
   level: number;
@@ -27,7 +27,7 @@ export class NodeInfo {
 
   constructor(o?: PartialNodeInfo) {
     this.nodeData = o?.nodeData || null;
-    this.open = o?.open || false;
+    this.expended = o?.expended || false;
     this.parent = o?.parent || null;
     this.children = o?.children || [];
     this.level = o?.level || 0;
@@ -42,13 +42,15 @@ export class NodeInfo {
     this._ignoreCheckedOnce = o?._ignoreCheckedOnce;
   }
 
-  public toggleOpen() {
-    console.log("nodeInfo.toggleOpen")
-    this.open = !this.open;
+  public toggleExpand() {
+    console.log('nodeInfo.toggleExpand');
+    this.expended = !this.expended;
+    console.log(this.expended)
   }
   public toggleChecked() {
-    console.log("nodeInfo.toggleChecked")
+    console.log('nodeInfo.toggleChecked');
     this.checked = !this.checked;
+    console.log(this.checked)
   }
 }
 

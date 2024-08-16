@@ -1,8 +1,8 @@
 <script lang="ts">
   import { VirtualList } from '$lib/virtuallist';
   import TreeNode from './TreeNode.svelte';
-  import { CHILDREN, TreeProcessor } from './TreeProcessor';
-  import { createTreeProcessor } from './TreeProcessorFactory.svelte.js';
+  import { CHILDREN, TreeProcessor } from './TreeProcessor.svelte';
+  import { createTreeProcessor } from './TreeProcessorFactory';
   import type { NodeData, NodeInfo } from './NodeInfo';
   import type { Snippet } from 'svelte';
   import clsx from 'clsx';
@@ -99,10 +99,10 @@
   } = $props();
 
   // used to hold the meta-data of each node
-  let nodeInfos: TreeProcessor['nodeInfos'] = $state([]);
+  let nodeInfos: Array<NodeInfo> = $state([]);
 
   // used to render the tree
-  let nodeInfosFlat: TreeProcessor['nodeInfosFlat'] = $state([]);
+  let nodeInfosFlat: Array<NodeInfo> = $state([]);
   let dragNode: NodeInfo | null = null;
   let dragOvering: boolean = false;
   let placeholderData: {} = {};
@@ -178,9 +178,9 @@
   }
 
   // Recalculate checked state of all nodes from end to root
-  function updateCheck(): void {
+  function updateCheckboxes(): void {
     // return reactiveFirstArg(processorMethodProxy('updateCheck'))(undefined);
-    processor.updateCheck();
+    processor.updateCheckboxes();
   }
 
   // Get all checked nodes. Param withDemi means including half checked
@@ -326,8 +326,7 @@
         {processor}
         onNodeOpened={(info: NodeInfo) => onNodeOpened && onNodeOpened(info)}
         onNodeclosed={(info: NodeInfo) => onNodeClosed && onNodeClosed(info)}
-        onNodeChecked={(info: NodeInfo) => onNodeChecked && onNodeChecked(info)}
-        <!-- onclick={(info: NodeInfo) => onNodeClicked && onNodeClicked(info)}> -->
+        onNodeChecked={(info: NodeInfo) => onNodeChecked && onNodeChecked(info)}>
         {#snippet tn_slot(params)}
           {#if params.data === placeholderData}
             <div class="drag-placeholder he-tree-drag-placeholder">

@@ -1,5 +1,5 @@
 import type { NodeInfo } from '$lib/NodeInfo';
-import { CHILDREN } from '$lib/TreeProcessor';
+import { CHILDREN } from '$lib/TreeProcessor.svelte';
 
 export class Options {
   childrenKey: string = CHILDREN;
