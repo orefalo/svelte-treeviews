@@ -11,16 +11,18 @@ export class NodeInfo {
   children: NodeInfo[];
   level: number;
   hidden: boolean;
-  checked: boolean | number; // 0 mean just part of children checked, number allows for intermediary states
-  // 0 mean just part of children checked
-  draggable: boolean | null; //null mean inherit parent
+  // 0 mean just part of children checked, number allows for intermediary states
+  checked: boolean | number;
   //null mean inherit parent
-  droppable: boolean | null; //null mean inherit parent
+  draggable: boolean | null;
+  //null mean inherit parent
+  droppable: boolean | null;
   //null mean inherit parent
   style: string | null;
   class: string | null;
 
   // used to identify if the data is a node or the data of the node
+  // not needed anymore, it's a class
   //isNodeInfo: true;
 
   _ignoreCheckedOnce?: boolean;
@@ -45,12 +47,12 @@ export class NodeInfo {
   public toggleExpand() {
     console.log('nodeInfo.toggleExpand');
     this.expended = !this.expended;
-    console.log(this.expended)
+    console.log(this.expended);
   }
   public toggleChecked() {
     console.log('nodeInfo.toggleChecked');
     this.checked = !this.checked;
-    console.log(this.checked)
+    console.log(this.checked);
   }
 }
 

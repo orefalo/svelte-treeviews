@@ -1,7 +1,9 @@
 <script>
 	import Node from './Node.svelte';
-	let tree = {
+	
+	let tree = $state({
 		label: 'root',
+		
 		children: [
 			{
 				label: 'node A',
@@ -11,21 +13,21 @@
 			{ label: 'node C' },
 			{ label: 'node D' }
 		]
-	};
+	});
 
+	// used to find parents
 	const treeMap = {
 		/* child label: parent node */
 	};
-	
-	function initTreeMap(tree) {
-		if (tree.children) {
-			for (const child of tree.children) {
-				treeMap[child.label] = tree;
+	function initTreeMap(t=tree) {
+		if (t.children) {
+			for (const child of t.children) {
+				treeMap[child.label] = t;
 				initTreeMap(child);
 			}
 		}
 	};
-	initTreeMap(tree);
+	initTreeMap();
 
 	function rebuildChildrenCheckboxes(node, checkAsParent = true) {
 		if (node.children) {
@@ -40,7 +42,7 @@
 	};
 
 	function rebuildTreeCheckboxes (e, checkAsParent = true) {
-		const node = e.detail.node;
+		const node = e.node;
 		let parent = treeMap[node.label];
 		rebuildChildrenCheckboxes(node, checkAsParent);
 		while (parent) {
@@ -59,19 +61,19 @@
 				}
 				parent.checked = false;
 			}
-
 			parent = treeMap[parent.label];
 		}
-		tree = tree;
-		// see console the tree state when there's a state changed
-		// console.log(tree)
+
 	}
 	// init the tree state
-	rebuildTreeCheckboxes({detail: { node: tree }}, false);
+	// svelte-ignore state_referenced_locally
+	rebuildTreeCheckboxes({ node: tree }, false);
+
 </script>
 
+
 <div>
-	<Node {tree} on:toggle={rebuildTreeCheckboxes} />
+	<Node bind:node={tree} ontoggle={rebuildTreeCheckboxes} />
 </div>
 
 <style>

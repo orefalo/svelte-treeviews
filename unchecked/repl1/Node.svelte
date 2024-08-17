@@ -1,57 +1,51 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-
-	export let tree;
-	const dispatch = createEventDispatcher();
+	let { node= $bindable(), ontoggle } = $props();
+	
 	const toggleExpansion = () => {
-		tree.expanded = !tree.expanded;
+		node.expanded = !node.expanded;
 	};
 
 	const toggleCheck = () => {
 		// update the current node's state here, the UI only need to represent it, 
 		// don't need to bind the check state to the UI
-		tree.checked = !tree.checked;
-		
+		node.checked = !node.checked;
+
 		// emit node 'toggle' event, notify parent compnent to rebuild the entire tree's state
-		dispatch('toggle', {
-			node: tree
-		});
+		if(ontoggle) ontoggle({ node })
 	};
 </script>
-
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore element_invalid_self_closing_tag -->
 <ul>
 	<li>
-		{#if tree.children}
+		{#if node.children}
 			<input
 				type="checkbox"
-				data-label={tree.label}
-				checked={tree.checked}
-				indeterminate={tree.indeterminate}
-				on:click={toggleCheck}
+				data-label={node.label}
+				checked={node.checked}
+				indeterminate={node.indeterminate}
+				onclick={toggleCheck}
 			/>
-
-			<span on:click={toggleExpansion} class="arrow" class:arrowDown={tree.expanded} />
-			<span on:click={toggleCheck}>
-				{tree.label}
+			<span onclick={toggleExpansion} class="arrow" class:arrowDown={node.expanded} />
+			<span onclick={toggleCheck}>
+				{node.label}
 			</span>
-			{#if tree.expanded}
-				{#each tree.children as child}
-					<svelte:self tree={child} on:toggle />
+			{#if node.expanded}
+				{#each node.children as child}
+					<svelte:self node={child} {ontoggle} />
 				{/each}
 			{/if}
 		{:else}
 			<input
 				type="checkbox"
-				data-label={tree.label}
-				checked={tree.checked}
-				indeterminate={tree.indeterminate}
-				on:click={toggleCheck}
+				data-label={node.label}
+				checked={node.checked}
+				indeterminate={node.indeterminate}
+				onclick={toggleCheck}
 			/>
-			<span on:click={toggleCheck}>
-				{tree.label}
+			<span onclick={toggleCheck}>
+				{node.label}
 			</span>
 		{/if}
 	</li>
@@ -66,8 +60,7 @@
 	}
 	.arrow::before {
 		--tw-content: '+';
-    content: var(--tw-content);	
-	display: inline-block;
+    content: var(--tw-content);		display: inline-block;
     cursor: pointer;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: 1rem;

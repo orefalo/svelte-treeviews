@@ -98,7 +98,7 @@
     onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
   } = $props();
 
-  // used to hold the meta-data of each node
+  // this is the model of the tree, it holds meta-data and data
   let nodeInfos: Array<NodeInfo> = $state([]);
 
   // used to render the tree
