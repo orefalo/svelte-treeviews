@@ -8,14 +8,16 @@
   import clsx from 'clsx';
 
   let {
+    // the model is only used as an interface with the component, model -> processor() -> (nodeInfos,nodeInfosFlat)
     model,
 
-    // specifies how onUpdateValue() is triggered
-    updateBehavior = 'modify',
     processor = createTreeProcessor([], {
       // do not call init(), will be called manually later
       noInitialization: true
     }),
+
+    // specifies how onUpdateValue() is triggered
+    updateBehavior = 'modify',
     // json.key is used for sub nodes
     childrenKey = CHILDREN,
     // json.key used for leaf nodes
@@ -47,6 +49,7 @@
     nodeInfoPreProcessor,
 
     // SLOTS
+
     // to customize the rendering of treenodes
     tree_slot,
     // to customize the rendering of the drag/drop area
@@ -67,8 +70,8 @@
     onUpdateValue
   }: {
     model: Array<NodeData>;
-    updateBehavior?: 'modify' | 'new' | 'disabled';
     processor?: TreeProcessor;
+    updateBehavior?: 'modify' | 'new' | 'disabled';
     childrenKey?: string;
     textKey?: string;
     indent?: number;
@@ -99,10 +102,12 @@
   } = $props();
 
   // this is the model of the tree, it holds meta-data and data
-  let nodeInfos: Array<NodeInfo> = $state([]);
+  //let nodeInfos: Array<NodeInfo> = $state([]);
 
   // used to render the tree
-  let nodeInfosFlat: Array<NodeInfo> = $state([]);
+  let nodeInfosToRender: Array<NodeInfo> = $state([]);
+
+  // node being dragged
   let dragNode: NodeInfo | null = null;
   let dragOvering: boolean = false;
   let placeholderData: {} = {};
@@ -123,8 +128,11 @@
       console.log('Initializing model');
       processor.nodeData = model;
       processor.init();
-      nodeInfos = processor.nodeInfos!;
-      nodeInfosFlat = processor.nodeInfosFlat!;
+
+      // what about     nodeInfosToRender=processor.init(model)
+
+      // nodeInfos = processor.nodeInfos!;
+      nodeInfosToRender = processor.nodeInfosToRender!;
     }
   });
 
@@ -134,7 +142,7 @@
 
   // only returns the visible nodes
   function visibleNodes(): NodeInfo[] {
-    let items = nodeInfosFlat || [];
+    let items = nodeInfosToRender || [];
     if (btt) {
       items = items.slice().reverse();
     }
@@ -142,7 +150,7 @@
   }
 
   function rootChildren() {
-    return nodeInfos;
+    return processor.nodeInfos;
   }
 
   function _emitValue(value: any[]) {
@@ -307,7 +315,7 @@
   isDisabled={!virtualization}
   width="auto"
   model={visibleNodes()}
-  modelCount={nodeInfos?.length || 0}
+  modelCount={processor.nodeInfos?.length || 0}
   itemSize={25}>
   {#snippet vl_slot({ item: nodeInfo, style, index })}
     {#if nodeInfo}

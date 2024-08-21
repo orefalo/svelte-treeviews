@@ -6,11 +6,12 @@ export const CHILDREN = 'children'; // inner childrenKey
 
 export class TreeProcessor {
   public nodeData: NodeData;
-  public nodeInfos: NodeInfo[] = $state([]);
-  public nodeInfosFlat: NodeInfo[] = $state([]);
 
+  public nodeInfos: NodeInfo[] = $state([]);
+  public nodeInfosToRender: NodeInfo[] = $state([]);
   // used to find info from data
   private _infosMap: Map<NodeData, NodeInfo> | null;
+
   private options: Options;
   private initialized: boolean = false;
 
@@ -23,8 +24,10 @@ export class TreeProcessor {
 
   public init() {
     if (!this.initialized) {
+      this.initialized = true;
       console.log('TreeProcessor.init() called');
       const childrenKey = this.options.childrenKey;
+
       const td = new hp.TreeData([] as NodeInfo[]);
       this._infosMap = new Map();
       hp.walkTreeData(
@@ -45,13 +48,19 @@ export class TreeProcessor {
         { childrenKey }
       );
 
+      console.log('td', td);
+
+      this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
+
+      // nodeInfosFlat = this.options.InfoNodesFlatHandler(flat)
       const flat: typeof td.rootChildren = [];
       td.walk(nodeInfo => {
         flat.push(nodeInfo);
       });
-      this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
-      this.nodeInfosFlat = this.options.InfoNodesFlatHandler(flat);
-      this.initialized = true;
+
+      console.log('rootChildren', td.rootChildren);
+
+      this.nodeInfosToRender = this.options.InfoNodesFlatHandler(flat);
     }
   }
 
@@ -65,11 +74,9 @@ export class TreeProcessor {
 
   public has(infoOrData: NodeData | NodeInfo): boolean {
     if (infoOrData instanceof NodeInfo) {
-      // @ts-ignore
-      return this.nodeInfosFlat.indexOf(infoOrData) > -1;
+      return this.nodeInfosToRender.indexOf(infoOrData) > -1;
     } else {
       try {
-        // @ts-ignore
         const r = this.getNodeInfo(infoOrData);
         //TODO that's just a return true
         return Boolean(r).valueOf();
@@ -82,14 +89,14 @@ export class TreeProcessor {
     }
   }
 
-  // private _getPathByStat(info: NodeInfo | null): Array<number> {
-  //   if (info === null) {
-  //     return [];
-  //   }
-  //   const siblings = this.getSiblings(info);
-  //   const index = siblings.indexOf(info);
-  //   return [...(info.parent ? this._getPathByStat(info.parent) : []), index];
-  // }
+  public _getPathByStat(info: NodeInfo | null): Array<number> {
+    if (info === null) {
+      return [];
+    }
+    const siblings = this.getSiblings(info);
+    const index = siblings.indexOf(info);
+    return [...(info.parent ? this._getPathByStat(info.parent) : []), index];
+  }
 
   /**
    * call it after a nodeInfo's `checked` changed
@@ -182,12 +189,12 @@ export class TreeProcessor {
     );
   }
   public getChecked(withDemi = false) {
-    return this.nodeInfosFlat!.filter(v => {
+    return this.nodeInfosToRender!.filter(v => {
       return v.checked || (withDemi && v.checked === 0);
     });
   }
   public getUnchecked(withDemi = true) {
-    return this.nodeInfosFlat!.filter(v => {
+    return this.nodeInfosToRender!.filter(v => {
       return withDemi ? !v.checked : v.checked === false;
     });
   }
@@ -195,7 +202,7 @@ export class TreeProcessor {
    * open all nodes
    */
   public openAll() {
-    for (const i of this.nodeInfosFlat!) {
+    for (const i of this.nodeInfosToRender!) {
       i.expended = true;
     }
   }
@@ -203,7 +210,7 @@ export class TreeProcessor {
    * close all nodes
    */
   public closeAll() {
-    for (const i of this.nodeInfosFlat!) {
+    for (const i of this.nodeInfosToRender!) {
       i.expended = false;
     }
   }
@@ -220,7 +227,7 @@ export class TreeProcessor {
 
   // actions
   private _calcFlatIndex(parent: NodeInfo | null, index: number) {
-    let flatIndex = parent ? this.nodeInfosFlat!.indexOf(parent) + 1 : 0;
+    let flatIndex = parent ? this.nodeInfosToRender!.indexOf(parent) + 1 : 0;
     const siblings = parent ? parent.children : this.nodeInfos!;
     for (let i = 0; i < index; i++) {
       flatIndex += this._count(siblings[i]);
@@ -262,7 +269,7 @@ export class TreeProcessor {
     if (siblings.includes(info)) {
       hp.arrayRemove(siblings, info);
       const stats = this._flat(info);
-      this.nodeInfosFlat!.splice(this.nodeInfosFlat!.indexOf(info), stats.length);
+      this.nodeInfosToRender!.splice(this.nodeInfosToRender!.indexOf(info), stats.length);
       for (const stat of stats) {
         this._infosMap!.delete(stat.nodeData);
       }
@@ -286,7 +293,7 @@ export class TreeProcessor {
     info.level = parent ? parent.level + 1 : 1;
     const flatIndex = this._calcFlatIndex(parent, index);
     const stats = this._flat(info);
-    this.nodeInfosFlat!.splice(flatIndex, 0, ...stats);
+    this.nodeInfosToRender!.splice(flatIndex, 0, ...stats);
     for (const stat of stats) {
       if (!this._infosMap!.has(stat.nodeData)) {
         this._infosMap!.set(stat.nodeData, stat);

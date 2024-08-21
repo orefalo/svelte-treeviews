@@ -13,7 +13,6 @@ function arrayLast<T>(arr: T[]) {
   return arr[arr.length - 1];
 }
 
-//YES
 export function arrayRemove(arr: any[], v: any) {
   let index;
   let count = 0;
@@ -87,7 +86,6 @@ export function assignIfNoKey(obj: object, key: string, val: any) {
   }
 }
 
-//YES
 export function objectAssignIfNoKey<T extends object>(obj1: T, obj2: object) {
   Object.keys(obj2).forEach(key => {
     assignIfNoKey(obj1, key, obj2[key]);
@@ -303,7 +301,7 @@ export type WalkTreeDataOptions = {
  * @param handler
  * @param opt
  */
-//YES
+
 export function walkTreeData<T>(
   obj: T | T[],
   handler: WalkTreeDataHandler<T>,
@@ -664,7 +662,7 @@ export function splitArray<T>(arr: T[], n: number | ((times: number) => number))
 /**
  * NOT RECOMMEND. Use Node.contains instead.
  */
-//YES
+
 export function isDescendantOf(el: Node, parent: Node) {
   while (true) {
     if (el.parentNode == null) {
@@ -684,7 +682,7 @@ export function isDescendantOf(el: Node, parent: Node) {
  * @param handler
  * @param options
  */
-//YES
+
 export function on<T extends Event>(
   el: Node | Window | Document,
   name: string,
