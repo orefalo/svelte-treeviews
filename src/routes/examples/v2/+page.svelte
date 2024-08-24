@@ -37,9 +37,8 @@
   };
 
   const options = {
-      // labelFormatter: () => import('../src/views/ExampleFormatter.svelte')
-    }
-
+    // labelFormatter: () => import('../src/views/ExampleFormatter.svelte')
+  };
 </script>
 
 <TreeView {treeItems} {options}></TreeView>

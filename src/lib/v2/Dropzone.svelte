@@ -1,9 +1,10 @@
-<script>
-  import { getContext, createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
+<script lang="ts">
+  import { getContext } from 'svelte';
+  
+  //@ts-expect-error not typing
   const { getDragged } = getContext('dragging');
 
-  let { prefix } = $props();
+  let { prefix, ondrop }:{prefix:string, ondrop:Function} = $props();
 
   let draggingOver = $state(false);
 
@@ -27,10 +28,14 @@
   function drop(event) {
     if (!event.target || !event.target.id) return;
     if (dragAllowed(event.target.id) > 0) {
-      dispatch('drop', {
+      ondrop({
         oldPosition: getDragged(),
         newPosition: event.target.id.split('-')
       });
+      // dispatch('drop', {
+      //   oldPosition: getDragged(),
+      //   newPosition: event.target.id.split('-')
+      // });
     }
     cancelDrag();
   }
@@ -49,8 +54,8 @@
   class={`dropzone ${draggingOver ? 'active' : 'idle'}`}
   id={getId()}
   ondragleave={() => cancelDrag()}
-  ondragenter={$event => handleDragEnter($event)}
-  ondrop={$event => drop($event)}
+  ondragenter={e => handleDragEnter(e)}
+  ondrop={e => drop(e)}
   ondragover={() => false}>
 </div>
 

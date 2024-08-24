@@ -1,7 +1,7 @@
 <script>
   import Tree from '$lib/v2/Tree.svelte';
   let { treeItems, options } = $props();
-  
+
   let selected = $state();
   let newOrder;
 </script>
@@ -16,8 +16,8 @@ However, they seem to work in a "normal" svelte app setup. I'm working on it :)
     <Tree
       {treeItems}
       {options}
-      on:selected={item => (selected = item.detail)}
-      on:modelChanged={items => {
+      onselected={item => (selected = item.detail)}
+      onmodelChanged={items => {
         treeItems = items.detail;
       }}></Tree>
   </div>

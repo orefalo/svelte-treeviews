@@ -1,26 +1,40 @@
-<script>
-  import { onMount, getContext, createEventDispatcher } from 'svelte';
+<script lang="ts">
+  import { getContext } from 'svelte';
 
   import Dropzone from './Dropzone.svelte';
 
   import DefaultLabelFormatter from './DefaultLabelFormatter.svelte';
   /////////////////////// EVENTS//////////////////////
-  const dispatch = createEventDispatcher();
+  //const dispatch = createEventDispatcher();
 
   /////////////// CONTEXT DEPENDENCIES///////////////
+
   const { getDragged } = getContext('dragging');
 
   /////////////////////EXPORTED PROPERTIES///////////////////
   // Whether this folder is expanded or not (irrelevant for leaf nodes)
-  export let expanded = false;
-  // The entity's child elements. If not present, this is assumed to be a leaf node.
-  export let children;
-  // The label of this node
-  export let label;
-  // The prefix helps to find an element's position within the tree
-  export let prefix = null;
+  let {
+    expanded = false,
+    // The entity's child elements. If not present, this is assumed to be a leaf node.
+    children,
+    // The label of this node
+    label,
+    // The prefix helps to find an element's position within the tree
+    prefix = '',
 
-  export let internalOptions;
+    internalOptions,
+
+    onselected,
+    ondragstart,
+    ondrop
+  }: {
+    expanded: boolean;
+    label: string;
+    prefix: string;
+    onselected: Function;
+    ondragstart: Function;
+    ondrop: Function;
+  } = $props();
 
   // (Optional)
   // export let collapseClass;
@@ -28,14 +42,14 @@
   // (Optional)
   // export let labelFormatter;
   // (Optional) data. This can be whatever you want, for example to identifier the node afterwards
-  export let data = null;
+  // export let data = null;
 
   //////////////////// OTHER MEMBERS/////////////////////////
   // Set to true when this folder's dropzone is currently dragged over
   let draggingOver = false;
 
-  $: isLeafNode = !Array.isArray(children);
-  $: isRootNode = prefix === null;
+  let isLeafNode = $derived(!Array.isArray(children));
+  let isRootNode = $derived(prefix === null);
 
   //////////////////FUNCTIONS//////////////////////////
   // Called when this folder is shown/collapsed
@@ -45,7 +59,8 @@
 
   // Called when this Node has been selected. Dispatches an event to the parent component
   function select() {
-    dispatch('selected', `${prefix}`.split('-'));
+    onselected?.(`${prefix}`.split('-'));
+    // dispatch('selected', `${prefix}`.split('-'));
   }
 
   // Resets #draggingOVer flag in order to remove highlighting of dropzone
@@ -57,7 +72,8 @@
   // Dispatches an event to notfify the parent who needs to update the context value (see #getDragged).
   function dragStart(event) {
     if (!event.target || !event.target.id) return;
-    dispatch('dragstart', event.target.id.split('-'));
+    ondragstart?.(event.target.id.split('-'));
+    // dispatch('dragstart', event.target.id.split('-'));
   }
 
   function getPrefix(index) {
@@ -70,26 +86,22 @@
 
 <!-- DROPZONE -->
 {#if !isRootNode}
-  <Dropzone on:drop {prefix} />
+  <Dropzone {ondrop} {prefix} />
 {/if}
 
 <!-- DISPLAY ELEMENT -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-  draggable="true"
-  on:dragstart={$event => dragStart($event)}
-  on:dragend={() => cancelDrag()}
-  id={prefix}>
+<div draggable="true" ondragstart={e => dragStart(e)} ondragend={cancelDrag} id={prefix}>
   {#if !isLeafNode}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <i
       class={`clickable toggle-icon ${expanded ? internalOptions.collapseClass : internalOptions.expandClass}`}
-      on:click={() => toggle()}>
+      onclick={toggle}>
     </i>
   {/if}
   <!-- svelte-ignore a11y_click_events_have_key_events -->
-  <div class="node-wrapper" on:click={() => select()}>
-    <DefaultLabelFormatter  {label} {isLeafNode} />
+  <div class="node-wrapper" onclick={select}>
+    <DefaultLabelFormatter {label} {isLeafNode} />
   </div>
 </div>
 
@@ -103,16 +115,16 @@
           {internalOptions}
           {expanded}
           prefix={getPrefix(i)}
-          on:selected
-          on:dragenter
-          on:dragleave
-          on:dragstart
-          on:dragend
-          on:drop />
+          {onselected}
+          ondragenter
+          ondragleave
+          {ondragstart}
+          ondragend
+          {ondrop} />
       </li>
     {/each}
     <li>
-      <Dropzone on:drop prefix={getPrefix(children?.length)} />
+      <Dropzone {ondrop} prefix={getPrefix(children?.length)} />
     </li>
   </ul>
 {/if}

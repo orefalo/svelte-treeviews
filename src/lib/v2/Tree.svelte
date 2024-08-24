@@ -1,11 +1,20 @@
-<script>
-  import { onMount, getContext, setContext, createEventDispatcher } from 'svelte';
+<script lang="ts">
+  import { onMount, getContext, setContext } from 'svelte';
   import Node from './Node.svelte';
 
-  const dispatch = createEventDispatcher();
+  // const dispatch = createEventDispatcher();
 
-  export let treeItems;
-  export let options;
+  let {
+    treeItems,
+    options,
+    onselected,
+    onmodelChanged
+  }: {
+    treeItems: any;
+    options: typeof internalOptions;
+    onmodelChanged: Function;
+    onselected: Function;
+  } = $props();
   //export let data;
 
   let internalOptions = {
@@ -24,7 +33,8 @@
   });
 
   function selectItem(item) {
-    dispatch('selected', findByIndexPath(item.slice(), treeItems));
+    onselected?.(findByIndexPath(item.slice(), treeItems));
+    // dispatch('selected', findByIndexPath(item.slice(), treeItems));
   }
 
   function dragStart(event) {
@@ -45,9 +55,9 @@
   }
 
   function getAllIndexes(arr, val) {
-    var indexes = [],
-      i;
-    for (i = 0; i < arr.length; i++) if (arr[i] === val) indexes.push(i);
+    let indexes:number[] = []
+    for (let i = 0; i < arr.length; i++)
+     if (arr[i] === val) indexes.push(i);
     return indexes;
   }
 
@@ -82,7 +92,8 @@
     const index = indexToRemove(oldParent, newParent, newPosition.slice(), draggedItem);
     oldParent.children.splice(index, 1);
     dragging = null;
-    dispatch('modelChanged', treeItems);
+    onmodelChanged?.(treeItems);
+    // dispatch('modelChanged', treeItems);
   }
 </script>
 
@@ -92,8 +103,8 @@
       {...treeItems}
       {internalOptions}
       expanded
-      on:selected={treeItem => selectItem(treeItem.detail)}
-      on:dragstart={event => dragStart(event)}
-      on:drop={handleDrop} />
+      onselected={treeItem => selectItem(treeItem.detail)}
+      ondragstart={event => dragStart(event)}
+      ondrop={handleDrop} />
   {/if}
 </div>
