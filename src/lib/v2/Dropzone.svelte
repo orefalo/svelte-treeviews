@@ -1,10 +1,10 @@
 <script lang="ts">
   import { getContext } from 'svelte';
-  
+
   //@ts-expect-error not typing
   const { getDragged } = getContext('dragging');
 
-  let { prefix, ondrop }:{prefix:string, ondrop:Function} = $props();
+  let { prefix, ondrop }: { prefix: string; ondrop: Function } = $props();
 
   let draggingOver = $state(false);
 

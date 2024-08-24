@@ -55,9 +55,8 @@
   }
 
   function getAllIndexes(arr, val) {
-    let indexes:number[] = []
-    for (let i = 0; i < arr.length; i++)
-     if (arr[i] === val) indexes.push(i);
+    let indexes: number[] = [];
+    for (let i = 0; i < arr.length; i++) if (arr[i] === val) indexes.push(i);
     return indexes;
   }
 

@@ -25,7 +25,8 @@
       title: 'General Examples',
       pages: [
         { title: 'Basic Tree', path: '/examples/basictree' },
-        { title: 'V2', path: '/examples/v2' }
+        { title: 'V2', path: '/examples/v2' },
+        { title: 'Dnd', path: '/examples/dnd' }
         // { title: 'Horizontal', path: '/examples/horizontal' },
         // { title: 'Variable Height', path: '/examples/variableheight' },
         // { title: 'Positioning', path: '/examples/positioning' },
