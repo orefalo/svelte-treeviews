@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/svelte-treeviews/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="/svelte-treeviews/_app/immutable/assets/svelte-treeviews.BDJz-rsv.css" rel="stylesheet">
+		<link href="/svelte-treeviews/_app/immutable/assets/0.LEWtMjZZ.css" rel="stylesheet">
+		<link href="/svelte-treeviews/_app/immutable/assets/4.CfvRgiUf.css" rel="stylesheet">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/entry/start.BM72Ea3U.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/chunks/external.CGBwoJrC.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/entry/app.CHOPp5AC.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/chunks/svelte-treeviews.28cJ4WNd.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/nodes/0.Wa-P4h84.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/nodes/4.jRFW354q.js"><!--[--><meta name="description" content="A Fantastic virtual list for Svelte 5 and above"> <!----><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}
+/*
+
+Night Owl for highlight.js (c) Carl Baxter <carl@cbax.tech>
+
+An adaptation of Sarah Drasner's Night Owl VS Code Theme
+https://github.com/sdras/night-owl-vscode-theme
+
+Copyright (c) 2018 Sarah Drasner
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/.hljs{background:#011627;color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#F78C6C}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82AAFF}.hljs-title{color:#DCDCAA;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta{color:#82aaff}.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-tag,
+.hljs-name{color:#7fdbca}.hljs-attr{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80CBC4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:bold}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,
+.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#EF535090;font-style:italic}</style><!----><!--]--><!--[--><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!--]--><title>Svelte-Treeviews - V2</title>
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents"><!--[--><!--[--><!----><div class="page-container svelte-113h04q"><div role="presentation" class="toc-container-space svelte-113h04q"></div> <main class="svelte-113h04q "><!----><h1>Tree Example</h1> (*) Custom labels do not display right away in the story book, tree items need to be toggled first. <br> However, they seem to work in a "normal" svelte app setup. I'm working on it :) <hr> <div class="flex-container svelte-1aa5b7a"><div><div class="tree"><!--[--><!--[!--><!--]-->  <div draggable="true"><!--[--><i class="clickable toggle-icon chevron bottom svelte-1bsomvo"></i><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable  svelte-13dhc3a">Yummy</span><!----></div></div> <!--[--><ul class="svelte-1bsomvo"><!--[--><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-0"></div><!--]-->  <div draggable="true" id="0"><!--[--><i class="clickable toggle-icon chevron bottom svelte-1bsomvo"></i><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable  svelte-13dhc3a">Diary products</span><!----></div></div> <!--[--><ul class="svelte-1bsomvo"><!--[--><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-0-0"></div><!--]-->  <div draggable="true" id="0-0"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Cheese</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-0-1"></div><!--]-->  <div draggable="true" id="0-1"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Yogurt</span><!----></div></div> <!--[!--><!--]--><!----></li><!--]--> <li class="svelte-1bsomvo"><div class="dropzone idle svelte-1n7j4p5" id="dropzone-0-2"></div><!----></li></ul><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1"></div><!--]-->  <div draggable="true" id="1"><!--[--><i class="clickable toggle-icon chevron bottom svelte-1bsomvo"></i><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable  svelte-13dhc3a">Fruit</span><!----></div></div> <!--[--><ul class="svelte-1bsomvo"><!--[--><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-0"></div><!--]-->  <div draggable="true" id="1-0"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Apple</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-1"></div><!--]-->  <div draggable="true" id="1-1"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Banana</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-2"></div><!--]-->  <div draggable="true" id="1-2"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Peach</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-3"></div><!--]-->  <div draggable="true" id="1-3"><!--[--><i class="clickable toggle-icon chevron bottom svelte-1bsomvo"></i><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable  svelte-13dhc3a">Nuts</span><!----></div></div> <!--[--><ul class="svelte-1bsomvo"><!--[--><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-3-0"></div><!--]-->  <div draggable="true" id="1-3-0"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Cashew</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-3-1"></div><!--]-->  <div draggable="true" id="1-3-1"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Peanut</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-3-2"></div><!--]-->  <div draggable="true" id="1-3-2"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Almond</span><!----></div></div> <!--[!--><!--]--><!----></li><!--]--> <li class="svelte-1bsomvo"><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-3-3"></div><!----></li></ul><!--]--><!----></li><!--]--> <li class="svelte-1bsomvo"><div class="dropzone idle svelte-1n7j4p5" id="dropzone-1-4"></div><!----></li></ul><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-2"></div><!--]-->  <div draggable="true" id="2"><!--[--><i class="clickable toggle-icon chevron bottom svelte-1bsomvo"></i><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable  svelte-13dhc3a">Vegetables</span><!----></div></div> <!--[--><ul class="svelte-1bsomvo"><!--[--><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-2-0"></div><!--]-->  <div draggable="true" id="2-0"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Eggplant</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-2-1"></div><!--]-->  <div draggable="true" id="2-1"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Pepper</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-2-2"></div><!--]-->  <div draggable="true" id="2-2"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Broccoli</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-2-3"></div><!--]-->  <div draggable="true" id="2-3"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Mushroom</span><!----></div></div> <!--[!--><!--]--><!----></li><li class="svelte-1bsomvo"><!--[--><div class="dropzone idle svelte-1n7j4p5" id="dropzone-2-4"></div><!--]-->  <div draggable="true" id="2-4"><!--[!--><!--]--> <div class="node-wrapper svelte-1bsomvo"><span class="clickable isLeafNode svelte-13dhc3a">Cauliflower</span><!----></div></div> <!--[!--><!--]--><!----></li><!--]--> <li class="svelte-1bsomvo"><div class="dropzone idle svelte-1n7j4p5" id="dropzone-2-5"></div><!----></li></ul><!--]--><!----></li><!--]--> <li class="svelte-1bsomvo"><div class="dropzone idle svelte-1n7j4p5" id="dropzone-3"></div><!----></li></ul><!--]--><!--]--></div><!----></div> <div><h2>Current items:</h2> <pre>{
+  "label": "Yummy",
+  "children": [
+    {
+      "label": "Diary products",
+      "expanded": false,
+      "children": [
+        {
+          "label": "Cheese"
+        },
+        {
+          "label": "Yogurt"
+        }
+      ]
+    },
+    {
+      "label": "Fruit",
+      "expanded": true,
+      "children": [
+        {
+          "label": "Apple"
+        },
+        {
+          "label": "Banana"
+        },
+        {
+          "label": "Peach"
+        },
+        {
+          "label": "Nuts",
+          "children": [
+            {
+              "label": "Cashew"
+            },
+            {
+              "label": "Peanut"
+            },
+            {
+              "label": "Almond"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Vegetables",
+      "expanded": true,
+      "children": [
+        {
+          "label": "Eggplant"
+        },
+        {
+          "label": "Pepper"
+        },
+        {
+          "label": "Broccoli"
+        },
+        {
+          "label": "Mushroom"
+        },
+        {
+          "label": "Cauliflower"
+        }
+      ]
+    }
+  ]
+}</pre></div> <div><h2>Selected item</h2> <pre></pre></div></div><!----><!----> <div class="controls svelte-113h04q"><div class="svelte-113h04q"><span class="svelte-113h04q ">previous</span> <!--[--><a data-sveltekit-preload-data="" href="/svelte-treeviews/examples/basictree" class="svelte-113h04q">Basic Tree</a><!--]--></div> <div class="svelte-113h04q"><span class="svelte-113h04q faded">next</span> <!--[!--><!--]--></div></div></main> <div class="toc-container svelte-113h04q"><div role="presentation" class="toc-contents-wrap svelte-113h04q"><h1 class="toc-head svelte-113h04q"><img src="/svelte-treeviews/favicon.svg" alt="Icon" width="30" height="30"> Svelte-Treeviews</h1> <nav aria-label="Docs" class="svelte-1bjdx71"><ul class="sidebar svelte-1bjdx71"><!--[--><li class="svelte-1bjdx71"><span class="section svelte-1bjdx71">Getting started</span> <ul class="svelte-1bjdx71"><!--[--><li class="svelte-1bjdx71"><a data-sveltekit-preload-data="" class="page svelte-1bjdx71" href="/svelte-treeviews/">Introduction</a></li><!--]--></ul></li><li class="svelte-1bjdx71"><span class="section svelte-1bjdx71">General Examples</span> <ul class="svelte-1bjdx71"><!--[--><li class="svelte-1bjdx71"><a data-sveltekit-preload-data="" class="page svelte-1bjdx71" href="/svelte-treeviews/examples/basictree">Basic Tree</a></li><li class="svelte-1bjdx71"><a data-sveltekit-preload-data="" class="page svelte-1bjdx71" aria-current="page" href="/svelte-treeviews/examples/v2">V2</a></li><!--]--></ul></li><!--]--></ul></nav><!----></div> <div class="input-output-toggle svelte-1keqb9b">Direction: <span aria-hidden="true">LTR</span> <button aria-pressed="false" class="svelte-1bsnqe6"><span style="display: none;">RTL direction</span></button><!----> <span aria-hidden="true">RTL</span></div><!----></div></div><!----><!--]--> <!--[!--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_hz9p7 = {
+						base: "/svelte-treeviews",
+						assets: "/svelte-treeviews"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("/svelte-treeviews/_app/immutable/entry/start.BM72Ea3U.js"),
+						import("/svelte-treeviews/_app/immutable/entry/app.CHOPp5AC.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 4],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>
