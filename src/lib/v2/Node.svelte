@@ -9,6 +9,7 @@
 
   /////////////// CONTEXT DEPENDENCIES///////////////
 
+  //@ts-expect-error no type
   const { getDragged } = getContext('dragging');
 
   /////////////////////EXPORTED PROPERTIES///////////////////
@@ -29,11 +30,13 @@
     ondrop
   }: {
     expanded: boolean;
+    children: null | Array<any>;
     label: string;
     prefix: string;
     onselected: Function;
     ondragstart: Function;
     ondrop: Function;
+    internalOptions: unknown;
   } = $props();
 
   // (Optional)
