@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { type NodeI } from "./NodeI";
+  import { flip } from 'svelte/animate';
+  import { dndzone } from 'svelte-dnd-action';
+  import { type NodeI } from './NodeI';
 
-  let { node /* = $bindable()*/, ontoggle }: { node: NodeI; ontoggle: Function } = $props();
+  let { node = $bindable(), ontoggle }: { node: NodeI; ontoggle: Function } = $props();
 
   const toggleExpansion = () => {
     node.expanded = !node.expanded;
@@ -15,13 +17,26 @@
     // emit node 'toggle' event, notify parent compnent to rebuild the entire tree's state
     if (ontoggle) ontoggle({ node });
   };
+
+  const flipDurationMs = 300;
+  function handleDndConsider(e) {
+    node.items = e.detail.items;
+  }
+  function handleDndFinalize(e) {
+    node.items = e.detail.items;
+    nodes = { ...nodes };
+  }
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore element_invalid_self_closing_tag -->
 <ul>
-  <li>
+  <li
+  use:dndzone={{ items: node.items, flipDurationMs, centreDraggedOnCursor: true }}
+  on:consider={handleDndConsider}
+  on:finalize={handleDndFinalize}
+  >
     {#if node.children}
       <input
         type="checkbox"
@@ -34,8 +49,10 @@
         {node.label}
       </span>
       {#if node.expanded}
-        {#each node.children as child}
-          <svelte:self node={child} {ontoggle} />
+        {#each node.children as child, i}
+          <div animate:flip={{ duration: flipDurationMs }} class="item">
+            <svelte:self node={child} {ontoggle} />
+          </div>
         {/each}
       {/if}
     {:else}

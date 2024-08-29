@@ -5,7 +5,9 @@ import path from 'path';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: sveltePreprocess(),
-
+  compilerOptions: {
+    runes: true
+  },
   kit: {
     adapter: adapter({
       pages: 'docs',

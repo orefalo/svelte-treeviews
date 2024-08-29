@@ -1,19 +1,8 @@
-<script context="module" lang="ts">
-  export interface Page {
-    title: string;
-    path: string;
-  }
-
-  export interface Section {
-    title: string;
-    pages: Page[];
-  }
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores';
   import { base } from '$app/paths';
   import { pathIsCurrent } from './pathUtils';
+  import { type Section } from './PageSection';
 
   let { contents = [] }: { contents: Section[] } = $props();
 </script>

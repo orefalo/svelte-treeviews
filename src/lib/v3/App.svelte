@@ -69,7 +69,7 @@
 </script>
 
 <div>
-  <Node node={tree} ontoggle={rebuildTreeCheckboxes} />
+  <Node bind:node={tree} ontoggle={rebuildTreeCheckboxes} />
 </div>
 
 <style>
