@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
   import { flip } from 'svelte/animate';
   import { dndzone } from 'svelte-dnd-action';
+  import type { NodeDico, Node } from './types';
 
-  export let nodes;
-  export let node;
+  let { nodes = $bindable(), node }: { nodes: NodeDico; node: Node } = $props();
 
   const flipDurationMs = 300;
 
@@ -20,13 +20,15 @@
 {#if node?.hasOwnProperty('items')}
   <section
     use:dndzone={{ items: node.items, flipDurationMs, centreDraggedOnCursor: true }}
-    on:consider={handleDndConsider}
-    on:finalize={handleDndFinalize}>
-    {#each node.items as item (item.id)}
-      <div animate:flip={{ duration: flipDurationMs }} class="item">
-        <svelte:self bind:nodes node={nodes[item.id]} />
-      </div>
-    {/each}
+    onconsider={handleDndConsider}
+    onfinalize={handleDndFinalize}>
+    {#if node.items}
+      {#each node.items as index, item }
+        <div animate:flip={{ duration: flipDurationMs }} id={index} class="item">
+          <svelte:self bind:nodes node={nodes[item.id]} />
+        </div>
+      {/each}
+    {/if}
   </section>
 {/if}
 

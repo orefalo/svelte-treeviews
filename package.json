@@ -64,7 +64,7 @@
     "@sveltejs/package": "2.3.4",
     "@sveltejs/vite-plugin-svelte": "^4.0.0-next.3",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.5.1",
+    "@types/node": "^22.5.2",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
     "badge-maker": "^4.0.0",
@@ -95,6 +95,6 @@
     "svelte-dnd-action": "^0.9.50"
   },
   "peerDependencies": {
-    "svelte": "5.0.0-next.241"
+    "svelte": "5.0.0-next.242"
   }
 }
