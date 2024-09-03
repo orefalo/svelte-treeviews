@@ -2,7 +2,7 @@
   import Content from './Content.svelte';
   import type { Node, NodeDico } from './types.ts';
 
-  let nodes: NodeDico = $state({
+  let tree: NodeDico = $state({
     node1: {
       name: 'node 1',
       items: [{ id: 'node2' }, { id: 'node3' }, { id: 'node4' }],
@@ -27,20 +27,19 @@
   });
 
   for (let i = 5; i < 17; i++) {
-    // svelte-ignore state_referenced_locally
-    nodes[`node${i}`] = { id: `node${i}`, name: `item ${i}` };
+    tree[`node${i}`] = { id: `node${i}`, name: `item ${i}` };
   }
   // svelte-ignore state_referenced_locally
-  nodes['node10'].color = 'steelblue';
+  tree['node10'].color = 'steelblue';
   // svelte-ignore state_referenced_locally
-  nodes['node11'].color = 'steelblue';
+  tree['node11'].color = 'steelblue';
   // svelte-ignore state_referenced_locally
-  nodes['node14'].color = 'orange';
+  tree['node14'].color = 'orange';
   // svelte-ignore state_referenced_locally
-  nodes['node15'].color = 'orange';
+  tree['node15'].color = 'orange';
   // svelte-ignore state_referenced_locally
-  nodes['node6'].color = 'forestgreen';
+  tree['node6'].color = 'forestgreen';
 </script>
 
 <h3>Try dragging node2 into node3 and then node4 into node2</h3>
-<Content node={nodes.node1} bind:nodes />
+<Content node={tree.node1} bind:nodes={tree} />

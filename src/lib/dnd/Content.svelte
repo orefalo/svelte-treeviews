@@ -19,12 +19,12 @@
 <b style="color:{node?.color}">{node?.name}</b>
 {#if node?.hasOwnProperty('items')}
   <section
-    use:dndzone={{ items: node.items, flipDurationMs, centreDraggedOnCursor: true }}
+    use:dndzone={{ items: node.items||[], flipDurationMs, centreDraggedOnCursor: true }}
     onconsider={handleDndConsider}
     onfinalize={handleDndFinalize}>
     {#if node.items}
-      {#each node.items as index, item }
-        <div animate:flip={{ duration: flipDurationMs }} id={index} class="item">
+      {#each node.items as item(item.id) }
+        <div animate:flip={{ duration: flipDurationMs }} class="item">
           <svelte:self bind:nodes node={nodes[item.id]} />
         </div>
       {/each}
