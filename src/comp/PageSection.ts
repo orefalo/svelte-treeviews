@@ -1,9 +1,9 @@
 export interface Page {
-    title: string;
-    path: string;
-  }
+  title: string;
+  path: string;
+}
 
-  export interface Section {
-    title: string;
-    pages: Page[];
-  }
+export interface Section {
+  title: string;
+  pages: Page[];
+}

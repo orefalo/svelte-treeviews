@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { flip } from 'svelte/animate';
   import { dndzone } from 'svelte-dnd-action';
-  import { type NodeI } from './NodeI';
+  import { type NodeI, type NodeIDico } from './NodeI';
 
-  let { node = $bindable(), ontoggle }: { node: NodeI; ontoggle: Function } = $props();
+  let {
+    tree = $bindable(),
+    node,
+    ontoggle
+  }: { tree: NodeIDico; node: NodeI; ontoggle?: Function } = $props();
 
   const toggleExpansion = () => {
     node.expanded = !node.expanded;
@@ -19,12 +22,13 @@
   };
 
   const flipDurationMs = 300;
+
   function handleDndConsider(e) {
-    node.items = e.detail.items;
+    node.children = e.detail.items;
   }
   function handleDndFinalize(e) {
-    node.items = e.detail.items;
-    nodes = { ...nodes };
+    node.children = e.detail.items;
+    tree = { ...tree };
   }
 </script>
 
@@ -33,10 +37,9 @@
 <!-- svelte-ignore element_invalid_self_closing_tag -->
 <ul>
   <li
-  use:dndzone={{ items: node.items, flipDurationMs, centreDraggedOnCursor: true }}
-  on:consider={handleDndConsider}
-  on:finalize={handleDndFinalize}
-  >
+    use:dndzone={{ items: node.children || [], flipDurationMs, centreDraggedOnCursor: true }}
+    onconsider={handleDndConsider}
+    onfinalize={handleDndFinalize}>
     {#if node.children}
       <input
         type="checkbox"
@@ -49,8 +52,8 @@
         {node.label}
       </span>
       {#if node.expanded}
-        {#each node.children as child, i}
-          <div animate:flip={{ duration: flipDurationMs }} class="item">
+        {#each node.children as child}
+          <div class="item">
             <svelte:self node={child} {ontoggle} />
           </div>
         {/each}

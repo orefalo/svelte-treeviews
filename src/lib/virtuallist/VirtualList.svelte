@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   type ResultType = boolean | { passive: boolean };
   /**
    * the third argument for event bundler
@@ -42,7 +42,7 @@
     type VirtualItemSize,
     type VirtualListModel
   } from '.';
-  import type { NodeInfo } from '$lib/NodeInfo';
+  import type { NodeInfo } from 'svelte-treeviews/NodeInfo';
 
   const {
     height,

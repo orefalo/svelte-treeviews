@@ -2,6 +2,7 @@
   import Node from './Node.svelte';
   import { type NodeI } from './NodeI';
 
+  //TODO Found the issue - this is note a NodeIDico -> see dnd/Content.svelte
   let tree = $state({
     label: 'root',
     expanded: true,
@@ -20,6 +21,7 @@
   const treeMap = {
     /* child label: parent node */
   };
+
   function initTreeMap(t: NodeI = tree) {
     if (t.children) {
       for (const child of t.children) {
@@ -69,7 +71,7 @@
 </script>
 
 <div>
-  <Node bind:node={tree} ontoggle={rebuildTreeCheckboxes} />
+  <Node bind:tree ontoggle={rebuildTreeCheckboxes} />
 </div>
 
 <style>
