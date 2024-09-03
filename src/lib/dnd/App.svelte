@@ -27,6 +27,7 @@
   });
 
   for (let i = 5; i < 17; i++) {
+    // svelte-ignore state_referenced_locally
     tree[`node${i}`] = { id: `node${i}`, name: `item ${i}` };
   }
   // svelte-ignore state_referenced_locally
@@ -41,5 +42,6 @@
   tree['node6'].color = 'forestgreen';
 </script>
 
+
 <h3>Try dragging node2 into node3 and then node4 into node2</h3>
-<Content node={tree.node1} bind:nodes={tree} />
+<Content node={tree.node1} bind:tree />

@@ -3,29 +3,30 @@
   import { dndzone } from 'svelte-dnd-action';
   import type { NodeDico, Node } from './types';
 
-  let { nodes = $bindable(), node }: { nodes: NodeDico; node: Node } = $props();
+  let { tree = $bindable(), node }: { tree: NodeDico; node: Node } = $props();
 
   const flipDurationMs = 300;
 
   function handleDndConsider(e) {
     node.items = e.detail.items;
   }
+
   function handleDndFinalize(e) {
     node.items = e.detail.items;
-    nodes = { ...nodes };
+    tree = { ...tree };
   }
 </script>
 
 <b style="color:{node?.color}">{node?.name}</b>
-{#if node?.hasOwnProperty('items')}
+{#if node?.items}
   <section
-    use:dndzone={{ items: node.items||[], flipDurationMs, centreDraggedOnCursor: true }}
+    use:dndzone={{ items: node.items || [], flipDurationMs, centreDraggedOnCursor: true }}
     onconsider={handleDndConsider}
     onfinalize={handleDndFinalize}>
     {#if node.items}
-      {#each node.items as item(item.id) }
+      {#each node.items as item (item.id)}
         <div animate:flip={{ duration: flipDurationMs }} class="item">
-          <svelte:self bind:nodes node={nodes[item.id]} />
+          <svelte:self bind:tree node={tree[item.id]} />
         </div>
       {/each}
     {/if}
@@ -36,7 +37,7 @@
   section {
     width: auto;
     max-width: 400px;
-    border: 0px solid black;
+    border: 0 solid black;
     padding: 0.4em;
     /* this will allow the dragged element to scroll the list */
     overflow-y: auto;
@@ -46,7 +47,7 @@
   div {
     width: 90%;
     padding: 0.3em;
-    border: 0px solid blue;
+    border: 0 solid blue;
     margin: 0.15em 0;
   }
   .item {
