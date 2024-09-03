@@ -8,23 +8,23 @@
   const flipDurationMs = 300;
 
   function handleDndConsider(e) {
-    node.items = e.detail.items;
+    node.children = e.detail.items;
   }
 
   function handleDndFinalize(e) {
-    node.items = e.detail.items;
+    node.children = e.detail.items;
     tree = { ...tree };
   }
 </script>
 
 <b style="color:{node?.color}">{node?.name}</b>
-{#if node?.items}
+{#if node?.children}
   <section
-    use:dndzone={{ items: node.items || [], flipDurationMs, centreDraggedOnCursor: true }}
+    use:dndzone={{ items: node.children || [], flipDurationMs, centreDraggedOnCursor: true }}
     onconsider={handleDndConsider}
     onfinalize={handleDndFinalize}>
-    {#if node.items}
-      {#each node.items as item (item.id)}
+    {#if node.children}
+      {#each node.children as item (item.id)}
         <div animate:flip={{ duration: flipDurationMs }} class="item">
           <svelte:self bind:tree node={tree[item.id]} />
         </div>

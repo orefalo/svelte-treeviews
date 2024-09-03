@@ -5,22 +5,22 @@
   let tree: NodeDico = $state({
     node1: {
       name: 'node 1',
-      items: [{ id: 'node2' }, { id: 'node3' }, { id: 'node4' }],
+      children: [{ id: 'node2' }, { id: 'node3' }, { id: 'node4' }],
       id: 'node1'
     },
     node2: {
       name: 'node 2',
-      items: [{ id: 'node5' }, { id: 'node6' }, { id: 'node7' }, { id: 'node8' }],
+      children: [{ id: 'node5' }, { id: 'node6' }, { id: 'node7' }, { id: 'node8' }],
       id: 'node2'
     },
     node3: {
       name: 'node 3',
-      items: [{ id: 'node9' }, { id: 'node10' }, { id: 'node11' }, { id: 'node12' }],
+      children: [{ id: 'node9' }, { id: 'node10' }, { id: 'node11' }, { id: 'node12' }],
       id: 'node3'
     },
     node4: {
       name: 'node 4',
-      items: [{ id: 'node13' }, { id: 'node14' }, { id: 'node15' }, { id: 'node16' }],
+      children: [{ id: 'node13' }, { id: 'node14' }, { id: 'node15' }, { id: 'node16' }],
       id: 'node4',
       color: 'salmon'
     }
@@ -41,7 +41,6 @@
   // svelte-ignore state_referenced_locally
   tree['node6'].color = 'forestgreen';
 </script>
-
 
 <h3>Try dragging node2 into node3 and then node4 into node2</h3>
 <Content node={tree.node1} bind:tree />
