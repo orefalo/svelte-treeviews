@@ -5,9 +5,8 @@ import path from 'path';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: sveltePreprocess(),
-  compilerOptions: {
-    runes: true
-  },
+  inspector: process.env.NODE_ENV !== 'production',
+
   kit: {
     adapter: adapter({
       pages: 'docs',
@@ -22,6 +21,13 @@ const config = {
     paths: {
       base: process.env.BASE_PATH,
       relative: false
+    }
+  },
+  vitePlugin: {
+    inspector: {
+      toggleKeyCombo: 'control-shift',
+      showToggleButton: 'always',
+      toggleButtonPos: 'bottom-right'
     }
   }
 };
