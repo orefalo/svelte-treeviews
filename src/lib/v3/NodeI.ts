@@ -1,9 +1,9 @@
 export interface NodeI {
   label: string;
   expanded?: boolean;
+  children?: Array<NodeI>;
   checked?: boolean;
   indeterminate?: boolean;
-  children?: Array<NodeI>;
 }
 
 export type NodeIArray = NodeI[];

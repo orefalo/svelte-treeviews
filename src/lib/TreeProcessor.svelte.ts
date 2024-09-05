@@ -35,10 +35,10 @@ export class TreeProcessor {
         (nodeData, index, parent, path) => {
           const nodeInfo = this.options.infoHandler(
             new NodeInfo({
-              nodeData: nodeData,
-              expended: Boolean(this.options.defaultOpen),
-              parent: td.getParent(path),
-              children: [],
+              nodeData: $state(nodeData),
+              expended: $state(Boolean(this.options.defaultOpen)),
+              parent: $state(td.getParent(path)),
+              children: $state([]),
               level: path.length
             })
           );

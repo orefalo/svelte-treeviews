@@ -1,12 +1,11 @@
 <script lang="ts">
   import { dndzone } from 'svelte-dnd-action';
-  import { type NodeI, type NodeIDico } from './NodeI';
+  import { type NodeI, type NodeIArray, type NodeIDico } from './NodeI';
 
   let {
-    tree = $bindable(),
-    node,
+    node= $bindable(),
     ontoggle
-  }: { tree: NodeIDico; node: NodeI; ontoggle?: Function } = $props();
+  }: { node: NodeI; ontoggle?: Function } = $props();
 
   const toggleExpansion = () => {
     node.expanded = !node.expanded;
@@ -28,7 +27,7 @@
   }
   function handleDndFinalize(e) {
     node.children = e.detail.items;
-    tree = { ...tree };
+    node = { ...node };
   }
 </script>
 

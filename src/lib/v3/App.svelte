@@ -2,7 +2,6 @@
   import Node from './Node.svelte';
   import { type NodeI } from './NodeI';
 
-  //TODO Found the issue - this is note a NodeIDico -> see dnd/Content.svelte
   let tree = $state({
     label: 'root',
     expanded: true,
@@ -33,7 +32,7 @@
 
   initTreeMap();
 
-  function rebuildChildrenCheckboxes(node, checkAsParent = true) {
+  function rebuildChildrenCheckboxes(node:NodeI, checkAsParent = true) {
     if (node.children) {
       for (const child of node.children) {
         if (checkAsParent) child.checked = !!node.checked;
@@ -46,7 +45,7 @@
   }
 
   function rebuildTreeCheckboxes(e, checkAsParent = true) {
-    const node = e.node;
+    const node:NodeI = e.node;
     let parent = treeMap[node.label];
     rebuildChildrenCheckboxes(node, checkAsParent);
     while (parent) {
@@ -56,11 +55,7 @@
         parent.checked = true;
       } else {
         const haveCheckedOrIndetermine = parent.children.some(c => !!c.checked || c.indeterminate);
-        if (haveCheckedOrIndetermine) {
-          parent.indeterminate = true;
-        } else {
-          parent.indeterminate = false;
-        }
+        parent.indeterminate = !!haveCheckedOrIndetermine;
         parent.checked = false;
       }
       parent = treeMap[parent.label];
@@ -71,7 +66,7 @@
 </script>
 
 <div>
-  <Node bind:tree ontoggle={rebuildTreeCheckboxes} />
+  <Node bind:node={tree} ontoggle={rebuildTreeCheckboxes} />
 </div>
 
 <style>
