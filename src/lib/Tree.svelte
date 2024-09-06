@@ -105,7 +105,7 @@
   //let nodeInfos: Array<NodeInfo> = $state([]);
 
   // used to render the tree
-  let nodeInfosToRender: Array<NodeInfo> = $state([]);
+  let computedTree: Array<NodeInfo> = $state([]);
 
   // node being dragged
   let dragNode: NodeInfo | null = null;
@@ -132,7 +132,7 @@
       // what about     nodeInfosToRender=processor.init(model)
 
       // nodeInfos = processor.nodeInfos!;
-      nodeInfosToRender = processor.nodeInfosToRender!;
+      computedTree = processor.nodeInfosToRender!;
     }
   });
 
@@ -142,7 +142,7 @@
 
   // only returns the visible nodes
   function visibleNodes(): NodeInfo[] {
-    let items = nodeInfosToRender || [];
+    let items = computedTree || [];
     if (btt) {
       items = items.slice().reverse();
     }

@@ -10,7 +10,7 @@ export class TreeProcessor {
   public nodeInfos: NodeInfo[] = $state([]);
   public nodeInfosToRender: NodeInfo[] = $state([]);
   // used to find info from data
-  private _infosMap: Map<NodeData, NodeInfo> | null;
+  private _infosMap: Map<NodeData, NodeInfo>|null = $state(null);
 
   private options: Options;
   private initialized: boolean = false;
@@ -18,7 +18,7 @@ export class TreeProcessor {
   constructor(opt?: Options) {
     // this.nodeInfos = [];
     // this.nodeInfosFlat
-    this._infosMap = null;
+    // this._infosMap = null;
     this.options = opt ? opt : new Options();
   }
 
@@ -35,10 +35,10 @@ export class TreeProcessor {
         (nodeData, index, parent, path) => {
           const nodeInfo = this.options.infoHandler(
             new NodeInfo({
-              nodeData: $state(nodeData),
-              expended: $state(Boolean(this.options.defaultOpen)),
-              parent: $state(td.getParent(path)),
-              children: $state([]),
+              nodeData: nodeData,
+              expended: Boolean(this.options.defaultOpen),
+              parent: td.getParent(path),
+              children: [],
               level: path.length
             })
           );

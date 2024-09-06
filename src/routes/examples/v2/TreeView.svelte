@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Tree from '$lib/v2/Tree.svelte';
   let { treeItems, options } = $props();
 

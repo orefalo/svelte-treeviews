@@ -54,8 +54,8 @@
         parent.indeterminate = false;
         parent.checked = true;
       } else {
-        const haveCheckedOrIndetermine = parent.children.some(c => !!c.checked || c.indeterminate);
-        parent.indeterminate = !!haveCheckedOrIndetermine;
+        const haveCheckedOrIndeterminacy = parent.children.some(c => !!c.checked || c.indeterminate);
+        parent.indeterminate = !!haveCheckedOrIndeterminacy;
         parent.checked = false;
       }
       parent = treeMap[parent.label];

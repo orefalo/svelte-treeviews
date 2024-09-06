@@ -4,9 +4,10 @@
   import type { Snippet } from 'svelte';
   import '../app.css';
   import theme from 'svelte-highlight/styles/night-owl';
-  import Contents, { type Page, type Section } from '../comp/Contents.svelte';
-  import RTLToggle from '../comp/RTLToggle.svelte';
-  import { pathIsCurrent } from '../comp/pathUtils';
+  import Contents from '$comp/Contents.svelte';
+  import RTLToggle from '$comp/RTLToggle.svelte';
+  import { pathIsCurrent } from '$comp/pathUtils';
+  import { type Page, type Section } from '$comp/PageSection';
 
   type Props = {
     children: Snippet;
@@ -24,15 +25,10 @@
     {
       title: 'General Examples',
       pages: [
-        { title: 'Basic Tree', path: '/examples/basictree' },
+        { title: 'MyHeTree', path: '/examples/basictree' },
         { title: 'V2', path: '/examples/v2' },
         { title: 'Dnd', path: '/examples/dnd' },
         { title: 'V3', path: '/examples/v3' }
-        // { title: 'Horizontal', path: '/examples/horizontal' },
-        // { title: 'Variable Height', path: '/examples/variableheight' },
-        // { title: 'Positioning', path: '/examples/positioning' },
-        // { title: 'Events', path: '/examples/events' },
-        // { title: 'Styles', path: '/examples/styles' }
       ]
     }
   ];
