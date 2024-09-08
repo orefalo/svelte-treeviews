@@ -44,8 +44,10 @@
     }
   }
 
-  function rebuildTreeCheckboxes(e, checkAsParent = true) {
-    const node:NodeI = e.node;
+  function rebuildTreeCheckboxes(e: {
+    node: NodeI
+  }, checkAsParent: boolean = true): void {
+    const node = e.node;
     let parent = treeMap[node.label];
     rebuildChildrenCheckboxes(node, checkAsParent);
     while (parent) {

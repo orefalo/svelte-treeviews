@@ -49,6 +49,7 @@ export class NodeInfo {
     this.expended = !this.expended;
     console.log(this.expended);
   }
+  
   public toggleChecked() {
     console.log('nodeInfo.toggleChecked');
     this.checked = !this.checked;

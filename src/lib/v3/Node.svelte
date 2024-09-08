@@ -1,6 +1,6 @@
 <script lang="ts">
   import { dndzone } from 'svelte-dnd-action';
-  import { type NodeI, type NodeIArray, type NodeIDico } from './NodeI';
+  import { type NodeI } from './NodeI';
 
   let {
     node= $bindable(),
@@ -25,6 +25,7 @@
   function handleDndConsider(e) {
     node.children = e.detail.items;
   }
+
   function handleDndFinalize(e) {
     node.children = e.detail.items;
     node = { ...node };
