@@ -1,6 +1,6 @@
 <script lang="ts">
   import Node from './Node.svelte';
-  import { type NodeI } from './NodeI';
+  import { type NodeI, type NodeIDico } from './NodeI';
 
   let tree = $state({
     label: 'root',
@@ -17,7 +17,7 @@
   });
 
   // used to find parents
-  const treeMap = {
+  const treeMap: NodeIDico = {
     /* child label: parent node */
   };
 
@@ -46,16 +46,16 @@
 
   function rebuildTreeCheckboxes(tree: NodeI, checkAsParent: boolean = true): void {
     //todo remove
-    const node = tree;
-    let parent = treeMap[node.label];
-    rebuildChildrenCheckboxes(node, checkAsParent);
+    // const node = tree;
+    let parent = treeMap[tree.label];
+    rebuildChildrenCheckboxes(tree, checkAsParent);
     while (parent) {
-      const allCheck = parent.children.every(c => !!c.checked);
+      const allCheck = parent.children?.every(c => !!c.checked);
       if (allCheck) {
         parent.indeterminate = false;
         parent.checked = true;
       } else {
-        const haveCheckedOrIndeterminacy = parent.children.some(
+        const haveCheckedOrIndeterminacy = parent.children?.some(
           c => !!c.checked || c.indeterminate
         );
         parent.indeterminate = !!haveCheckedOrIndeterminacy;

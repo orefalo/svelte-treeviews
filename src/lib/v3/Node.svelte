@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { type NodeI } from './NodeI';
+  import { type NodeI, type OnToggleFn } from './NodeI';
 
-  let { tree = $bindable(), ontoggle }: { tree: NodeI; ontoggle?: Function } = $props();
+  let { tree = $bindable(), ontoggle }: { tree: NodeI; ontoggle?: OnToggleFn } = $props();
 
   const toggleExpansion = () => {
     tree.expanded = !tree.expanded;
@@ -13,8 +13,7 @@
     tree.checked = !tree.checked;
 
     // emit node 'toggle' event, notify parent component to rebuild the entire tree's state
-    if (ontoggle)
-      ontoggle(tree);
+    if (ontoggle) ontoggle(tree);
   };
 </script>
 

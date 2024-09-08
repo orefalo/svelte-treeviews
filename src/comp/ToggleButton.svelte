@@ -10,8 +10,8 @@
   } = $props();
 
   function clicked() {
-    pressed = !pressed
-    onclick?.()
+    pressed = !pressed;
+    onclick?.();
   }
 </script>
 

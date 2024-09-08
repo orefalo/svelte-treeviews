@@ -4,15 +4,14 @@
   let { isRTL = $bindable() }: { isRTL: boolean } = $props();
 
   function clicked() {
-    document.documentElement.dir = isRTL? 'rtl':'ltr';
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
   }
-
 </script>
 
 <div class="input-output-toggle">
   Direction:
   <span aria-hidden="true">LTR</span>
-  <ToggleButton bind:pressed={isRTL} label="RTL direction" onclick={clicked}/>
+  <ToggleButton bind:pressed={isRTL} label="RTL direction" onclick={clicked} />
   <span aria-hidden="true">RTL</span>
 </div>
 

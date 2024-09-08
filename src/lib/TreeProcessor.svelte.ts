@@ -10,7 +10,7 @@ export class TreeProcessor {
   public nodeInfos: NodeInfo[] = $state([]);
   public nodeInfosToRender: NodeInfo[] = $state([]);
   // used to find info from data
-  private _infosMap: Map<NodeData, NodeInfo>|null = $state(null);
+  private _infosMap: Map<NodeData, NodeInfo> | null = $state(null);
 
   private options: Options;
   private initialized: boolean = false;

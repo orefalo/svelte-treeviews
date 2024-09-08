@@ -6,6 +6,8 @@ export interface NodeI {
   indeterminate?: boolean;
 }
 
+export type OnToggleFn = (node: NodeI) => void;
+
 export type NodeIArray = NodeI[];
 
-// export type NodeIDico = { [k: string]: NodeI };
+export type NodeIDico = { [k: string]: NodeI };
