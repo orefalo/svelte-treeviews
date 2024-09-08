@@ -32,7 +32,7 @@
 
   initTreeMap();
 
-  function rebuildChildrenCheckboxes(node:NodeI, checkAsParent = true) {
+  function rebuildChildrenCheckboxes(node: NodeI, checkAsParent = true) {
     if (node.children) {
       for (const child of node.children) {
         if (checkAsParent) child.checked = !!node.checked;
@@ -44,8 +44,9 @@
     }
   }
 
-  function rebuildTreeCheckboxes(e: { tree: NodeI }, checkAsParent: boolean = true): void {
-    const node = e.tree;
+  function rebuildTreeCheckboxes(tree: NodeI, checkAsParent: boolean = true): void {
+    //todo remove
+    const node = tree;
     let parent = treeMap[node.label];
     rebuildChildrenCheckboxes(node, checkAsParent);
     while (parent) {
@@ -54,19 +55,26 @@
         parent.indeterminate = false;
         parent.checked = true;
       } else {
-        const haveCheckedOrIndeterminacy = parent.children.some(c => !!c.checked || c.indeterminate);
+        const haveCheckedOrIndeterminacy = parent.children.some(
+          c => !!c.checked || c.indeterminate
+        );
         parent.indeterminate = !!haveCheckedOrIndeterminacy;
         parent.checked = false;
       }
       parent = treeMap[parent.label];
     }
   }
+
   // init the tree state
-  rebuildTreeCheckboxes({ tree: tree }, false);
+  function upd() {
+    rebuildTreeCheckboxes(tree, false);
+  }
+
+  upd();
 </script>
 
 <div>
-  <Node bind:tree={tree} ontoggle={rebuildTreeCheckboxes} />
+  <Node bind:tree ontoggle={rebuildTreeCheckboxes} />
 </div>
 
 <style>

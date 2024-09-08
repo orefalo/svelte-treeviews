@@ -12,9 +12,9 @@
     // don't need to bind the check state to the UI
     tree.checked = !tree.checked;
 
-    // emit node 'toggle' event, notify parent compnent to rebuild the entire tree's state
+    // emit node 'toggle' event, notify parent component to rebuild the entire tree's state
     if (ontoggle)
-      ontoggle({ tree: tree });
+      ontoggle(tree);
   };
 </script>
 
