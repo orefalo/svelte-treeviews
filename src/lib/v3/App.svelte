@@ -44,10 +44,8 @@
     }
   }
 
-  function rebuildTreeCheckboxes(e: {
-    node: NodeI
-  }, checkAsParent: boolean = true): void {
-    const node = e.node;
+  function rebuildTreeCheckboxes(e: { tree: NodeI }, checkAsParent: boolean = true): void {
+    const node = e.tree;
     let parent = treeMap[node.label];
     rebuildChildrenCheckboxes(node, checkAsParent);
     while (parent) {
@@ -64,11 +62,11 @@
     }
   }
   // init the tree state
-  rebuildTreeCheckboxes({ node: tree }, false);
+  rebuildTreeCheckboxes({ tree: tree }, false);
 </script>
 
 <div>
-  <Node bind:node={tree} ontoggle={rebuildTreeCheckboxes} />
+  <Node bind:tree={tree} ontoggle={rebuildTreeCheckboxes} />
 </div>
 
 <style>
