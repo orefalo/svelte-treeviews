@@ -1,33 +1,41 @@
 <script lang="ts">
+  import { TreeProcessor } from './TreeProcessor';
   import Node from './Node.svelte';
-  import { type NodeI, type NodeIDico } from './NodeI';
+  import { type NodeI, type NodeIDico } from './NodeI.svelte';
+  import { PerformanceNodeTiming } from 'node:perf_hooks';
 
-  let tree = $state({
+  let data = {
     label: 'root',
-    expanded: true,
     children: [
       {
         label: 'node A',
-        children: [{ label: 'node Aa' }, { label: 'node Ab', checked: true }]
+        children: [{ label: 'node Aa' }, { label: 'node Ab' }]
       },
       { label: 'node B' },
       { label: 'node C' },
       { label: 'node D' }
     ]
-  });
-
-  // used to find parents
-  const treeMap: NodeIDico = {
-    /* child label: parent node */
   };
 
-  function initTreeMap(t: NodeI = tree) {
-    if (t.children) {
-      for (const child of t.children) {
-        treeMap[child.label] = t;
-        initTreeMap(child);
-      }
-    }
+  // TODO: turn into an array<nodeI>
+  let tree: NodeI = $state();
+
+  // TODO: replace with, add a parent to NodeI, which will require preprocessing
+  // used to find parents, child label -> parent
+  // const treeMap: NodeIDico = {
+  //   /* child label: parent node */
+  // };
+
+  function initTreeMap() {
+    // if (t.children) {
+    //   for (const child of t.children) {
+    //     treeMap[child.label] = t;
+    //     initTreeMap(child);
+    //   }
+    // }
+
+    const proc = new TreeProcessor();
+    tree = proc.init(data);
   }
 
   initTreeMap();
@@ -47,7 +55,8 @@
   function rebuildTreeCheckboxes(tree: NodeI, checkAsParent: boolean = true): void {
     //todo remove
     // const node = tree;
-    let parent = treeMap[tree.label];
+    // let parent = treeMap[tree.label];
+    let parent = tree.parent;
     rebuildChildrenCheckboxes(tree, checkAsParent);
     while (parent) {
       const allCheck = parent.children?.every(c => !!c.checked);
@@ -61,13 +70,15 @@
         parent.indeterminate = !!haveCheckedOrIndeterminacy;
         parent.checked = false;
       }
-      parent = treeMap[parent.label];
+
+      // parent = treeMap[parent.label];
+      parent = parent.parent;
     }
   }
 
   // init the tree state
   function upd() {
-    rebuildTreeCheckboxes(tree, false);
+    if (tree) rebuildTreeCheckboxes(tree, false);
   }
 
   upd();

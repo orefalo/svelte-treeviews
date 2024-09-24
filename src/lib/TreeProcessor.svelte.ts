@@ -15,7 +15,7 @@ export class TreeProcessor {
   private options: Options;
   private initialized: boolean = false;
 
-  constructor(opt?: Options) {
+  constructor(data: Array<any>, opt?: Options) {
     // this.nodeInfos = [];
     // this.nodeInfosFlat
     // this._infosMap = null;

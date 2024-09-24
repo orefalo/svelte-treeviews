@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type NodeI, type OnToggleFn } from './NodeI';
+  import { type NodeI, type OnToggleFn } from './NodeI.svelte';
 
   let { tree = $bindable(), ontoggle }: { tree: NodeI; ontoggle?: OnToggleFn } = $props();
 
