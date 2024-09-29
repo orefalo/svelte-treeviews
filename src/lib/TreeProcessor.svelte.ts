@@ -273,6 +273,7 @@ export class TreeProcessor {
       for (const stat of stats) {
         this._infosMap!.delete(stat.nodeData);
       }
+      //  this.afterRemoveStat(stat);
       this.options.afterRemoveInfoNode(info);
       return true;
     }
@@ -308,6 +309,7 @@ export class TreeProcessor {
       },
       { childrenKey: CHILDREN }
     );
+    // this.afterSetStat(stat, parent, index);
     this.options.afterSetInfoNode(info, parent, index);
   }
 
