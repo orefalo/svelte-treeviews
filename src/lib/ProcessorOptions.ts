@@ -10,9 +10,9 @@ export class ProcessorOptions {
   // when true, the init() method must be called manually
   noInitialization?: boolean = false;
 
-  // this used to be afterSetStat
+  // vuejs: this used to be afterSetStat
   afterSetInfoNode?: (_info: NodeInfo, _parent: NodeInfo | null, _index: number) => void;
-  // this used to be afterRemoveStat
+  // vuejs: this used to be afterRemoveStat
   afterRemoveInfoNode?: (_info: NodeInfo) => null;
 
   constructor(o?: PartialOptions) {
@@ -23,17 +23,17 @@ export class ProcessorOptions {
     this.afterRemoveInfoNode = o?.afterRemoveInfoNode;
   }
 
-  // this used to be statsHandler: (stats: Stat<any>[]) => Stat<any>[];
+  // vuejs: this used to be statsHandler: (stats: Stat<any>[]) => Stat<any>[];
   public infoNodesHandler(infos: NodeInfo[]): NodeInfo[] {
     return infos;
   }
 
-  // this used to be  statsFlatHandler: (statsFlat: Stat<any>[]) => Stat<any>[];
+  // vuejs: this used to be  statsFlatHandler: (statsFlat: Stat<any>[]) => Stat<any>[];
   public InfoNodesFlatHandler(infosFlat: NodeInfo[]): NodeInfo[] {
     return infosFlat;
   }
 
-  // this used to be  statHandler: (stat: Stat<any>) => Stat<any>;
+  // vuejs: this used to be  statHandler: (stat: Stat<any>) => Stat<any>;
   public infoHandler(info: NodeInfo) {
     return info;
   }

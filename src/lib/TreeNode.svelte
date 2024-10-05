@@ -20,9 +20,10 @@
     tn_slot,
 
     // events
-    onNodeOpened: onopen,
-    onNodeclosed: onclose,
-    onNodeChecked: oncheck
+    onNodeOpened,
+    onNodeClosed,
+    onNodeChecked,
+    onNodeSelected
   }: {
     nodeInfo: NodeInfo;
     rtl: boolean;
@@ -32,14 +33,14 @@
     treeLineOffset: number;
     processor?: { afterOneCheckChanged: (s: NodeInfo) => boolean };
     class?: string;
-    style: string | null;
+    style?: string;
 
     tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
 
     onNodeOpened?: (info: NodeInfo) => void;
-    onNodeclosed?: (info: NodeInfo) => void;
+    onNodeClosed?: (info: NodeInfo) => void;
     onNodeChecked?: (info: NodeInfo) => void;
-    // onclick: (info: NodeInfo) => void;
+    onNodeSelected?: (info: NodeInfo) => void;
   } = $props();
 
   let indentStyle = $derived(
@@ -58,7 +59,7 @@
     if (justToggleOpen) {
       return;
     }
-    open ? onopen?.(nodeInfo) : onclose?.(nodeInfo);
+    open ? onNodeOpened?.(nodeInfo) : onNodeClosed?.(nodeInfo);
 
     afterToggleOpen();
   });
@@ -71,7 +72,7 @@
       return;
     }
     if (processor?.afterOneCheckChanged(nodeInfo)) {
-      oncheck?.(nodeInfo);
+      onNodeChecked?.(nodeInfo);
     }
   });
 

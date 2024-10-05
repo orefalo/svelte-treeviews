@@ -6,10 +6,12 @@
   import type { NodeData, NodeInfo } from './NodeInfo';
   import type { Snippet } from 'svelte';
   import clsx from 'clsx';
+
   import { CHILDREN } from '$lib/Constants';
 
   let {
-    // the model is only used as an interface with the component, model -> processor() -> (nodeInfos,nodeInfosFlat)
+    // the model is only used as an interface with the component, model -> valueComputer -> nodeInfos -> computedTree
+    // vuejs: used to be called computedValue - which translated into either value or modelValue
     model,
 
     processor = createTreeProcessor([], {
@@ -41,12 +43,13 @@
     treeLine = false,
     // Horizontal displacement of tree lines, unit: pixels.
     treeLineOffset = 8,
-    // css class
+    // css class for the tree
     class: className = '',
-
+    // styles for the tree
     style = '',
 
     // used to apply changes to the nodeInfo prior to processor()
+    // vuejs: used to be called statHandler
     nodeInfoPreProcessor,
 
     // SLOTS
@@ -61,7 +64,7 @@
     // Triggered when node checked changed
     onNodeChecked,
     // Triggered when click node
-    onNodeClicked,
+    onNodeSelected,
     // Triggered when close node
     onNodeOpened,
     // Triggered when open node
@@ -96,16 +99,20 @@
 
     // events
     onNodeChecked?: (e: NodeInfo) => void;
-    onNodeClicked?: (e: NodeInfo) => void;
+    onNodeSelected?: (e: NodeInfo) => void;
     onNodeOpened?: (e: NodeInfo) => void;
     onNodeClosed?: (e: NodeInfo) => void;
     onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
   } = $props();
 
+  let rootElement;
+
   // this is the model of the tree, it holds meta-data and data
+  // TODO: rename to
   let nodeInfos: Array<NodeInfo> = $state([]);
 
-  // used to render the tree
+  // used to render the render the virtual list
+  // vuejs: used to be called statsFlat
   let computedTree: Array<NodeInfo> = $state([]);
 
   // node being dragged
@@ -117,7 +124,7 @@
   let _ignoreValueChangeOnce: boolean = false;
 
   let valueComputed = $derived.by(() => {
-    // model;
+    // TODO: I am a bit confused why this code works in $effect and not a $derived
     // console.log('model change detected');
 
     // // TODO: change this? isDragging triggered in Vue2 because its array is not same with Vue3
@@ -134,12 +141,11 @@
     //   nodeInfos = processor.nodeInfos!;
     //   computedTree = processor.nodeInfosToRender!;
     // }
-    return model || [];
+    return model;
   });
 
   $effect(() => {
-    // look for model changes
-    model;
+    // TODO: I am a bit confused why this code works in $effect and not a $derived
     console.log('model change detected');
 
     // TODO: change this? isDragging triggered in Vue2 because its array is not same with Vue3
@@ -158,16 +164,20 @@
   });
 
   // only returns the visible nodes
+  // vuejs: use to be visibleStats
   function visibleNodes(): NodeInfo[] {
     let items = computedTree || [];
     if (btt) {
-      items = items.slice().reverse();
+      //TODO: see if items.slice().reverse() works
+      items = items.slice();
+      items.reverse();
     }
-    return items.filter((info: NodeInfo) => isVisible(info));
+    return items.filter(info => isVisible(info));
   }
 
+  // returns the top level nodeInfo
   function rootChildren() {
-    return processor.nodeInfos;
+    return nodeInfos;
   }
 
   function _emitValue(value: any[]) {
@@ -256,6 +266,11 @@
     //return reactiveFirstArg(processorMethodProxy('add'))(data, parent, index);
   }
 
+  // return the component's top level htmlelement
+  function getRootEl() {
+    return rootElement as HTMLElement;
+  }
+
   // Add multiple continuously nodes. parent is null means root.
   function addMulti(dataArr: NodeData[], parent?: NodeInfo | null, startIndex?: number | null) {
     batchUpdate(() => {
@@ -322,6 +337,7 @@
 </script>
 
 <VirtualList
+  bind:this={rootElement}
   class={clsx(
     'he-tree',
     rtl && 'he-tree--rtl rtl',
@@ -349,9 +365,10 @@
         {treeLine}
         {treeLineOffset}
         {processor}
-        onNodeOpened={(info: NodeInfo) => onNodeOpened && onNodeOpened(info)}
-        onNodeclosed={(info: NodeInfo) => onNodeClosed && onNodeClosed(info)}
-        onNodeChecked={(info: NodeInfo) => onNodeChecked && onNodeChecked(info)}>
+        onNodeOpened={(info: NodeInfo) => onNodeOpened?.(info)}
+        onNodeclosed={(info: NodeInfo) => onNodeClosed?.(info)}
+        onNodeSelected={(info: NodeInfo) => onNodeSelected?.(info)}
+        onNodeChecked={(info: NodeInfo) => onNodeChecked?.(info)}>
         {#snippet tn_slot(params)}
           {#if params.data === placeholderData}
             <div class="drag-placeholder he-tree-drag-placeholder">
