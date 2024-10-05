@@ -5,6 +5,7 @@
   import { createTreeProcessor } from './TreeProcessorFactory';
   import type { NodeData, NodeInfo } from './NodeInfo';
   import type { Snippet } from 'svelte';
+  import * as hp from './jshelper';
   import clsx from 'clsx';
 
   import { CHILDREN } from '$lib/Constants';
@@ -105,7 +106,70 @@
     onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
   } = $props();
 
-  let rootElement;
+  const getNodeDataChildren = (nodeData: any): any[] => {
+    if (!nodeData) {
+      return valueComputed;
+    } else {
+      // const { childrenKey } = this;
+      if (!nodeData[childrenKey]) {
+        nodeData[childrenKey] = [];
+      }
+      return nodeData[childrenKey];
+    }
+  };
+
+  // processor.["_statHandler2"] = this.statHandler
+  //           ? (stat) => {
+  //             if (stat.data === placeholderData) {
+  //               return stat;
+  //             }
+  //             return this.statHandler!(stat);
+  //           }
+  //           : null;
+
+  processor.afterSetInfoNode = (info, parent, index) => {
+    // const { childrenKey, updateBehavior } = this;
+    let value = valueComputed;
+    if (updateBehavior === 'new') {
+      if (batchUpdateWaiting) {
+        return;
+      }
+      value = getData();
+    } else if (updateBehavior === 'modify') {
+      const siblings = getNodeDataChildren(parent?.nodeData);
+      if (siblings.includes(info.nodeData)) {
+        // when call add -> add child -> _setPositionm ignore because the child already in parent.children
+      } else {
+        siblings.splice(index, 0, info.nodeData);
+      }
+    } else if (updateBehavior === 'disabled') {
+    }
+    if (batchUpdateWaiting) {
+      return;
+    }
+    _updateValue(value);
+  };
+
+  processor.afterRemoveInfoNode = info => {
+    // const { childrenKey, updateBehavior } = this;
+    let value = valueComputed;
+    if (updateBehavior === 'new') {
+      if (batchUpdateWaiting) {
+        return;
+      }
+      value = getData();
+    } else if (updateBehavior === 'modify') {
+      const siblings = getNodeDataChildren(info.parent?.nodeData);
+      hp.arrayRemove(siblings, info.nodeData);
+    } else if (updateBehavior === 'disabled') {
+    }
+    if (batchUpdateWaiting) {
+      return;
+    }
+    _updateValue(value);
+  };
+
+  let rootElement: HTMLElement;
 
   // this is the model of the tree, it holds meta-data and data
   // TODO: rename to
@@ -366,7 +430,7 @@
         {treeLineOffset}
         {processor}
         onNodeOpened={(info: NodeInfo) => onNodeOpened?.(info)}
-        onNodeclosed={(info: NodeInfo) => onNodeClosed?.(info)}
+        onNodeClosed={(info: NodeInfo) => onNodeClosed?.(info)}
         onNodeSelected={(info: NodeInfo) => onNodeSelected?.(info)}
         onNodeChecked={(info: NodeInfo) => onNodeChecked?.(info)}>
         {#snippet tn_slot(params)}

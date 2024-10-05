@@ -6,8 +6,10 @@ export type NodeData = any;
  * it shows the medadata (exoended, selected, children..etc), but also the data of the node itself
  **/
 export class NodeInfo {
-  // TODO: that's the catch all, check if can be removed
+  // TODO: that's the catch all, check if it can be removed
   //  [x: string]: any;
+
+  // vuejs: used to be called data
   nodeData: NodeData;
   expended: boolean;
   parent: NodeInfo | null;
@@ -21,8 +23,8 @@ export class NodeInfo {
   //null mean inherit parent
   droppable: boolean | null;
   //null mean inherit parent
-  style: string | null;
-  class: string | null;
+  style?: string;
+  class?: string;
 
   // used to identify if the data is a node or the data of the node
   // not needed anymore, it's a class
@@ -41,8 +43,8 @@ export class NodeInfo {
 
     this.draggable = o?.draggable || null;
     this.droppable = o?.droppable || null;
-    this.style = o?.style || null;
-    this.class = o?.class || null;
+    this.style = o?.style;
+    this.class = o?.class;
 
     this._ignoreCheckedOnce = o?._ignoreCheckedOnce;
   }

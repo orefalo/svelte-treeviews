@@ -13,6 +13,12 @@ export class TreeProcessor {
   private _infosMap: Map<NodeData, NodeInfo> | null = $state(null);
 
   private options: ProcessorOptions;
+
+  // vuejs: this used to be afterSetStat
+  afterSetInfoNode?: (_info: NodeInfo, _parent: NodeInfo | null, _index: number) => void;
+  // vuejs: this used to be afterRemoveStat
+  afterRemoveInfoNode?: (_info: NodeInfo) => void;
+
   private initialized: boolean = false;
 
   //TODO looks like data is not used!
@@ -307,11 +313,11 @@ export class TreeProcessor {
       },
       { childrenKey: CHILDREN }
     );
-    // this.afterSetStat(stat, parent, index);
+    // vuejs: this.afterSetStat(stat, parent, index);
     this.options.afterSetInfoNode?.(info, parent, index);
   }
 
-  // this is a generqtor function '*'
+  // this is a generator function '*'
   public *iterateParent(info: NodeInfo, opt?: { withSelf: boolean }) {
     let t = opt?.withSelf ? info : info.parent;
     while (t) {

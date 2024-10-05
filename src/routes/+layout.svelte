@@ -26,9 +26,9 @@
       title: 'General Examples',
       pages: [
         { title: 'MyHeTree', path: '/examples/basictree' },
-        { title: 'V2', path: '/examples/v2' },
+
         { title: 'Dnd', path: '/examples/dnd' },
-        { title: 'V3', path: '/examples/v3' }
+   
       ]
     }
   ];

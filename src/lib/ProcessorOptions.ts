@@ -10,17 +10,14 @@ export class ProcessorOptions {
   // when true, the init() method must be called manually
   noInitialization?: boolean = false;
 
-  // vuejs: this used to be afterSetStat
-  afterSetInfoNode?: (_info: NodeInfo, _parent: NodeInfo | null, _index: number) => void;
-  // vuejs: this used to be afterRemoveStat
-  afterRemoveInfoNode?: (_info: NodeInfo) => null;
+
 
   constructor(o?: PartialOptions) {
     this.childrenKey = o?.childrenKey || CHILDREN;
     this.defaultOpen = o?.defaultOpen || false;
     this.noInitialization = o?.noInitialization || false;
-    this.afterSetInfoNode = o?.afterSetInfoNode;
-    this.afterRemoveInfoNode = o?.afterRemoveInfoNode;
+    // this.afterSetInfoNode = o?.afterSetInfoNode;
+    // this.afterRemoveInfoNode = o?.afterRemoveInfoNode;
   }
 
   // vuejs: this used to be statsHandler: (stats: Stat<any>[]) => Stat<any>[];

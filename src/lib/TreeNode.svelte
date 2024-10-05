@@ -2,6 +2,7 @@
   import type { Snippet } from 'svelte';
   import type { NodeData, NodeInfo } from './NodeInfo';
   import clsx from 'clsx';
+  import type { TreeProcessor } from './TreeProcessor.svelte';
 
   let {
     nodeInfo,
@@ -13,8 +14,8 @@
     treeLine = true,
     treeLineOffset = 10,
     processor,
-    class: className = '',
-    style = '',
+    class: className,
+    style,
 
     // snippets
     tn_slot,
@@ -31,7 +32,7 @@
     indent: number;
     treeLine: boolean;
     treeLineOffset: number;
-    processor?: { afterOneCheckChanged: (s: NodeInfo) => boolean };
+    processor?: TreeProcessor;
     class?: string;
     style?: string;
 
@@ -51,6 +52,19 @@
     `${rtl ? 'right' : 'left'}:${(nodeInfo.level - 2) * indent + treeLineOffset}px`
   );
 
+
+  $effect(() => {
+    const checked = nodeInfo.checked;
+    // fix issue: https://github.com/phphe/he-tree/issues/98
+    // when open/close above node, the after nodes' states 'checked' and 'open' will be updated. It should be caused by Vue's key. We don't use Vue's key prop.
+    if (justToggleOpen) {
+      return;
+    }
+    if (processor?.afterOneCheckChanged(nodeInfo)) {
+      onNodeChecked?.(nodeInfo);
+    }
+  });
+
   $effect(() => {
     const open = nodeInfo.expended;
 
@@ -64,17 +78,6 @@
     afterToggleOpen();
   });
 
-  $effect(() => {
-    const checked = nodeInfo.checked;
-    // fix issue: https://github.com/phphe/he-tree/issues/98
-    // when open/close above node, the after nodes' states 'checked' and 'open' will be updated. It should be caused by Vue's key. We don't use Vue's key prop.
-    if (justToggleOpen) {
-      return;
-    }
-    if (processor?.afterOneCheckChanged(nodeInfo)) {
-      onNodeChecked?.(nodeInfo);
-    }
-  });
 
   let justToggleOpen = false;
   const afterToggleOpen = () => {
