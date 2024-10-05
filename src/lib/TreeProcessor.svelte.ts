@@ -1,25 +1,23 @@
 import * as hp from './jshelper';
-import { NodeInfo, type NodeData } from './NodeInfo';
-import { Options } from '$lib/Options.svelte.js';
-
-export const CHILDREN = 'children'; // inner childrenKey
+import { type NodeData, NodeInfo } from './NodeInfo';
+import { ProcessorOptions } from '$lib/ProcessorOptions.js';
+import { CHILDREN } from '$lib/Constants';
 
 export class TreeProcessor {
   public nodeData: NodeData;
 
   public nodeInfos: NodeInfo[] = $state([]);
   public nodeInfosToRender: NodeInfo[] = $state([]);
+
   // used to find info from data
   private _infosMap: Map<NodeData, NodeInfo> | null = $state(null);
 
-  private options: Options;
+  private options: ProcessorOptions;
   private initialized: boolean = false;
 
-  constructor(data: Array<any>, opt?: Options) {
-    // this.nodeInfos = [];
-    // this.nodeInfosFlat
-    // this._infosMap = null;
-    this.options = opt ? opt : new Options();
+  //TODO looks like data is not used!
+  constructor(data: any[], opt?: ProcessorOptions) {
+    this.options = opt ? opt : new ProcessorOptions();
   }
 
   public init() {
@@ -274,7 +272,7 @@ export class TreeProcessor {
         this._infosMap!.delete(stat.nodeData);
       }
       //  this.afterRemoveStat(stat);
-      this.options.afterRemoveInfoNode(info);
+      this.options.afterRemoveInfoNode?.(info);
       return true;
     }
     return false;
@@ -310,7 +308,7 @@ export class TreeProcessor {
       { childrenKey: CHILDREN }
     );
     // this.afterSetStat(stat, parent, index);
-    this.options.afterSetInfoNode(info, parent, index);
+    this.options.afterSetInfoNode?.(info, parent, index);
   }
 
   // this is a generqtor function '*'

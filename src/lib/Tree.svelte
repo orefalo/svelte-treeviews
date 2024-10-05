@@ -1,11 +1,12 @@
 <script lang="ts">
   import { VirtualList } from '$lib/virtuallist';
   import TreeNode from './TreeNode.svelte';
-  import { CHILDREN, TreeProcessor } from './TreeProcessor.svelte';
+  import { TreeProcessor } from './TreeProcessor.svelte';
   import { createTreeProcessor } from './TreeProcessorFactory';
   import type { NodeData, NodeInfo } from './NodeInfo';
   import type { Snippet } from 'svelte';
   import clsx from 'clsx';
+  import { CHILDREN } from '$lib/Constants';
 
   let {
     // the model is only used as an interface with the component, model -> processor() -> (nodeInfos,nodeInfosFlat)
@@ -102,7 +103,7 @@
   } = $props();
 
   // this is the model of the tree, it holds meta-data and data
-  //let nodeInfos: Array<NodeInfo> = $state([]);
+  let nodeInfos: Array<NodeInfo> = $state([]);
 
   // used to render the tree
   let computedTree: Array<NodeInfo> = $state([]);
@@ -114,6 +115,27 @@
   let batchUpdateWaiting: boolean = false;
 
   let _ignoreValueChangeOnce: boolean = false;
+
+  let valueComputed = $derived.by(() => {
+    // model;
+    // console.log('model change detected');
+
+    // // TODO: change this? isDragging triggered in Vue2 because its array is not same with Vue3
+    // const isDragging = dragOvering || dragNode;
+    // if (isDragging || _ignoreValueChangeOnce) {
+    //   _ignoreValueChangeOnce = false;
+    // } else {
+    //   console.log('Initializing model');
+    //   processor.nodeData = model;
+    //   processor.init();
+
+    //   // what about     nodeInfosToRender=processor.init(model)
+
+    //   nodeInfos = processor.nodeInfos!;
+    //   computedTree = processor.nodeInfosToRender!;
+    // }
+    return model || [];
+  });
 
   $effect(() => {
     // look for model changes
@@ -127,18 +149,13 @@
     } else {
       console.log('Initializing model');
       processor.nodeData = model;
+      //TODO: refactor to nodeInfosToRender=processor.init(model)
       processor.init();
 
-      // what about     nodeInfosToRender=processor.init(model)
-
-      // nodeInfos = processor.nodeInfos!;
+      nodeInfos = processor.nodeInfos!;
       computedTree = processor.nodeInfosToRender!;
     }
   });
-
-  function valueComputed() {
-    return model || [];
-  }
 
   // only returns the visible nodes
   function visibleNodes(): NodeInfo[] {
@@ -166,7 +183,7 @@
     }
 
     // if value changed, ignore change once
-    if (value !== valueComputed()) {
+    if (value !== valueComputed) {
       _ignoreValueChangeOnce = true;
     }
     _emitValue(value);
@@ -290,7 +307,7 @@
   function batchUpdate(task: () => any | Promise<any>) {
     const r = _ignoreUpdate(task);
     if (!batchUpdateWaiting) {
-      _updateValue(updateBehavior === 'new' ? getData() : valueComputed());
+      _updateValue(updateBehavior === 'new' ? getData() : valueComputed);
     }
     return r;
   }

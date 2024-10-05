@@ -14,8 +14,8 @@ function arrayLast<T>(arr: T[]) {
 }
 
 export function arrayRemove(arr: any[], v: any) {
-  let index;
-  let count = 0;
+  let index: number;
+  let count: number = 0;
   while ((index = arr.indexOf(v)) > -1) {
     arr.splice(index, 1);
     count++;
@@ -238,6 +238,7 @@ export function mapObjects<T>(
  * @param rows2
  * @param key1
  * @param key2
+ * @param ignoreUnmatched
  * @returns [{row1|null, row2|null},...]
  */
 export function joinRows<T, Y>(
@@ -764,8 +765,8 @@ export function binarySearch<T>(
   const maxTimes = opt.maxTimes as number;
   // let { start, end } = opt;
   //  const { returnNearestIfNoHit, maxTimes } = opt;
-  let midNum;
-  let mid;
+  let midNum: number;
+  let mid: T;
   if (!start) {
     start = 0;
     end = arr.length - 1;
@@ -804,7 +805,7 @@ export function binarySearch<T>(
  * Like Map, support array as key. array order is used.
  */
 export class ArrayKeyMap<T> {
-  _map = new Map<any, [string, number]>();
+  _map: Map<any, [string, number]> = new Map<any, [string, number]>();
   _values: Record<string, [any[], T]> = {};
   _objCount = 0;
   _keysToString(keys: any[]): string | null {
@@ -819,10 +820,7 @@ export class ArrayKeyMap<T> {
     return t.toString();
   }
   has(keys: any[]) {
-    if (this._keysToString(keys) == null) {
-      return false;
-    }
-    return true;
+    return this._keysToString(keys) != null;
   }
   /**
    * throw error if not found
@@ -864,7 +862,7 @@ export class ArrayKeyMap<T> {
     delete _values[key2];
     for (const key of keys) {
       const v = _map.get(key);
-      let count = v ? v[1] : 0;
+      let count: number = v ? v[1] : 0;
 
       count--;
       if (count === 0) {

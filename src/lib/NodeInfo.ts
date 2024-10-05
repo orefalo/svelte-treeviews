@@ -1,7 +1,10 @@
 // NodeData is your data!
 export type NodeData = any;
 
-// NodeInfo is the medadata to hold a not in a tree
+/**
+ * NodeInfo is shows at very element in the tree structure.
+ * it shows the medadata (exoended, selected, children..etc), but also the data of the node itself
+ **/
 export class NodeInfo {
   // TODO: that's the catch all, check if can be removed
   //  [x: string]: any;
