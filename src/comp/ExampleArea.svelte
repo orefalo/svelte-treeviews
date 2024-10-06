@@ -6,7 +6,7 @@
   let { example }: { example: SvelteExample } = $props();
 
   //@ts-ignore
-  const Comp = example.component as Component<SvelteExample>;
+  const Comp = example.component as Component;
 </script>
 
 <div>

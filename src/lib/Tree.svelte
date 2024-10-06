@@ -237,9 +237,11 @@
       items = items.slice();
       items.reverse();
     }
-    console.log("# items to render:"+items.length)
+
+    items = items.filter(info => isVisible(info));
+    console.log('# items to render:' + items.length);
+
     return items;
-    // return items.filter(info => isVisible(info));
   }
 
   // returns the top level nodeInfo

@@ -39,8 +39,7 @@
     type AfterScrollEvent,
     type SlotAttributes,
     type VirtualRangeEvent,
-    type VirtualItemSize,
-    type VirtualListModel
+    type VirtualItemSize
   } from '.';
   import type { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
 
