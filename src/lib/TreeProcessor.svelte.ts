@@ -5,6 +5,7 @@ import { CHILDREN } from '$lib/Constants';
 
 export class TreeProcessor {
   // this is the input, typically a JSON document typically provided by the called
+  //TODO: now sure we need to keep a ref on rawData
   public rawData: any;
 
   public nodeInfos: NodeInfo[] = $state([]);
@@ -21,6 +22,15 @@ export class TreeProcessor {
   afterSetInfoNode?: (info: NodeInfo, parent: NodeInfo | null, index: number) => void;
   // vuejs: this used to be afterRemoveStat
   afterRemoveInfoNode?: (info: NodeInfo) => void;
+
+  // vuejs: this used to be statsHandler: (stats: Stat<any>[]) => Stat<any>[];
+  infoNodesHandler?: (infos: NodeInfo[]) => NodeInfo[];
+
+  // vuejs: this used to be  statsFlatHandler: (statsFlat: Stat<any>[]) => Stat<any>[];
+  infoNodesFlatHandler?: (infosFlat: NodeInfo[]) => NodeInfo[];
+
+  // vuejs: this used to be  statHandler: (stat: Stat<any>) => Stat<any>;
+  infoHandler: (info: NodeInfo) => NodeInfo = info => info;
 
   private initialized: boolean = false;
 
@@ -41,7 +51,7 @@ export class TreeProcessor {
       hp.walkTreeData(
         this.rawData,
         (data, index, parent, path) => {
-          const nodeInfo = this.options.infoHandler(
+          const nodeInfo = this.infoHandler(
             new NodeInfo({
               data: data,
               expended: this.options.defaultOpen,
@@ -63,10 +73,12 @@ export class TreeProcessor {
         flat.push(nodeInfo);
       });
 
-      console.log('rootChildren', td.rootChildren);
+      console.log('flat', flat);
 
-      this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
-      this.nodeInfosToRender = this.options.InfoNodesFlatHandler(flat);
+      this.nodeInfos = this.infoNodesHandler
+        ? this.infoNodesHandler(td.rootChildren)
+        : td.rootChildren;
+      this.nodeInfosToRender = this.infoNodesFlatHandler ? this.infoNodesFlatHandler(flat) : flat;
     }
   }
 
@@ -168,14 +180,17 @@ export class TreeProcessor {
     }, 100);
   }
 
-  public isVisible(infoOrData: NodeData | NodeInfo) {
-    // @ts-ignore
-    const info: NodeInfo =  infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData); // prettier-ignore
-    const walk: (ei: NodeInfo | null) => boolean = (nodeInfo: NodeInfo | null) => {
-      return !nodeInfo || (!nodeInfo.hidden && nodeInfo.expended && walk(nodeInfo.parent));
+  public isVisible(infoOrData: NodeData | NodeInfo): boolean {
+    const info: NodeInfo =
+      infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData);
+
+    const walk = (n: NodeInfo | null) => {
+      return !n || (!n.hidden && n.expended && walk(n.parent));
     };
-    return Boolean(!info.hidden && walk(info.parent));
+
+    return !info.hidden && walk(info.parent);
   }
+
   /**
    * call it to update all stats' `checked`
    */
@@ -250,7 +265,7 @@ export class TreeProcessor {
       index = siblings.length;
     }
 
-    const info: NodeInfo = this.options.infoHandler(
+    const info: NodeInfo = this.infoHandler(
       new NodeInfo({
         expended: Boolean(this.options.defaultOpen),
         data: data,

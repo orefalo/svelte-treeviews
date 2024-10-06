@@ -12,9 +12,9 @@ export class NodeInfo {
   // vuejs: used to be called data
   data: NodeData;
   expended: boolean = $state(false);
-  parent: NodeInfo | null = $state(null);
+  parent: NodeInfo | null = null;
   children: NodeInfo[] = $state([]);
-  level: number = $state(0);
+  level: number = 0;
   hidden: boolean = $state(false);
   // 0 mean just part of children checked, number allows for intermediary states
   checked: boolean | number = $state(false);

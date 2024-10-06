@@ -26,6 +26,8 @@
     childrenKey = CHILDREN,
     // json.key used for leaf nodes
     textKey = 'text',
+    // Use index when rendering node's indexes or return a unique value.
+    nodeKey = 'index',
     // node indent in px
     indent = 20,
     // Enable virtual list
@@ -38,8 +40,6 @@
     rtl = false,
     // Display bottom to top
     btt = false,
-    // Use index when rendering node's indexes or return a unique value.
-    nodeKey = 'index',
     // Display tree line.
     treeLine = false,
     // Horizontal displacement of tree lines, unit: pixels.
@@ -169,7 +169,7 @@
     _updateValue(value);
   };
 
-  let rootElement: HTMLElement;
+  let rootElement;
 
   // this is the model of the tree, it holds meta-data and data
   // TODO: rename to
@@ -229,14 +229,17 @@
 
   // only returns the visible nodes
   // vuejs: use to be visibleStats
-  function visibleNodes(): NodeInfo[] {
+  function filterVisibleNodes(): NodeInfo[] {
+    console.log('filterVisibleNodes');
     let items = computedTree || [];
     if (btt) {
-      //TODO: see if items.slice().reverse() works
+      //TODO: see if items.slice().reverse() works, it should
       items = items.slice();
       items.reverse();
     }
-    return items.filter(info => isVisible(info));
+    console.log("# items to render:"+items.length)
+    return items;
+    // return items.filter(info => isVisible(info));
   }
 
   // returns the top level nodeInfo
@@ -411,7 +414,7 @@
   height={500}
   isDisabled={!virtualization}
   width="auto"
-  model={visibleNodes()}
+  model={filterVisibleNodes()}
   modelCount={processor.nodeInfos?.length || 0}
   itemSize={25}>
   {#snippet vl_slot({ item: nodeInfo, style, index })}

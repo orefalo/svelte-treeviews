@@ -17,21 +17,6 @@ export class ProcessorOptions {
     // this.afterSetInfoNode = o?.afterSetInfoNode;
     // this.afterRemoveInfoNode = o?.afterRemoveInfoNode;
   }
-
-  // vuejs: this used to be statsHandler: (stats: Stat<any>[]) => Stat<any>[];
-  public infoNodesHandler(infos: NodeInfo[]): NodeInfo[] {
-    return infos;
-  }
-
-  // vuejs: this used to be  statsFlatHandler: (statsFlat: Stat<any>[]) => Stat<any>[];
-  public InfoNodesFlatHandler(infosFlat: NodeInfo[]): NodeInfo[] {
-    return infosFlat;
-  }
-
-  // vuejs: this used to be  statHandler: (stat: Stat<any>) => Stat<any>;
-  public infoHandler(info: NodeInfo) {
-    return info;
-  }
 }
 
 export interface PartialOptions extends Partial<ProcessorOptions> {}

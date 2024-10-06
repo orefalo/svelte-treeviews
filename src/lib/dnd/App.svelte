@@ -1,6 +1,6 @@
 <script lang="ts">
   import Content from './Content.svelte';
-  import type { Node, NodeDico } from './types.ts';
+  import type { NodeDico } from './types.ts';
 
   let tree: NodeDico = $state({
     node1: {
