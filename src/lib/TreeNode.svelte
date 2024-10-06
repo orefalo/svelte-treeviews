@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import type { NodeData, NodeInfo } from './NodeInfo';
+  import type { NodeData, NodeInfo } from './NodeInfo.svelte';
   import clsx from 'clsx';
   import type { TreeProcessor } from './TreeProcessor.svelte';
 
@@ -52,7 +52,6 @@
     `${rtl ? 'right' : 'left'}:${(nodeInfo.level - 2) * indent + treeLineOffset}px`
   );
 
-
   $effect(() => {
     const checked = nodeInfo.checked;
     // fix issue: https://github.com/phphe/he-tree/issues/98
@@ -77,7 +76,6 @@
 
     afterToggleOpen();
   });
-
 
   let justToggleOpen = false;
   const afterToggleOpen = () => {
@@ -146,7 +144,7 @@
     {/if}
   {/if}
   <div class="tree-node-inner">
-    {@render tn_slot({ data: nodeInfo.nodeData, info: nodeInfo })}
+    {@render tn_slot({ data: nodeInfo.data, info: nodeInfo })}
   </div>
 </div>
 

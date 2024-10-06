@@ -1,23 +1,26 @@
 import * as hp from './jshelper';
-import { type NodeData, NodeInfo } from './NodeInfo';
+import { type NodeData, NodeInfo } from './NodeInfo.svelte';
 import { ProcessorOptions } from '$lib/ProcessorOptions.js';
 import { CHILDREN } from '$lib/Constants';
 
 export class TreeProcessor {
-  public nodeData: NodeData;
+  // this is the input, typically a JSON document typically provided by the called
+  public rawData: any;
 
   public nodeInfos: NodeInfo[] = $state([]);
+
+  // this is a flattened tree, ready for virtuallist consumption
   public nodeInfosToRender: NodeInfo[] = $state([]);
 
   // used to find info from data
-  private _infosMap: Map<NodeData, NodeInfo> | null = $state(null);
+  private _infosMap: Map<NodeData, NodeInfo> = $state(new Map());
 
   private options: ProcessorOptions;
 
   // vuejs: this used to be afterSetStat
-  afterSetInfoNode?: (_info: NodeInfo, _parent: NodeInfo | null, _index: number) => void;
+  afterSetInfoNode?: (info: NodeInfo, parent: NodeInfo | null, index: number) => void;
   // vuejs: this used to be afterRemoveStat
-  afterRemoveInfoNode?: (_info: NodeInfo) => void;
+  afterRemoveInfoNode?: (info: NodeInfo) => void;
 
   private initialized: boolean = false;
 
@@ -33,20 +36,21 @@ export class TreeProcessor {
       const childrenKey = this.options.childrenKey;
 
       const td = new hp.TreeData([] as NodeInfo[]);
-      this._infosMap = new Map();
+      this._infosMap.clear();
+
       hp.walkTreeData(
-        this.nodeData,
-        (nodeData, index, parent, path) => {
+        this.rawData,
+        (data, index, parent, path) => {
           const nodeInfo = this.options.infoHandler(
             new NodeInfo({
-              nodeData: nodeData,
-              expended: Boolean(this.options.defaultOpen),
+              data: data,
+              expended: this.options.defaultOpen,
               parent: td.getParent(path),
               children: [],
               level: path.length
             })
           );
-          this._infosMap!.set(nodeData, nodeInfo);
+          this._infosMap.set(data, nodeInfo);
           td.set(path, nodeInfo);
         },
         { childrenKey }
@@ -54,9 +58,6 @@ export class TreeProcessor {
 
       console.log('td', td);
 
-      this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
-
-      // nodeInfosFlat = this.options.InfoNodesFlatHandler(flat)
       const flat: typeof td.rootChildren = [];
       td.walk(nodeInfo => {
         flat.push(nodeInfo);
@@ -64,6 +65,7 @@ export class TreeProcessor {
 
       console.log('rootChildren', td.rootChildren);
 
+      this.nodeInfos = this.options.infoNodesHandler(td.rootChildren);
       this.nodeInfosToRender = this.options.InfoNodesFlatHandler(flat);
     }
   }
@@ -251,7 +253,7 @@ export class TreeProcessor {
     const info: NodeInfo = this.options.infoHandler(
       new NodeInfo({
         expended: Boolean(this.options.defaultOpen),
-        nodeData: data,
+        data: data,
         parent: parent || null,
         children: [],
         level: parent ? parent.level + 1 : 1
@@ -275,10 +277,10 @@ export class TreeProcessor {
       const stats = this._flat(info);
       this.nodeInfosToRender!.splice(this.nodeInfosToRender!.indexOf(info), stats.length);
       for (const stat of stats) {
-        this._infosMap!.delete(stat.nodeData);
+        this._infosMap!.delete(stat.data);
       }
       //  this.afterRemoveStat(stat);
-      this.options.afterRemoveInfoNode?.(info);
+      this.afterRemoveInfoNode?.(info);
       return true;
     }
     return false;
@@ -300,8 +302,8 @@ export class TreeProcessor {
     const stats = this._flat(info);
     this.nodeInfosToRender!.splice(flatIndex, 0, ...stats);
     for (const stat of stats) {
-      if (!this._infosMap!.has(stat.nodeData)) {
-        this._infosMap!.set(stat.nodeData, stat);
+      if (!this._infosMap!.has(stat.data)) {
+        this._infosMap!.set(stat.data, stat);
       }
     }
     hp.walkTreeData(
@@ -314,7 +316,7 @@ export class TreeProcessor {
       { childrenKey: CHILDREN }
     );
     // vuejs: this.afterSetStat(stat, parent, index);
-    this.options.afterSetInfoNode?.(info, parent, index);
+    this.afterSetInfoNode?.(info, parent, index);
   }
 
   // this is a generator function '*'
@@ -388,7 +390,7 @@ export class TreeProcessor {
     hp.walkTreeData(
       root || this.nodeInfos!,
       (info, index, parent, path) => {
-        let newData = { ...info.nodeData, [childrenKey]: [] };
+        let newData = { ...info.data, [childrenKey]: [] };
         if (filter) {
           // @ts-ignore
           newData = filter(newData);

@@ -3,7 +3,7 @@
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor.svelte';
   import { createTreeProcessor } from './TreeProcessorFactory';
-  import type { NodeData, NodeInfo } from './NodeInfo';
+  import type { NodeData, NodeInfo } from './NodeInfo.svelte';
   import type { Snippet } from 'svelte';
   import * as hp from './jshelper';
   import clsx from 'clsx';
@@ -136,11 +136,11 @@
       }
       value = getData();
     } else if (updateBehavior === 'modify') {
-      const siblings = getNodeDataChildren(parent?.nodeData);
-      if (siblings.includes(info.nodeData)) {
+      const siblings = getNodeDataChildren(parent?.data);
+      if (siblings.includes(info.data)) {
         // when call add -> add child -> _setPositionm ignore because the child already in parent.children
       } else {
-        siblings.splice(index, 0, info.nodeData);
+        siblings.splice(index, 0, info.data);
       }
     } else if (updateBehavior === 'disabled') {
     }
@@ -159,8 +159,8 @@
       }
       value = getData();
     } else if (updateBehavior === 'modify') {
-      const siblings = getNodeDataChildren(info.parent?.nodeData);
-      hp.arrayRemove(siblings, info.nodeData);
+      const siblings = getNodeDataChildren(info.parent?.data);
+      hp.arrayRemove(siblings, info.data);
     } else if (updateBehavior === 'disabled') {
     }
     if (batchUpdateWaiting) {
@@ -218,7 +218,7 @@
       _ignoreValueChangeOnce = false;
     } else {
       console.log('Initializing model');
-      processor.nodeData = model;
+      processor.rawData = model;
       //TODO: refactor to nodeInfosToRender=processor.init(model)
       processor.init();
 
@@ -418,7 +418,7 @@
     {#if nodeInfo}
       <TreeNode
         class={clsx(nodeInfo.class, {
-          'drag-placeholder-wrapper': nodeInfo.nodeData === placeholderData,
+          'drag-placeholder-wrapper': nodeInfo.data === placeholderData,
           'dragging-node': nodeInfo === dragNode
         })}
         style={nodeInfo.style}

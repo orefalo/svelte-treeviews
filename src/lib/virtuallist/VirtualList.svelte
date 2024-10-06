@@ -42,7 +42,7 @@
     type VirtualItemSize,
     type VirtualListModel
   } from '.';
-  import type { NodeInfo } from 'svelte-treeviews/NodeInfo';
+  import type { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
 
   const {
     height,

@@ -1,4 +1,4 @@
-import type { NodeInfo } from '$lib/NodeInfo';
+import type { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
 
 import { CHILDREN } from '$lib/Constants';
 
@@ -9,8 +9,6 @@ export class ProcessorOptions {
   defaultOpen: boolean = false;
   // when true, the init() method must be called manually
   noInitialization?: boolean = false;
-
-
 
   constructor(o?: PartialOptions) {
     this.childrenKey = o?.childrenKey || CHILDREN;

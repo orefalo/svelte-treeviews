@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Tree } from 'svelte-treeviews';
   import data0 from '../data.json';
-  import { NodeInfo } from 'svelte-treeviews/NodeInfo';
+  import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
 
   const data = $state(data0);
   const defaultOpen = $state(true);

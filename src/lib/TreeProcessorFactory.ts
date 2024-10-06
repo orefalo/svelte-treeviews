@@ -29,6 +29,7 @@ export function createTreeProcessor(data: any[], options: PartialOptions) {
   //     return filter(options.statsFlatHandler, inputReactive);
   //   }
   // };
+  // const opt = new PreProcessorOptionsSvelte(opt);
   const opt = new PreProcessorOptionsSvelte(options);
 
   const instance = new TreeProcessor(data, opt);

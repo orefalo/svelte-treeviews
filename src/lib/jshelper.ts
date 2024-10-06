@@ -5,9 +5,6 @@ function isArray<T>(v: unknown): v is any[] {
 function isObject(v: unknown): v is object {
   return Object.prototype.toString.call(v) === '[object Object]';
 }
-function isFunction(v: unknown): v is Function {
-  return typeof v === 'function';
-}
 
 function arrayLast<T>(arr: T[]) {
   return arr[arr.length - 1];
@@ -120,168 +117,6 @@ export type MapObjectTreeHandler = (
       skip?: boolean; // skip children
       stop?: boolean;
     };
-/**
- * walk object and change key, value, delete key. return cloned new object.
- * 深度遍历对象, 可以改变key, value, 删除key. 返回克隆的新对象.
- * @param obj
- * @param handler
- * return null: don't change anything
- * return {delete: true}: delete
- * return {key: newKey}: change key
- * return {value: newValue}: change value
- * return {skip: true}: skip children
- * return {stop: true}: stop
- * @param limit to prevent circular reference.
- * @returns
- */
-export function mapObjectTree(obj: object, handler: MapObjectTreeHandler, limit = 10000): object {
-  let r;
-  let count = 0;
-  const stack = [{ value: obj }];
-  while (stack.length > 0) {
-    if (count >= limit) {
-      throw `mapObjectTree: limit(${limit}) reached, object may has circular reference`;
-    }
-    count++;
-    // @ts-ignore
-    const { value, key, parent, newParent } = stack.shift();
-    const t = handler(value, key, parent, newParent);
-    const assign = (value, key, canPush) => {
-      if (isArray(value)) {
-        value = [];
-      } else if (isObject(value)) {
-        value = {};
-      }
-      if (parent) {
-        if (isArray(newParent) && canPush) {
-          newParent.push(value);
-        } else {
-          newParent[key] = value;
-        }
-      } else {
-        r = value;
-      }
-      // value may changed
-      return value;
-    };
-    let newVal, val, toDelete, stop, skip;
-    if (!t) {
-      // no change
-      val = value;
-      // @ts-ignore
-      newVal = assign(value, key);
-    } else {
-      const { key: key2, value } = t;
-      val = value;
-      // @ts-ignore
-      if (t.delete || key2 === false) {
-        // del
-        toDelete = true;
-      } else if (key2 == null) {
-        // don't change key
-        newVal = assign(value, key, true);
-      } else if (t.hasOwnProperty('value')) {
-        // @ts-ignore
-        newVal = assign(value, key2);
-      }
-      ({ stop, skip } = t);
-    }
-    if (toDelete) {
-      continue;
-    }
-    if (skip) {
-      continue;
-    }
-    if (stop) {
-      break;
-    }
-    if (isArray(val)) {
-      const len = val.length;
-      for (let i = 0; i < len; i++) {
-        // @ts-ignore
-        stack.push({ value: val[i], key: i, parent: val, newParent: newVal });
-      }
-    } else if (isObject(val)) {
-      Object.keys(val).forEach(key => {
-        // @ts-ignore
-        stack.push({ value: val[key], key, parent: val, newParent: newVal });
-      });
-    }
-  }
-  return r;
-}
-
-/**
- * [{id: 1}, {id: 2}] to {'1':{id: 1}, '2': {id: 2}}
- * @param arr
- * @param idKey
- * @returns
- */
-export function mapObjects<T>(
-  arr: T[],
-  idKey: string | ((item: T, index: number) => string)
-): { [key: string]: T } {
-  const r = {};
-  const len = arr.length;
-  for (let i = 0; i < len; i++) {
-    const item = arr[i];
-    // @ts-ignore
-    const id = isFunction(idKey) ? idKey(item, i) : item[idKey];
-    r[id] = item;
-  }
-  return r;
-}
-
-/**
- * example: pairRows(users, userProfiles, 'id', 'user_id')
- * @param rows1
- * @param rows2
- * @param key1
- * @param key2
- * @param ignoreUnmatched
- * @returns [{row1|null, row2|null},...]
- */
-export function joinRows<T, Y>(
-  rows1: T[],
-  rows2: Y[],
-  key1: string | ((row: T, index: number) => any),
-  key2?: string,
-  ignoreUnmatched?: boolean
-): [T | null, Y | null][] {
-  if (key2 === null) {
-    // @ts-ignore
-    key2 = key1;
-  }
-  const m1 = new Map<unknown, T>();
-  const m2 = new Map<unknown, Y>();
-  const r: any = [];
-  rows2.forEach((row, index) => {
-    // @ts-ignore
-    const key = typeof key2 === 'function' ? key2(row, index) : row[key2];
-    m2.set(key, row);
-  });
-  const usedRows2 = new Set();
-  rows1.forEach((row, index) => {
-    // @ts-ignore
-    const key = typeof key1 === 'function' ? key1(row, index) : row[key1];
-    m1.set(key, row);
-    let row2 = m2.has(key) ? m2.get(key) : null;
-    if (m2.has(key) || !ignoreUnmatched) {
-      r.push([row, row2]);
-      usedRows2.add(row2);
-    }
-  });
-  if (!ignoreUnmatched) {
-    rows2.forEach((row, index) => {
-      // @ts-ignore
-      const key = typeof key2 === 'function' ? key2(row, index) : row[key2];
-      if (!usedRows2.has(row)) {
-        r.push([null, row]);
-      }
-    });
-  }
-  return r;
-}
 
 export type TreeDataPath = number[];
 export type WalkTreeDataHandler<T> = (
@@ -297,7 +132,7 @@ export type WalkTreeDataOptions = {
 };
 /**
  * walk tree data by with depth first search. tree data example: `[{children: [{}, {}]}]`
- * 深度优先遍历树形数据. 树形数据示例: `[{children: [{}, {}]}]`
+ *
  * @param obj
  * @param handler
  * @param opt
@@ -308,6 +143,7 @@ export function walkTreeData<T>(
   handler: WalkTreeDataHandler<T>,
   opt: WalkTreeDataOptions = {}
 ) {
+  //TODO: refactor this, this is nothing else than an extra optional param childrenKey?:string = 'children
   opt = objectAssignIfNoKey(
     { ...opt },
     {
@@ -360,6 +196,7 @@ export function walkTreeData<T>(
     }
   }
 }
+
 export type TreeDataNodeInfo<T> = {
   node: T;
   index: number;
@@ -570,94 +407,6 @@ export class TreeData<Node> {
       })
     );
   }
-}
-
-/**
- * wrap function, bind context(this).
- * @param action
- * @param context
- * @returns
- */
-export function bindContext<T extends Function>(action: T, context: any): T {
-  const wrapped = function (...args: any) {
-    return action.apply(context, args);
-  };
-  // @ts-ignore
-  return wrapped;
-}
-
-/**
- * Cache function return by arguments
- * @param func
- * @returns
- */
-export function cacheFunction<T extends Function>(func: T, options: { capacity?: number } = {}) {
-  const cachedArgsArr: any[] = [];
-  let map: ArrayKeyMap<any> | null;
-  const defaultValue = {};
-  let noArgsCache = defaultValue;
-  const wrapped = function (...args: any[]) {
-    if (args.length === 0) {
-      if (noArgsCache === defaultValue) {
-        noArgsCache = func();
-      }
-      return noArgsCache;
-    }
-    if (!map) {
-      map = new ArrayKeyMap();
-    }
-    if (!map.has(args)) {
-      map.set(args, func(...args));
-      if (options.capacity !== null) {
-        cachedArgsArr.push(args);
-        const removed = cachedArgsArr.splice(0, cachedArgsArr.length - (options.capacity || 0));
-        for (const args of removed) {
-          map.delete(args);
-        }
-      }
-    }
-    return map.get(args);
-  };
-  const clearCache = () => {
-    map = null;
-    cachedArgsArr.splice(0, cachedArgsArr.length);
-  };
-  return {
-    // @ts-ignore
-    action: wrapped as T,
-    clearCache
-  };
-}
-
-/**
- * Split array every n. n can be getter, which argument is the times.
- * 每n个拆分数组. n可以是方法, 参数是第几次分块
- * @param arr
- * @param n
- * @returns
- */
-export function splitArray<T>(arr: T[], n: number | ((times: number) => number)): T[][] {
-  const r: Array<T[]> = [];
-  if (isFunction(n)) {
-    const getChunkLength = n;
-    let times = 1;
-    let i = 0;
-    while (i < arr.length) {
-      const n = getChunkLength(times);
-      const end = i + n;
-      r.push(arr.slice(i, end));
-      i = end;
-      times++;
-    }
-  } else {
-    let i = 0;
-    while (i < arr.length) {
-      const end = i + <number>n;
-      r.push(arr.slice(i, end));
-      i = end;
-    }
-  }
-  return r;
 }
 
 /**

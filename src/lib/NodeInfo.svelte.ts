@@ -10,21 +10,21 @@ export class NodeInfo {
   //  [x: string]: any;
 
   // vuejs: used to be called data
-  nodeData: NodeData;
-  expended: boolean;
-  parent: NodeInfo | null;
-  children: NodeInfo[];
-  level: number;
-  hidden: boolean;
+  data: NodeData;
+  expended: boolean = $state(false);
+  parent: NodeInfo | null = $state(null);
+  children: NodeInfo[] = $state([]);
+  level: number = $state(0);
+  hidden: boolean = $state(false);
   // 0 mean just part of children checked, number allows for intermediary states
-  checked: boolean | number;
+  checked: boolean | number = $state(false);
   //null mean inherit parent
   draggable: boolean | null;
   //null mean inherit parent
   droppable: boolean | null;
   //null mean inherit parent
-  style?: string;
-  class?: string;
+  style?: string = $state('');
+  class?: string = $state('');
 
   // used to identify if the data is a node or the data of the node
   // not needed anymore, it's a class
@@ -33,7 +33,7 @@ export class NodeInfo {
   _ignoreCheckedOnce?: boolean;
 
   constructor(o?: PartialNodeInfo) {
-    this.nodeData = o?.nodeData || null;
+    this.data = o?.data || null;
     this.expended = o?.expended || false;
     this.parent = o?.parent || null;
     this.children = o?.children || [];

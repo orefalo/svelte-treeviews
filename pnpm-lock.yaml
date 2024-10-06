@@ -23,10 +23,10 @@ importers:
         version: 1.47.2
       '@sveltejs/adapter-static':
         specifier: ^3.0.5
-        version: 3.0.5(@sveltejs/kit@2.6.1(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))
+        version: 3.0.5(@sveltejs/kit@2.6.2(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))
       '@sveltejs/kit':
-        specifier: ^2.6.1
-        version: 2.6.1(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1))
+        specifier: ^2.6.2
+        version: 2.6.2(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1))
       '@sveltejs/package':
         specifier: 2.3.5
         version: 2.3.5(svelte@5.0.0-next.262)(typescript@5.6.2)
@@ -688,8 +688,8 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
 
-  '@sveltejs/kit@2.6.1':
-    resolution: {integrity: sha512-QFlch3GPGZYidYhdRAub0fONw8UTguPICFHUSPxNkA/jdlU1p6C6yqq19J1QWdxIHS2El/ycDCGrHb3EAiMNqg==}
+  '@sveltejs/kit@2.6.2':
+    resolution: {integrity: sha512-ruogrSPXjckn5poUiZU8VYNCSPHq66SFR1AATvOikQxtP6LNI4niAZVX/AWZRe/EPDG3oY2DNJ9c5z7u0t2NAQ==}
     engines: {node: '>=18.13'}
     hasBin: true
     peerDependencies:
@@ -1162,8 +1162,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  cookie@0.6.0:
-    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
+  cookie@0.7.1:
+    resolution: {integrity: sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==}
     engines: {node: '>= 0.6'}
 
   copyfiles@2.4.1:
@@ -3239,15 +3239,15 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.21.0':
     optional: true
 
-  '@sveltejs/adapter-static@3.0.5(@sveltejs/kit@2.6.1(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))':
+  '@sveltejs/adapter-static@3.0.5(@sveltejs/kit@2.6.2(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))':
     dependencies:
-      '@sveltejs/kit': 2.6.1(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1))
+      '@sveltejs/kit': 2.6.2(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1))
 
-  '@sveltejs/kit@2.6.1(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1))':
+  '@sveltejs/kit@2.6.2(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1)))(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 4.0.0-next.7(svelte@5.0.0-next.262)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.31.1))
       '@types/cookie': 0.6.0
-      cookie: 0.6.0
+      cookie: 0.7.1
       devalue: 5.1.1
       esm-env: 1.0.0
       import-meta-resolve: 4.1.0
@@ -3746,7 +3746,7 @@ snapshots:
       meow: 12.1.1
       split2: 4.2.0
 
-  cookie@0.6.0: {}
+  cookie@0.7.1: {}
 
   copyfiles@2.4.1:
     dependencies:

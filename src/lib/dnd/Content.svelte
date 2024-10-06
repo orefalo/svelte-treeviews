@@ -2,6 +2,7 @@
   import { flip } from 'svelte/animate';
   import { dndzone } from 'svelte-dnd-action';
   import type { NodeDico, Node } from './types';
+  import Content from './Content.svelte';
 
   let { tree = $bindable(), node }: { tree: NodeDico; node: Node } = $props();
 
@@ -26,7 +27,7 @@
     {#if node.children}
       {#each node.children as item (item.id)}
         <div animate:flip={{ duration: flipDurationMs }} class="item">
-          <svelte:self bind:tree node={tree[item.id]} />
+          <Content bind:tree node={tree[item.id]} />
         </div>
       {/each}
     {/if}

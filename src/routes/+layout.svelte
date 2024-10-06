@@ -27,8 +27,7 @@
       pages: [
         { title: 'MyHeTree', path: '/examples/basictree' },
 
-        { title: 'Dnd', path: '/examples/dnd' },
-   
+        { title: 'Dnd', path: '/examples/dnd' }
       ]
     }
   ];

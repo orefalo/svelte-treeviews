@@ -1,4 +1,4 @@
-import type { NodeInfo } from './NodeInfo';
+import type { NodeInfo } from './NodeInfo.svelte';
 import { ProcessorOptions, type PartialOptions } from './ProcessorOptions';
 
 export class PreProcessorOptionsSvelte extends ProcessorOptions {
