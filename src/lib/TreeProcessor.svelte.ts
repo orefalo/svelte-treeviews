@@ -134,17 +134,18 @@ export class TreeProcessor {
       if (parent) {
         let hasChecked = false;
         let hasUnchecked = false;
+        let hasHalfChecked = false;
         for (const child of parent.children) {
-          if (child.checked || child.checked === 0) {
+          if (child.checked) {
             hasChecked = true;
+          } else if (child.checked === 0) {
+            hasHalfChecked = true;
           } else {
             hasUnchecked = true;
-            if (hasChecked && hasUnchecked) {
-              break;
-            }
           }
         }
-        const parentChecked = !hasUnchecked ? true : hasChecked ? 0 : false;
+
+        const parentChecked = hasHalfChecked ? 0 : !hasUnchecked ? true : hasChecked ? 0 : false;
 
         if (parent.checked !== parentChecked) {
           this._ignoreCheckedOnce(parent);

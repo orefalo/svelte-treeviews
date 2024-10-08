@@ -361,8 +361,9 @@
 
   // Remove multiple nodes.
   function removeMulti(dataArr: NodeData[]) {
+    const cloned = [...dataArr];
     batchUpdate(() => {
-      for (const data of dataArr) {
+      for (const data of cloned) {
         remove(data);
       }
     });
