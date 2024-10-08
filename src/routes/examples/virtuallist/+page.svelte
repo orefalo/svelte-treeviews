@@ -4,9 +4,9 @@
   import example from './code.svelte?example';
 </script>
 
-<h2>List Positioning</h2>
+<h2>Internal: VirtualList</h2>
 <p>
-  The component provides properties to position the list either on an element, or on a pixel offset.
+  Tree nodes are layedout in a virtuallist with infinite scrolling
 </p>
 
 <ExampleArea {example} />

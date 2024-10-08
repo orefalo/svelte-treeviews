@@ -1,6 +1,7 @@
 [
   {
     "text": "T1",
+    "expended": true,
     "children": [
       {
         "text": "T1.1"

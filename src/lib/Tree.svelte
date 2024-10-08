@@ -434,10 +434,10 @@
         {treeLine}
         {treeLineOffset}
         {processor}
-        onNodeOpened={(info: NodeInfo) => onNodeOpened?.(info)}
-        onNodeClosed={(info: NodeInfo) => onNodeClosed?.(info)}
-        onNodeSelected={(info: NodeInfo) => onNodeSelected?.(info)}
-        onNodeChecked={(info: NodeInfo) => onNodeChecked?.(info)}>
+        onNodeOpened={info => onNodeOpened?.(info)}
+        onNodeClosed={info => onNodeClosed?.(info)}
+        onNodeSelected={info => onNodeSelected?.(info)}
+        onNodeChecked={info => onNodeChecked?.(info)}>
         {#snippet tn_slot(params)}
           {#if params.data === placeholderData}
             <div class="drag-placeholder he-tree-drag-placeholder">
