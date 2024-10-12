@@ -6,14 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
 		<link href="/svelte-treeviews/_app/immutable/assets/0.LEWtMjZZ.css" rel="stylesheet">
-		<link href="/svelte-treeviews/_app/immutable/assets/5.BpNBnjP1.css" rel="stylesheet">
-		<link href="/svelte-treeviews/_app/immutable/assets/svelte-treeviews.m_DJPNLI.css" rel="stylesheet">
-		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/entry/start.BXzkdkD0.js">
-		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/chunks/external.B9NXY1Es.js">
-		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/entry/app.DkzuADjb.js">
-		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/nodes/0.CPB-SF_7.js">
-		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/nodes/5.BE9YUU5j.js">
-		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/chunks/svelte-treeviews.BjS-TAJ0.js"><!--[--><meta name="description" content="A Fantastic virtual list for Svelte 5 and above"> <!----><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}
+		<link href="/svelte-treeviews/_app/immutable/assets/svelte-treeviews.DpDqFxh6.css" rel="stylesheet">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/entry/start.XHfkOkL-.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/chunks/external.DBrx1XmV.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/entry/app.CEY3O8Ji.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/nodes/0.DQ-DO8aI.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/nodes/5.B_B27ksu.js">
+		<link rel="modulepreload" href="/svelte-treeviews/_app/immutable/chunks/svelte-treeviews.CU-h9fmE.js"><!--[--><meta name="description" content="A Fantastic virtual list for Svelte 5 and above"> <!----><style>pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}
 /*
 
 Night Owl for highlight.js (c) Carl Baxter <carl@cbax.tech>
@@ -46,15 +45,9 @@ SOFTWARE.
 .hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#EF535090;font-style:italic}</style><!----><!--]--><title>Svelte-Treeviews - VirtualList</title>
   </head>
   <body data-sveltekit-preload-data="hover">
-    <div style="display: contents"><!--[--><!--[--><!----><div class="page-container svelte-113h04q"><div role="presentation" class="toc-container-space svelte-113h04q"></div> <main class="svelte-113h04q "><!----><h2>List Positioning</h2> <p>The component provides properties to position the list either on an element, or on a pixel offset.</p> <div><div class="actions svelte-hvu9xx"><label for="item-height" class="svelte-hvu9xx">Item Height: <div class="range svelte-hvu9xx"><input type="range" id="item-height" step="5" min="50" max="155" value="50" class="svelte-hvu9xx"></div></label></div> <div class="list svelte-hvu9xx"><div class="virtual-list-wrapper $ svelte-f32i87" style="height:500px;width:auto;"><!--[!--><!--]--> <div class="virtual-list-inner svelte-f32i87" style="flex-direction:column;height:500000px;"><!--[!--><!--[--><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:0px;">Item 0</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:50px;">Item 1</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:100px;">Item 2</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:150px;">Item 3</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:200px;">Item 4</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:250px;">Item 5</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:300px;">Item 6</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:350px;">Item 7</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:400px;">Item 8</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:450px;">Item 9</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:500px;">Item 10</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:550px;">Item 11</div><!----><div class="row svelte-hvu9xx" style="left:0;width:100%;height:50px;position:absolute;top:600px;">Item 12</div><!----><!--]--><!--]--></div> <!--[!--><!--]--></div><!----></div><!----> <pre data-language="svelte"><code class="hljs"><!----><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">import</span> { <span class="hljs-title class_">VirtualList</span>, type <span class="hljs-title class_">SlotAttributes</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/virtuallist&#x27;</span>;
+    <div style="display: contents"><!--[--><!--[--><!----><div class="page-container svelte-113h04q"><div role="presentation" class="toc-container-space svelte-113h04q"></div> <main class="svelte-113h04q "><!----><h2>Internal: VirtualList</h2> <p>Tree nodes are layedout in a virtuallist with infinite scrolling</p> <div><div class="vtlist" style="overflow:auto; height:600px"><!--[!--><!--]--> <div class="vtlist-inner" style="display:flex; flex-direction:column; margin-top:0px;margin-bottom:0px"><!--[!--><!--[--><div style="border: 1px solid rgb(204, 204, 204)">{"data":{"text":"Item 0"},"expended":false,"children":[],"level":0,"hidden":false,"checked":false}</div><!----><div style="border: 1px solid rgb(204, 204, 204)">{"data":{"text":"Item 1"},"expended":false,"children":[],"level":0,"hidden":false,"checked":false}</div><!----><div style="border: 1px solid rgb(204, 204, 204)">{"data":{"text":"Item 2"},"expended":false,"children":[],"level":0,"hidden":false,"checked":false}</div><!----><div style="border: 1px solid rgb(204, 204, 204)">{"data":{"text":"Item 3"},"expended":false,"children":[],"level":0,"hidden":false,"checked":false}</div><!----><div style="border: 1px solid rgb(204, 204, 204)">{"data":{"text":"Item 4"},"expended":false,"children":[],"level":0,"hidden":false,"checked":false}</div><!----><div style="border: 1px solid rgb(204, 204, 204)">{"data":{"text":"Item 5"},"expended":false,"children":[],"level":0,"hidden":false,"checked":false}</div><!----><!--]--><!--]--></div> <!--[!--><!--]--></div><!----> <pre data-language="svelte"><code class="hljs"><!----><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> { <span class="hljs-title class_">VirtualList</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/virtuallist&#x27;</span>;
   <span class="hljs-keyword">import</span> { <span class="hljs-title class_">NodeInfo</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/NodeInfo.svelte&#x27;</span>;
-
-  interface <span class="hljs-title class_">MyItemsData</span> {
-    <span class="hljs-attr">text</span>: string;
-    <span class="hljs-attr">lineHeight</span>: string;
-    <span class="hljs-attr">width</span>: string;
-  }
 
   <span class="hljs-keyword">const</span> <span class="hljs-attr">myModel</span>: <span class="hljs-title class_">Array</span>&lt;<span class="hljs-title class_">NodeInfo</span>&gt; = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(<span class="hljs-number">10000</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-number">1</span>).<span class="hljs-title function_">map</span>(
     <span class="hljs-function">(<span class="hljs-params">v, i</span>) =&gt;</span>
@@ -63,152 +56,21 @@ SOFTWARE.
       })
   );
 
-  <span class="hljs-keyword">let</span> itemSize = <span class="hljs-number">50</span>;
+  <span class="hljs-comment">// let itemSize = () =&gt; 25;</span>
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;item-height&quot;</span>&gt;</span>
-    Item Height:
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;range&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;item-height&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;155&quot;</span> <span class="hljs-attr">bind:value</span>=<span class="hljs-string">{itemSize}</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">VirtualList</span> <span class="hljs-attr">items</span>=<span class="hljs-string">{myModel}</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height:600px&quot;</span>&gt;</span>
+  {#snippet vl_slot({ item, index })}
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;border: 1px solid rgb(204, 204, 204)&quot;</span>&gt;</span>
+      {JSON.stringify(item)}
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;list&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">VirtualList</span> <span class="hljs-attr">model</span>=<span class="hljs-string">{myModel}</span> <span class="hljs-attr">height</span>=<span class="hljs-string">{500}</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-attr">modelCount</span>=<span class="hljs-string">{myModel.length}</span> {<span class="hljs-attr">itemSize</span>}&gt;</span>
-    {#snippet vl_slot({ item, style, index })}
-      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;row&quot;</span> {<span class="hljs-attr">style</span>}&gt;</span>
-        {item.data.text}
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    {/snippet}
-  <span class="hljs-tag">&lt;/<span class="hljs-name">VirtualList</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
-  :<span class="hljs-built_in">global</span>(body),
-  :<span class="hljs-built_in">global</span>(html) {
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
-    <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">background-color</span>: <span class="hljs-built_in">rgb</span>(<span class="hljs-number">249</span>, <span class="hljs-number">249</span>, <span class="hljs-number">249</span>);
-  }
-
-  :<span class="hljs-built_in">global</span>(.virtual-list-wrapper) {
-    <span class="hljs-attribute">margin</span>: <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span>;
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">2px</span>;
-    <span class="hljs-attribute">box-shadow</span>:
-      <span class="hljs-number">0</span> <span class="hljs-number">2px</span> <span class="hljs-number">2px</span> <span class="hljs-number">0</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.14</span>),
-      <span class="hljs-number">0</span> <span class="hljs-number">3px</span> <span class="hljs-number">1px</span> -<span class="hljs-number">2px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.2</span>),
-      <span class="hljs-number">0</span> <span class="hljs-number">1px</span> <span class="hljs-number">5px</span> <span class="hljs-number">0</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.12</span>);
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#fafafa</span>;
-    <span class="hljs-attribute">font-family</span>: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
-    <span class="hljs-attribute">color</span>: <span class="hljs-number">#333</span>;
-    -webkit-<span class="hljs-attribute">font-smoothing</span>: antialiased;
-  }
-
-  <span class="hljs-selector-class">.row</span> {
-    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">15px</span>;
-    <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#eee</span>;
-    <span class="hljs-attribute">box-sizing</span>: border-box;
-    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">50px</span>;
-    <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">500</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span>;
-  }
-
-  <span class="hljs-selector-class">.actions</span> {
-    <span class="hljs-attribute">display</span>: -webkit-box;
-    <span class="hljs-attribute">display</span>: -ms-flexbox;
-    <span class="hljs-attribute">display</span>: flex;
-    -ms-<span class="hljs-attribute">flex-wrap</span>: wrap;
-    <span class="hljs-attribute">flex-wrap</span>: wrap;
-    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">15px</span>;
-    -webkit-box-pack: justify;
-    -ms-<span class="hljs-attribute">flex</span>-pack: justify;
-    <span class="hljs-attribute">justify-content</span>: space-between;
-  }
-
-  <span class="hljs-selector-class">.actions</span> <span class="hljs-selector-tag">label</span> {
-    <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span> <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;
-    <span class="hljs-attribute">color</span>: <span class="hljs-number">#999</span>;
-    <span class="hljs-attribute">font-family</span>: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
-  }
-
-  <span class="hljs-selector-class">.range</span> {
-    <span class="hljs-attribute">position</span>: relative;
-    <span class="hljs-attribute">top</span>: -<span class="hljs-number">1px</span>;
-    <span class="hljs-attribute">display</span>: inline-block;
-    <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">15px</span>;
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">250px</span>;
-  }
-
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]) {
-    <span class="hljs-attribute">appearance</span>: none;
-    -webkit-<span class="hljs-attribute">appearance</span>: none;
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">10px</span>;
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">5px</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#d7dcdf</span>;
-    <span class="hljs-attribute">outline</span>: none;
-    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
-  }
-
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]),
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]) *,
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]:after),
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]:before) {
-    <span class="hljs-attribute">box-sizing</span>: border-box;
-  }
-
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]::-webkit-slider-thumb) {
-    -webkit-<span class="hljs-attribute">appearance</span>: none;
-    <span class="hljs-attribute">appearance</span>: none;
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#2c3e50</span>;
-    <span class="hljs-attribute">cursor</span>: pointer;
-    <span class="hljs-attribute">transition</span>: background <span class="hljs-number">0.15s</span> ease-in-out;
-  }
-
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]::-webkit-slider-thumb:hover),
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]:active::-webkit-slider-thumb) {
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#008cff</span>;
-  }
-
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]::-moz-range-thumb) {
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">border</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#2c3e50</span>;
-    <span class="hljs-attribute">cursor</span>: pointer;
-    <span class="hljs-attribute">transition</span>: background <span class="hljs-number">0.15s</span> ease-in-out;
-  }
-
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]::-moz-range-thumb:hover),
-  :<span class="hljs-built_in">global</span>(input[type=<span class="hljs-string">&#x27;range&#x27;</span>]:active::-moz-range-thumb) {
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#008cff</span>;
-  }
-
-  :<span class="hljs-built_in">global</span>(::-moz-range-track) {
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#d7dcdf</span>;
-    <span class="hljs-attribute">border</span>: <span class="hljs-number">0</span>;
-  }
-
-  :<span class="hljs-built_in">global</span>(input::-moz-focus-inner),
-  :<span class="hljs-built_in">global</span>(input::-moz-focus-outer) {
-    <span class="hljs-attribute">border</span>: <span class="hljs-number">0</span>;
-  }
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  {/snippet}
+<span class="hljs-tag">&lt;/<span class="hljs-name">VirtualList</span>&gt;</span>
 <!----></code></pre><!----></div><!----><!----><!----> <div class="controls svelte-113h04q"><div class="svelte-113h04q"><span class="svelte-113h04q ">previous</span> <!--[--><a data-sveltekit-preload-data="" href="/svelte-treeviews/examples/basictree" class="svelte-113h04q">MyHeTree</a><!--]--></div> <div class="svelte-113h04q"><span class="svelte-113h04q ">next</span> <!--[--><a data-sveltekit-preload-data="" href="/svelte-treeviews/examples/dnd" class="svelte-113h04q">Dnd</a><!--]--></div></div></main> <div class="toc-container svelte-113h04q"><div role="presentation" class="toc-contents-wrap svelte-113h04q"><h1 class="toc-head svelte-113h04q"><img src="/svelte-treeviews/favicon.svg" alt="Icon" width="30" height="30"> Svelte-Treeviews</h1> <nav aria-label="Docs" class="svelte-1bjdx71"><ul class="sidebar svelte-1bjdx71"><!--[--><li class="svelte-1bjdx71"><span class="section svelte-1bjdx71">Getting started</span> <ul class="svelte-1bjdx71"><!--[--><li class="svelte-1bjdx71"><a data-sveltekit-preload-data="" class="page svelte-1bjdx71" href="/svelte-treeviews/">Introduction</a></li><!--]--></ul></li><li class="svelte-1bjdx71"><span class="section svelte-1bjdx71">General Examples</span> <ul class="svelte-1bjdx71"><!--[--><li class="svelte-1bjdx71"><a data-sveltekit-preload-data="" class="page svelte-1bjdx71" href="/svelte-treeviews/examples/basictree">MyHeTree</a></li><li class="svelte-1bjdx71"><a data-sveltekit-preload-data="" class="page svelte-1bjdx71" aria-current="page" href="/svelte-treeviews/examples/virtuallist">VirtualList</a></li><li class="svelte-1bjdx71"><a data-sveltekit-preload-data="" class="page svelte-1bjdx71" href="/svelte-treeviews/examples/dnd">Dnd</a></li><!--]--></ul></li><!--]--></ul></nav><!----></div> <div class="input-output-toggle svelte-1keqb9b">Direction: <span aria-hidden="true">LTR</span> <button aria-pressed="false" class="svelte-1bsnqe6"><span style="display: none;">RTL direction</span></button><!----> <span aria-hidden="true">RTL</span></div><!----></div></div><!----><!--]--> <!--[!--><!--]--><!--]-->
 			
 			<script>
 				{
-					__sveltekit_6eb9qt = {
+					__sveltekit_pbdyt7 = {
 						base: "/svelte-treeviews",
 						assets: "/svelte-treeviews"
 					};
@@ -218,8 +80,8 @@ SOFTWARE.
 					const data = [null,null];
 
 					Promise.all([
-						import("/svelte-treeviews/_app/immutable/entry/start.BXzkdkD0.js"),
-						import("/svelte-treeviews/_app/immutable/entry/app.DkzuADjb.js")
+						import("/svelte-treeviews/_app/immutable/entry/start.XHfkOkL-.js"),
+						import("/svelte-treeviews/_app/immutable/entry/app.CEY3O8Ji.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],
