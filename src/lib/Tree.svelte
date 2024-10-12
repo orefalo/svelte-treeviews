@@ -414,13 +414,10 @@
     dragOvering && 'he-tree--drag-overing drag-overing'
   )}
   {style}
-  height={500}
   isDisabled={!virtualization}
-  width="auto"
   model={filterVisibleNodes()}
-  modelCount={processor.nodeInfos?.length || 0}
-  itemSize={25}>
-  {#snippet vl_slot({ item: nodeInfo, style, index })}
+  itemSize={() => 25}>
+  {#snippet vl_slot({ item: nodeInfo, index })}
     {#if nodeInfo}
       <TreeNode
         class={clsx(nodeInfo.class, {

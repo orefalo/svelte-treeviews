@@ -13,21 +13,21 @@ export class PreProcessorOptionsSvelte extends ProcessorOptions {
     super(o);
   }
 
-  public infoHandler(input: NodeInfo) {
-    if (this.preProcessor) {
-      input = this.preProcessor(input);
-    }
-    let inputReactive = $state(input);
-    return this.filter(super.infoHandler, inputReactive);
-  }
+  // public infoHandler(input: NodeInfo) {
+  //   if (this.preProcessor) {
+  //     input = this.preProcessor(input);
+  //   }
+  //   let inputReactive = $state(input);
+  //   return this.filter(super.infoHandler, inputReactive);
+  // }
 
-  public infoNodesHandler(input: NodeInfo[]) {
-    let inputReactive = $state(input);
-    return this.filter(super.infoNodesHandler, inputReactive);
-  }
+  // public infoNodesHandler(input: NodeInfo[]) {
+  //   let inputReactive = $state(input);
+  //   return this.filter(super.infoNodesHandler, inputReactive);
+  // }
 
-  public InfoNodesFlatHandler(input: NodeInfo[]) {
-    let inputReactive = $state(input);
-    return this.filter(super.InfoNodesFlatHandler, inputReactive);
-  }
+  // public InfoNodesFlatHandler(input: NodeInfo[]) {
+  //   let inputReactive = $state(input);
+  //   return this.filter(super.InfoNodesFlatHandler, inputReactive);
+  // }
 }

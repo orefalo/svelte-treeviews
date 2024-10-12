@@ -1,4 +1,6 @@
 <script module lang="ts">
+  // this code is used to support passive events when available
+  // addEventListener('eventname', callback, thirdEventArg);
   type ResultType = boolean | { passive: boolean };
   /**
    * the third argument for event bundler
@@ -30,46 +32,45 @@
 
 <script lang="ts">
   import { onMount, onDestroy, type Snippet } from 'svelte';
-  import SizeAndPositionManager from './SizeAndPositionManager';
   import {
     ALIGNMENT,
-    DIRECTION,
     SCROLL_BEHAVIOR,
-    SCROLL_CHANGE_REASON,
     type AfterScrollEvent,
-    type SlotAttributes,
-    type VirtualRangeEvent,
-    type VirtualItemSize
+    type VirtualListModel,
+    type VirtualRangeEvent
   } from '.';
-  import type { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
+
+  import { binarySearch } from '../jshelper';
+  import clsx from 'clsx';
 
   const {
-    height,
-    width = '100%',
-    // data in the model
     // TODO: implement a partial loader
-    model = [],
-    // total model count, typically model.length unless a partial loader is used
-    modelCount,
+    items = [],
+
     // items are the view, size of item n, can be a function
     itemSize,
-    // useful when using a partial loader
-    estimatedItemSize,
 
-    isDisabled,
+    // When disabled, all items are rendered like a normal html list
+    isDisabled = false,
+    isHorizontal = false,
 
-    // positioning
+    // reactive variable related to positioning
     scrollToIndex,
     scrollOffset,
-    windowOverPadding = 3,
-    scrollDirection = DIRECTION.VERTICAL,
+    // windowOverPadding = 3,
+
+    // Render count at start. For ssr.
+    firstRender = 6,
+
+    // layout options
+    // scrollDirection = DIRECTION.VERTICAL,
     scrollToAlignment = ALIGNMENT.AUTO,
     scrollToBehaviour = SCROLL_BEHAVIOR.INSTANT,
 
     // snippets
-    footer,
-    vl_slot,
     header,
+    vl_slot,
+    footer,
 
     // events
     onVisibleRangeUpdate,
@@ -79,26 +80,26 @@
     class: className = '',
     style = ''
   }: {
-    height: number | string;
-    width: number | string;
-    model: NodeInfo[];
-    modelCount: number;
-    itemSize: VirtualItemSize;
-    estimatedItemSize?: number;
+    items: any[];
+
+    itemSize?: (item: any, index: number) => number | null;
+    // itemSize?: (item: any, index: number) => number | null | undefined | void;
 
     isDisabled?: boolean;
+    isHorizontal?: boolean;
 
     // positioning
     scrollToIndex?: number | undefined;
     scrollOffset?: number | undefined;
-    windowOverPadding?: number;
-    scrollDirection?: DIRECTION;
+
     scrollToAlignment?: ALIGNMENT;
     scrollToBehaviour?: SCROLL_BEHAVIOR;
 
+    firstRender?: number;
+
     // snippets
     header?: Snippet;
-    vl_slot: Snippet<[{ item: NodeInfo; style: string; index: number }]>;
+    vl_slot: Snippet<[{ item: any; index: number }]>;
     footer?: Snippet;
 
     // events
@@ -108,320 +109,262 @@
     style?: string;
   } = $props();
 
-  const SCROLL_PROP = {
-    [DIRECTION.VERTICAL]: 'top',
-    [DIRECTION.HORIZONTAL]: 'left'
-  };
+  let mounted: boolean = false;
+  let listContainer: HTMLDivElement;
+  let listInner: HTMLDivElement;
 
-  const SCROLL_PROP_LEGACY = {
-    [DIRECTION.VERTICAL]: 'scrollTop',
-    [DIRECTION.HORIZONTAL]: 'scrollLeft'
-  };
+  let clientHeight: number = $state(0);
+  let clientWidth: number = $state(0);
 
-  interface VState {
-    offset: number;
-    scrollChangeReason: number;
-  }
+  let buffer: number = 100;
+  let prevScroll: number;
+  let itemKey: 'index' | ((item: any, index: number) => any);
 
-  interface VProps {
-    scrollToIndex?: number;
-    scrollToAlignment?: string;
-    scrollOffset?: number;
-    modelCount?: number;
-    itemSize?: VirtualItemSize;
-    estimatedItemSize?: number;
-  }
+  let start = $state(0);
+  let end = $state(firstRender - 1);
+  let avgSize = $state(0);
 
-  const sizeAndPositionManager = new SizeAndPositionManager(
-    model,
-    modelCount,
-    itemSize,
-    estimatedItemSize
+  const end2 = $derived.by(() => {
+    const max = (items?.length || 1) - 1;
+    return end < max ? end : max;
+  });
+
+  const runtimeSizes: (number | null)[] = $derived(new Array(items.length));
+
+  const sizes: number[] = $derived.by(() => {
+    const p = items.map((item, index) => {
+      if (runtimeSizes[index] != null) {
+        return runtimeSizes[index];
+      }
+      let r = itemSize && itemSize(item, index);
+      if (r == null) {
+        r = avgSize;
+      }
+      return r;
+    });
+
+    return p;
+  });
+
+  const positions: number[] = $derived.by(() => {
+    const p: number[] = [];
+    sizes.reduce((a, b) => {
+      p.push(a);
+      return a + b;
+    }, 0);
+    return p;
+  });
+
+  const startSize = $derived(positions[start] ? positions[start] : 0);
+
+  const totalSize = $derived(
+    positions.length > 0 ? positions[positions.length - 1] + sizes[sizes.length - 1] : 0
   );
 
-  let mounted: boolean = false;
-  let container: HTMLDivElement;
-  let visibleItems: Array<SlotAttributes<any>> = $state([]);
-
-  let curState: VState = $state({
-    offset:
-      scrollOffset ||
-      (scrollToIndex !== undefined && modelCount && getOffsetForIndex(scrollToIndex)) ||
-      0,
-    scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
-  });
-
-  //@ts-expect-error missing attributes, it's ok for initialization
-  let prevState: VState = {};
-  let prevProps: VProps = {
-    scrollToIndex,
-    scrollToAlignment,
-    scrollOffset,
-    modelCount,
-    itemSize,
-    estimatedItemSize
-  };
-
-  let styleCache: { [rowidx: number]: string } = {};
-  let wrapperStyle = $state('');
-  let innerStyle = $state('');
-
-  $effect(() => {
-    // listen to updates:
-    //@ts-expect-error unused no side effect
-    scrollToIndex, scrollToAlignment, scrollOffset, modelCount, itemSize, estimatedItemSize;
-
-    // on update:
-    propsUpdated();
-  });
-
-  $effect(() => {
-    // listen to updates:
-    curState;
-
-    // on update:
-    stateUpdated();
-  });
-
-  $effect(() => {
-    // listen to updates:
-    //@ts-expect-error unused no side effect
-    height, width;
-    // on update:
-    if (mounted) recomputeSizes(0); // call scroll.reset
-  });
-  (() => {
-    // init run before the DOM is even ready
-    if (scrollDirection === DIRECTION.VERTICAL && typeof height !== 'number') {
-      throw new Error(
-        "virtual list's height must be a number when scrollDirection is 'vertical', got " + height
-      );
-    }
-    if (scrollDirection === DIRECTION.HORIZONTAL && typeof width !== 'number') {
-      throw new Error(
-        "virtual list's width must be a number if scrollDirection is 'horizontal', got " + width
-      );
-    }
-
-    refresh(); // Initial Load
-  })();
+  const endSize = $derived(positions[end2] ? totalSize - positions[end2] - sizes[end2] : 0);
 
   onMount(() => {
-    container.addEventListener('scroll', handleScroll, thirdEventArg);
-
-    if (scrollOffset !== undefined) {
-      scrollTo(scrollOffset);
-    } else if (scrollToIndex !== undefined) {
-      scrollTo(getOffsetForIndex(scrollToIndex));
-    }
+    listContainer.addEventListener('scroll', onscroll, thirdEventArg);
     mounted = true;
+    update();
   });
 
   onDestroy(() => {
-    if (mounted) container.removeEventListener('scroll', handleScroll);
+    if (mounted) listContainer.removeEventListener('scroll', onscroll);
   });
 
-  function propsUpdated() {
-    if (!mounted) return;
-
-    if (scrollToIndex && scrollOffset) {
-      console.log('VirtualList: scrollToIndex and scrollOffset shall not be used together.');
+  const visibleItemsInfo: VirtualListModel[] = $derived.by(() => {
+    if (!items || isDisabled) {
+      return;
     }
-
-    const scrollPropsHaveChanged =
-      prevProps.scrollToIndex !== scrollToIndex ||
-      prevProps.scrollToAlignment !== scrollToAlignment;
-    const itemPropsHaveChanged =
-      prevProps.modelCount !== modelCount ||
-      prevProps.itemSize !== itemSize ||
-      prevProps.estimatedItemSize !== estimatedItemSize;
-
-    if (itemPropsHaveChanged) {
-      sizeAndPositionManager.updateConfig(itemSize, modelCount, estimatedItemSize);
-
-      recomputeSizes();
+    const r: VirtualListModel[] = [];
+    for (let index = start; index <= end2; index++) {
+      const item = items[index];
+      if (!item) {
+        break;
+      }
+      // todo: see if there is a way to reuse the object, by aligning naming, item vs data
+      r.push({ item, index });
     }
+    return r;
+  }) as VirtualListModel[];
 
-    const scrollOffsetHaveChanged = prevProps.scrollOffset !== scrollOffset;
-    if (scrollOffsetHaveChanged) {
-      curState = {
-        offset: scrollOffset || 0,
-        scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
-      };
-    } else if (
-      typeof scrollToIndex === 'number' &&
-      (scrollPropsHaveChanged || itemPropsHaveChanged)
-    ) {
-      curState = {
-        offset: getOffsetForIndex(scrollToIndex, scrollToAlignment, modelCount),
+  const listStyle = $derived(clsx(!isDisabled && 'overflow:auto;', style));
 
-        scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
-      };
+  const listInnerStyle = $derived.by(() =>
+    clsx(
+      'display:flex;',
+      (!isHorizontal && 'flex-direction:column;') || 'flex-direction:row;',
+      !isDisabled &&
+        ((!isHorizontal && `margin-top:${startSize}px;margin-bottom:${endSize}px`) ||
+          `margin-left:${startSize}px;margin-right:${endSize}px;width:${totalSize - endSize - startSize}px`)
+    )
+  );
+
+  $effect(() => {
+    // items, clientWidth, clientHeight;
+    update();
+  });
+
+  function onscroll() {
+    // tracks the scroll position
+    const currentScroll = getScroll(listContainer);
+    if (prevScroll != null && buffer - Math.abs(currentScroll - prevScroll) >= 10) {
+      return;
     }
-
-    prevProps = {
-      scrollToIndex,
-      scrollToAlignment,
-      scrollOffset,
-      modelCount,
-      itemSize,
-      estimatedItemSize
-    };
+    prevScroll = currentScroll;
+    update();
   }
 
-  // updates component state and triggers refresh or scrollto accotdingly
-  function stateUpdated() {
-    if (!mounted) return;
+  function getStart() {
+    const startPosition = getScroll(listContainer) - getPaddingStart(listContainer) - buffer;
+    const r = binarySearch(positions, mid => mid - startPosition, {
+      returnNearestIfNoHit: true
+    })!;
+    return r.index;
+  }
+  function getEnd() {
+    const endPosition =
+      getScroll(listContainer) -
+      getPaddingStart(listContainer) +
+      getClientSize(listContainer) +
+      buffer;
 
-    const { offset, scrollChangeReason } = curState;
-
-    if (prevState.offset !== offset || prevState.scrollChangeReason !== scrollChangeReason) {
-      refresh();
-    }
-
-    if (prevState.offset !== offset && scrollChangeReason === SCROLL_CHANGE_REASON.REQUESTED) {
-      scrollTo(offset);
-    }
-
-    prevState = curState;
+    const r = binarySearch(positions, mid => mid - endPosition, { returnNearestIfNoHit: true })!;
+    return r.index;
   }
 
-  function refresh() {
-    if (model.length === 0 || isDisabled) return;
-
-    const { offset } = curState;
-    let { start, end } = sizeAndPositionManager.getVisibleRange(
-      //@ts-expect-error wrong type assignment
-      scrollDirection === DIRECTION.VERTICAL ? height : width,
-      offset,
-      windowOverPadding
-    );
-
-    let updatedItems: Array<SlotAttributes<any>> = [];
-
-    const totalSize = sizeAndPositionManager.getTotalSize();
-    const heightUnit = typeof height === 'number' ? 'px' : '';
-    const widthUnit = typeof width === 'number' ? 'px' : '';
-    if (scrollDirection === DIRECTION.VERTICAL) {
-      wrapperStyle = `height:${height}${heightUnit};width:${width}${widthUnit};`;
-      innerStyle = `flex-direction:column;height:${totalSize}px;`;
-    } else {
-      wrapperStyle = `height:${height}${heightUnit};width:${width}${widthUnit};`;
-      innerStyle = `min-height:100%;width:${totalSize}px;`;
+  function update() {
+    if (!avgSize) {
+      avgSize = getAvgSize();
     }
 
-    if (model && start !== undefined && end !== undefined) {
-      for (let index = start; index <= end; index++) {
-        updatedItems.push({
-          item: model[index],
-          index,
-          style: getStyle(index)
-        });
+    start = getStart();
+    end = getEnd();
+
+    let vi0 = 0;
+
+    const runtimeSizesTemp: Record<number, number> = {};
+    const children = listInner.children;
+    for (let i = 0; i < children.length; i++) {
+      const el = children[i];
+      const stl = getComputedStyle(el);
+
+      const cssPosition = stl.position;
+      if (cssPosition && ['absolute', 'fixed'].includes(cssPosition)) {
+        continue;
       }
 
-      if (onVisibleRangeUpdate) {
-        // calculate the visible positions
-        const r = sizeAndPositionManager.getVisibleRange(
-          //@ts-expect-error wrong type assignment
-          scrollDirection === DIRECTION.VERTICAL ? height : width,
-          offset,
-          0
-        );
+      const size = stl.display !== 'none' ? getOuterSize(el as HTMLElement) : 0;
 
-        onVisibleRangeUpdate({
-          type: 'range.update',
-          start: r.start,
-          end: r.end
-        });
+      // todo: the hell is that?
+      // const vi = el.getAttribute('vt-index');
+      // const index = vi ? parseInt(vi) : start + vi0;
+
+      const index = start + vi0;
+      runtimeSizesTemp[index] = (runtimeSizesTemp[index] || 0) + size;
+      vi0++;
+    }
+    for (const indexS of Object.keys(runtimeSizesTemp)) {
+      const index = parseInt(indexS);
+      if (runtimeSizes[index] !== runtimeSizesTemp[index]) {
+        runtimeSizes[index] = runtimeSizesTemp[index];
       }
     }
-
-    visibleItems = updatedItems;
   }
 
-  function scrollTo(value: number) {
-    if ('scroll' in container) {
-      container.scroll({
-        [SCROLL_PROP[scrollDirection]]: value,
-        behavior: scrollToBehaviour
-      });
+  function getAvgSize() {
+    const maxSampleCount = 10;
+    const sizeArr: number[] = [];
+    const children = listInner.children;
+    for (let index = 0; index < children.length; index++) {
+      const el = <HTMLElement>children[index];
+      const style = getComputedStyle(el);
+      if (['absolute', 'fixed'].includes(style.position)) {
+        continue;
+      }
+      const outerSize = getOuterSize(el);
+      sizeArr.push(outerSize);
+      if (sizeArr.length >= maxSampleCount) {
+        break;
+      }
+    }
+    if (sizeArr.length === 0) {
+      return 0;
+    }
+    return sizeArr.reduce((a, b) => a + b, 0) / sizeArr.length;
+  }
+
+  function getClientSize(el: HTMLElement) {
+    const style = getComputedStyle(el);
+    let r = parseFloat(!isHorizontal ? style.height : style.width);
+    if (style.boxSizing === 'border-box') {
+      if (!isHorizontal) {
+        r -= parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth);
+      } else {
+        r -= parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth);
+      }
+    }
+    return r;
+  }
+
+  function getOuterSize(el: HTMLElement) {
+    const style = getComputedStyle(el);
+
+    let r = getClientSize(el);
+    if (!isHorizontal) {
+      r +=
+        parseFloat(style.borderTopWidth) +
+        parseFloat(style.borderBottomWidth) +
+        parseFloat(style.marginTop) +
+        parseFloat(style.marginBottom);
     } else {
-      //@ts-expect-error no index signature
-      container[SCROLL_PROP_LEGACY[scrollDirection]] = value;
+      r +=
+        parseFloat(style.borderLeftWidth) +
+        parseFloat(style.borderRightWidth) +
+        parseFloat(style.marginLeft) +
+        parseFloat(style.marginRight);
     }
+    return Number.isNaN(r) ? 0 : r;
   }
 
-  export function recomputeSizes(startIndex: number = 0) {
-    styleCache = {};
-    sizeAndPositionManager.resetItem(startIndex);
-    refresh();
+  function getScroll(el: HTMLElement) {
+    return !isHorizontal ? el.scrollTop : el.scrollLeft;
   }
 
-  function getOffsetForIndex(
-    index: number,
-    align: ALIGNMENT = scrollToAlignment,
-    _modelCount: number = modelCount
-  ): number {
-    if (index < 0) {
-      index = 0;
-    } else if (index >= _modelCount) {
-      index = _modelCount - 1;
-    }
-
-    return sizeAndPositionManager.getUpdatedOffsetForIndex(
-      align,
-      //@ts-expect-error wrong type assignment
-      scrollDirection === DIRECTION.VERTICAL ? height : width,
-      curState.offset || 0,
-      index
-    );
+  function getPaddingStart(el: HTMLElement) {
+    const style = getComputedStyle(el);
+    return !isHorizontal ? parseFloat(style.paddingTop) : parseFloat(style.paddingLeft);
   }
 
-  const handleScroll = (event: Event) => {
-    const offset = container[SCROLL_PROP_LEGACY[scrollDirection]];
-
-    if (offset < 0 || curState.offset === offset || event.target !== container) return;
-
-    curState = {
-      offset,
-      scrollChangeReason: SCROLL_CHANGE_REASON.OBSERVED
-    };
-
-    if (onAfterScroll) {
-      onAfterScroll({ type: 'scroll.update', offset, event });
+  function getItemKey(item: any, index: number) {
+    if (itemKey) {
+      if (/*typeof itemKey === 'string' &&*/ itemKey === 'index') {
+        return index;
+      } else if (typeof itemKey === 'function') {
+        return itemKey(item, index);
+      }
     }
-  };
-
-  function getStyle(index: number): string {
-    if (styleCache[index]) return styleCache[index];
-
-    const { size, offset } = sizeAndPositionManager.getSizeAndPositionForIndex(index);
-
-    const style =
-      scrollDirection === DIRECTION.VERTICAL
-        ? `left:0;width:100%;height:${size}px;position:absolute;top:${offset}px;`
-        : `top:0;width:${size}px;position:absolute;height:100%;left:${offset}px;`;
-
-    return (styleCache[index] = style);
   }
 </script>
 
-<div bind:this={container} class="virtual-list-wrapper ${className}" style={wrapperStyle}>
+<div
+  bind:this={listContainer}
+  bind:clientHeight
+  bind:clientWidth
+  class={clsx('vtlist', className)}
+  style={listStyle}>
   {#if header}
     {@render header()}
   {/if}
-  <div class="virtual-list-inner" style={innerStyle}>
+  <div bind:this={listInner} class="vtlist-inner" style={listInnerStyle}>
     {#if isDisabled}
-      {#each model as item, index}
-        {@render vl_slot({ item, style: '', index })}
+      {#each items as item, index}
+        {@render vl_slot({ item: item.item, index })}
       {/each}
     {:else}
-      {#each visibleItems as el}
-        {@render vl_slot({
-          item: el.item,
-          style: el.style,
-          index: el.index
-        })}
+      {#each visibleItemsInfo as item, index}
+        {@render vl_slot({ item: item.item, index })}
       {/each}
     {/if}
   </div>
@@ -429,17 +372,3 @@
     {@render footer()}
   {/if}
 </div>
-
-<style>
-  .virtual-list-wrapper {
-    overflow: auto;
-    will-change: transform;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .virtual-list-inner {
-    position: relative;
-    display: flex;
-    width: 100%;
-  }
-</style>

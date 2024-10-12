@@ -8,7 +8,7 @@ test('index 0, then 5000, then back to 0', async ({ page }) => {
   const testpage = page.locator(':has-text("Positioning")~div');
   expect(testpage).toBeDefined();
 
-  const listWrapper = testpage.locator('div.virtual-list-wrapper').first();
+  const listWrapper = testpage.locator('div.vtlist').first();
   expect(listWrapper).toBeDefined();
 
   // count the rendered list rows

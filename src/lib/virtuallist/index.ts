@@ -1,24 +1,13 @@
-export type VirtualItemSize = number | number[] | ((item: unknown, index: number) => number);
+// export type VirtualItemSize = ((item: unknown, index: number) => number);
 
 export { default as VirtualList } from './VirtualList.svelte';
 
-export interface VirtualListModel<T> {
+export interface VirtualListModel {
   // the actual item value
-  item: T;
+  item: any;
   // The row's index being rendered, from the original dataset
   // The index is a string if the IDs are processed via the getKey() function
   index: number;
-}
-
-// use by the row() snippet
-export interface SlotAttributes<T> extends VirtualListModel<T> {
-  // the calculated style for this row
-  style: string;
-}
-
-export interface VirtualPosition {
-  size: number;
-  offset: number;
 }
 
 export interface VirtualRange {

@@ -541,7 +541,9 @@ export function binarySearch<T>(
   }
   return returnNearestIfNoHit
     ? {
+        //@ts-expect-error used before being assigned
         index: midNum as number,
+        //@ts-expect-error used before being assigned
         value: mid as T,
         count: i + 1,
         hit: false,

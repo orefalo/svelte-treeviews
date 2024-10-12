@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { VirtualList, type SlotAttributes } from '$lib/virtuallist';
+  import { VirtualList } from '$lib/virtuallist';
   import { NodeInfo } from '$lib/NodeInfo.svelte';
 
   const myModel: Array<NodeInfo> = new Array(10000).fill(1).map(
@@ -9,16 +9,13 @@
       })
   );
 
-  let itemSize = 25;
+  // let itemSize = () => 25;
 </script>
 
-<VirtualList model={myModel} height={500} width="auto" modelCount={myModel.length} {itemSize}>
-  {#snippet vl_slot({ item, style, index })}
-    <div class="row" {style}>
-      {item.data.text}
+<VirtualList items={myModel} style="height:600px">
+  {#snippet vl_slot({ item, index })}
+    <div style="border: 1px solid rgb(204, 204, 204)">
+      {JSON.stringify(item)}
     </div>
   {/snippet}
 </VirtualList>
-
-<style>
-</style>
