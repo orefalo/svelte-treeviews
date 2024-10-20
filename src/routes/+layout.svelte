@@ -25,8 +25,13 @@
     {
       title: 'General Examples',
       pages: [
-        { title: 'MyHeTree', path: '/examples/basictree' },
-        { title: 'Dnd', path: '/examples/dnd' }
+        { title: 'Basic', path: '/examples/basic' },
+        { title: 'Fold and Checkbox', path: '/examples/foldandcheckbox/' },
+        { title: 'Material Design and Tree line', path: '/examples/basictree' },
+        { title: 'Drag and Drop', path: '/examples/dnd' },
+        { title: 'Virtual List', path: '/examples/comingsoon' },
+        { title: 'Bottom up rendering', path: '/examples/comingsoon' },
+        { title: 'Render as Table', path: '/examples/comingsoon' }
       ]
     }
   ];

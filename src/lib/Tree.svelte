@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { VirtualList } from '$lib/virtuallist';
+  import { VirtualList } from 'svelte-virtuallists';
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor.svelte';
   import { createTreeProcessor } from './TreeProcessorFactory';
@@ -117,15 +117,6 @@
       return nodeData[childrenKey];
     }
   };
-
-  // processor.["_statHandler2"] = this.statHandler
-  //           ? (stat) => {
-  //             if (stat.data === placeholderData) {
-  //               return stat;
-  //             }
-  //             return this.statHandler!(stat);
-  //           }
-  //           : null;
 
   processor.afterSetInfoNode = (info, parent, index) => {
     // const { childrenKey, updateBehavior } = this;
@@ -415,8 +406,7 @@
   )}
   {style}
   isDisabled={!virtualization}
-  model={filterVisibleNodes()}
-  itemSize={() => 25}>
+  items={filterVisibleNodes()}>
   {#snippet vl_slot({ item: nodeInfo, index })}
     {#if nodeInfo}
       <TreeNode

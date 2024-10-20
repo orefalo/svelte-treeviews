@@ -5,7 +5,7 @@ import { CHILDREN } from '$lib/Constants';
 
 export class TreeProcessor {
   // this is the input, typically a JSON document typically provided by the called
-  //TODO: now sure we need to keep a ref on rawData
+  //TODO: not sure we need to keep a ref on rawData
   public rawData: any;
 
   public nodeInfos: NodeInfo[] = $state([]);
@@ -19,7 +19,7 @@ export class TreeProcessor {
   private options: ProcessorOptions;
 
   // vuejs: this used to be afterSetStat
-  afterSetInfoNode?: (info: NodeInfo, parent: NodeInfo | null, index: number) => void;
+  afterSetInfoNode?: (info: NodeInfo, parent: NodeInfo | undefined, index: number) => void;
   // vuejs: this used to be afterRemoveStat
   afterRemoveInfoNode?: (info: NodeInfo) => void;
 
@@ -185,7 +185,7 @@ export class TreeProcessor {
     const info: NodeInfo =
       infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData);
 
-    const walk = (n: NodeInfo | null) => {
+    const walk = (n: NodeInfo | null | undefined) => {
       return !n || (!n.hidden && n.expended && walk(n.parent));
     };
 
@@ -248,7 +248,7 @@ export class TreeProcessor {
   }
 
   // actions
-  private _calcFlatIndex(parent: NodeInfo | null, index: number) {
+  private _calcFlatIndex(parent?: NodeInfo, index: number) {
     let flatIndex = parent ? this.nodeInfosToRender!.indexOf(parent) + 1 : 0;
     const siblings = parent ? parent.children : this.nodeInfos!;
     for (let i = 0; i < index; i++) {
@@ -309,7 +309,7 @@ export class TreeProcessor {
   /**
    * The node should not exist.
    */
-  private _setPosition(info: NodeInfo, parent: NodeInfo | null, index: number) {
+  private _setPosition(info: NodeInfo, parent: NodeInfo | undefined, index: number) {
     const siblings = parent ? parent.children : this.nodeInfos!;
     siblings.splice(index, 0, info);
     info.parent = parent;
@@ -344,7 +344,7 @@ export class TreeProcessor {
     }
   }
 
-  public move(info: NodeInfo, parent: NodeInfo | null, index: number) {
+  public move(info: NodeInfo, parent: NodeInfo | undefined, index: number) {
     if (this.has(info)) {
       if (info.parent === parent && this.getSiblings(info).indexOf(info) === index) {
         return false;
