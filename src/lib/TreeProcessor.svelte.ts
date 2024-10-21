@@ -248,7 +248,7 @@ export class TreeProcessor {
   }
 
   // actions
-  private _calcFlatIndex(parent?: NodeInfo, index: number) {
+  private _calcFlatIndex(parent: NodeInfo | undefined, index: number) {
     let flatIndex = parent ? this.nodeInfosToRender!.indexOf(parent) + 1 : 0;
     const siblings = parent ? parent.children : this.nodeInfos!;
     for (let i = 0; i < index; i++) {
@@ -270,12 +270,12 @@ export class TreeProcessor {
       new NodeInfo({
         expended: Boolean(this.options.defaultOpen),
         data: data,
-        parent: parent || null,
+        parent: parent || undefined,
         children: [],
         level: parent ? parent.level + 1 : 1
       })
     );
-    this._setPosition(info, parent || null, index);
+    this._setPosition(info, parent || undefined, index);
     // @ts-expect-error implicit any type
     const children = data[this.childrenKey];
     if (children) {

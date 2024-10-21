@@ -15,11 +15,6 @@
     // vuejs: used to be called computedValue - which translated into either value or modelValue
     model,
 
-    processor = createTreeProcessor([], {
-      // do not call init(), will be called manually later
-      noInitialization: true
-    }),
-
     // specifies how onUpdateValue() is triggered
     updateBehavior = 'modify',
     // json.key is used for sub nodes
@@ -49,6 +44,11 @@
     // styles for the tree
     style = '',
 
+    processor = createTreeProcessor([], {
+      // do not call init(), will be called manually later
+      noInitialization: true,
+      defaultOpen: defaultOpen
+    }),
     // used to apply changes to the nodeInfo prior to processor()
     // vuejs: used to be called statHandler
     nodeInfoPreProcessor,
@@ -315,7 +315,7 @@
   }
 
   // Move node. parent is null means root. Similar to add
-  function move(info: NodeInfo, parent: NodeInfo | null, index: number) {
+  function move(info: NodeInfo, parent: NodeInfo | undefined, index: number) {
     return processor.move(info, parent, index);
     // return reactiveFirstArg(processorMethodProxy('move'))(info, parent, index);
   }

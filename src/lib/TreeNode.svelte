@@ -45,7 +45,9 @@
   } = $props();
 
   let indentStyle = $derived(
-    `${!rtl ? 'paddingLeft' : 'paddingRight'}:${indent * (nodeInfo.level - 1)}px`
+    style
+      ? `${style};${!rtl ? 'padding-left' : 'padding-right'}:${indent * (nodeInfo.level - 1)}px`
+      : `${!rtl ? 'padding-left' : 'padding-right'}:${indent * (nodeInfo.level - 1)}px`
   );
 
   let hLineStyle = $derived(
@@ -92,6 +94,7 @@
     const hasNextVisibleNode = (nodeInfo: NodeInfo) => {
       if (nodeInfo.parent) {
         let i = nodeInfo.parent?.children.indexOf(nodeInfo);
+
         do {
           i++;
           const next = nodeInfo.parent.children[i];
@@ -110,7 +113,7 @@
     const leftOrRight = rtl ? 'right' : 'left';
     const bottomOrTop = btt ? 'top' : 'bottom';
 
-    let current: NodeInfo | null = nodeInfo;
+    let current: NodeInfo | undefined = nodeInfo;
     while (current) {
       const left = (current.level - 2) * indent + treeLineOffset;
       const hasNext = hasNextVisibleNode(current);
@@ -134,7 +137,7 @@
 
 <div
   class={clsx('tree-node', className, treeLine && 'tree-node--with-tree-line')}
-  style={`${style} ${indentStyle}`}>
+  style={indentStyle}>
   {#if treeLine}
     {#each vLines as line}
       <div class="tree-line tree-vline" style={line.style}></div>
