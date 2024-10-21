@@ -221,7 +221,6 @@
   // only returns the visible nodes
   // vuejs: use to be visibleStats
   function filterVisibleNodes(): NodeInfo[] {
-    console.log('filterVisibleNodes');
     let items = computedTree || [];
     if (btt) {
       //TODO: see if items.slice().reverse() works, it should
@@ -230,7 +229,6 @@
     }
 
     items = items.filter(info => isVisible(info));
-    console.log('# items to render:' + items.length);
 
     return items;
   }
@@ -405,6 +403,7 @@
     dragOvering && 'he-tree--drag-overing drag-overing'
   )}
   {style}
+  preRenderCount={virtualizationPrerenderCount}
   isDisabled={!virtualization}
   items={filterVisibleNodes()}>
   {#snippet vl_slot({ item: nodeInfo, index })}

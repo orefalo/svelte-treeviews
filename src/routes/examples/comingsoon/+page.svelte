@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div>
   <h1>
     coming soon
     <span class="dot">.</span>
@@ -7,17 +7,6 @@
 </div>
 
 <style>
-
-.wrapper {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  animation: fadeIn 1000ms ease;
-  -webkit-animation: fadeIn 1000ms ease;
-  
-}
 
 h1 {
   font-size: 50px;

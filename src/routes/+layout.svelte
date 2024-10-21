@@ -29,9 +29,11 @@
         { title: 'Fold and Checkbox', path: '/examples/foldandcheckbox/' },
         { title: 'Material Design and Tree line', path: '/examples/basictree' },
         { title: 'Drag and Drop', path: '/examples/dnd' },
-        { title: 'Virtual List', path: '/examples/comingsoon' },
+        { title: 'Virtual List', path: '/examples/virtuallist' },
         { title: 'Bottom up rendering', path: '/examples/comingsoon' },
-        { title: 'Render as Table', path: '/examples/comingsoon' }
+        { title: 'Render as Table', path: '/examples/comingsoon' },
+        { title: 'API', path: '/examples/api' },
+        { title: 'Events', path: '/examples/comingsoon' }
       ]
     }
   ];
