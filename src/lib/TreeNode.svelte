@@ -7,13 +7,13 @@
   let {
     nodeInfo,
     // right or left layout
-    rtl = false,
+    rtl = $bindable(),
     // bottomOrTop
-    btt = false,
-    indent = 20,
-    treeLine = true,
-    treeLineOffset = 10,
-    processor,
+    btt = $bindable(),
+    indent = $bindable(),
+    treeLine = $bindable(),
+    treeLineOffset = $bindable(),
+    processor = $bindable(),
     class: className,
     style,
 
@@ -68,8 +68,6 @@
 
   $effect(() => {
     const open = nodeInfo.expended;
-
-    console.log('toggleOpen');
 
     if (justToggleOpen) {
       return;

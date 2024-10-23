@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { VirtualList } from 'svelte-virtuallists';
+  import { VirtualList, type VLSlotSignature } from 'svelte-virtuallists';
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor.svelte';
   import { createTreeProcessor } from './TreeProcessorFactory';
@@ -24,19 +24,19 @@
     // Use index when rendering node's indexes or return a unique value.
     nodeKey = 'index',
     // node indent in px
-    indent = 20,
+    indent = $bindable(20),
     // Enable virtual list
-    virtualization = false,
+    virtualization = $bindable(false),
     //  The number of rendered list items at initialization. Suits for SSR(Server Side Render).
     virtualizationPrerenderCount = 20,
     // Open all nodes by default.
-    defaultOpen = true,
+    defaultOpen = $bindable(true),
     // Display from right to left.
-    rtl = false,
+    rtl = $bindable(false),
     // Display bottom to top
-    btt = false,
+    btt = $bindable(false),
     // Display tree line.
-    treeLine = false,
+    treeLine = $bindable(false),
     // Horizontal displacement of tree lines, unit: pixels.
     treeLineOffset = 8,
     // css class for the tree
@@ -110,7 +110,7 @@
     if (!nodeData) {
       return valueComputed;
     } else {
-      // const { childrenKey } = this;
+   
       if (!nodeData[childrenKey]) {
         nodeData[childrenKey] = [];
       }
@@ -119,7 +119,7 @@
   };
 
   processor.afterSetInfoNode = (info, parent, index) => {
-    // const { childrenKey, updateBehavior } = this;
+
     let value = valueComputed;
     if (updateBehavior === 'new') {
       if (batchUpdateWaiting) {
@@ -142,7 +142,7 @@
   };
 
   processor.afterRemoveInfoNode = info => {
-    // const { childrenKey, updateBehavior } = this;
+
     let value = valueComputed;
     if (updateBehavior === 'new') {
       if (batchUpdateWaiting) {
@@ -290,6 +290,7 @@
 
   // Open all nodes
   function openAll(): void {
+    console.log('openAll');
     processor.openAll();
     // return reactiveFirstArg(processorMethodProxy('openAll'))(undefined);
   }
@@ -302,6 +303,7 @@
 
   // Close all nodes
   function closeAll(): void {
+    console.log('closeAll');
     processor.closeAll();
     // return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
   }
@@ -399,6 +401,7 @@
   bind:this={rootElement}
   class={clsx(
     'he-tree',
+    className,
     rtl && 'he-tree--rtl rtl',
     dragOvering && 'he-tree--drag-overing drag-overing'
   )}
@@ -406,7 +409,7 @@
   preRenderCount={virtualizationPrerenderCount}
   isDisabled={!virtualization}
   items={filterVisibleNodes()}>
-  {#snippet vl_slot({ item: nodeInfo, index })}
+  {#snippet vl_slot({ item: nodeInfo }: VLSlotSignature<NodeInfo>)}
     {#if nodeInfo}
       <TreeNode
         class={clsx(nodeInfo.class, {
@@ -417,7 +420,7 @@
         {nodeInfo}
         {rtl}
         {btt}
-        {indent}
+        bind:indent
         {treeLine}
         {treeLineOffset}
         {processor}

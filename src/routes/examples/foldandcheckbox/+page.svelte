@@ -3,12 +3,13 @@
   import data0 from '../data.json';
   import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
 
-  const data = $state(data0);
-  const defaultOpen = $state(true);
-  const rtl = $state(false);
-  const indent = $state(20);
-  const btt = $state(false);
-  const treeLine = $state(true);
+  let data = $state(data0);
+  let defaultOpen = $state(true);
+  let rtl = $state(false);
+  let indent = $state(20);
+  let btt = $state(false);
+  let virtualization = $state(true);
+  let treeLine = $state(true);
 </script>
 
 <div>
@@ -16,37 +17,42 @@
   <hr />
   <h4>Properties</h4>
   <label>
-    <input type="checkbox" value={defaultOpen} />
+    <input type="checkbox" bind:checked={defaultOpen} />
     defaultOpen
   </label>
   <label>
-    <input type="checkbox" value={rtl} />
-    rtl
+    <input type="checkbox" bind:checked={rtl} />
+    rtl (right to left)
   </label>
   <br />
   <label>
-    <input type="checkbox" value={btt} />
+    <input type="checkbox" bind:checked={virtualization} />
+    virtualization
+  </label>
+  <br />
+  <label>
+    <input type="checkbox" bind:checked={btt} />
     btt (display from bottom to top)
   </label>
   <br />
   <label>
-    <input type="checkbox" value={treeLine} />
-    Tree Line
+    <input type="checkbox" bind:checked={treeLine} />
+    tree line
   </label>
   <div>
     indent
-    <input type="number" value={indent} />
+    <input type="number" bind:value={indent} />
   </div>
   <hr />
 
   <Tree
     model={data}
-    {defaultOpen}
-    {rtl}
-    {indent}
-    {btt}
-    {treeLine}
-    virtualization={true}
+    bind:defaultOpen
+    bind:rtl
+    bind:indent
+    bind:btt
+    bind:treeLine
+    bind:virtualization
     style="height: 500px">
     {#snippet tree_slot({ data, info }: { data: any; info: NodeInfo })}
       {#if info.children.length}
