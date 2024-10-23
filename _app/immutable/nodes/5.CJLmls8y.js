@@ -1,0 +1,1 @@
+import{b as a,k as t}from"../chunks/external.uDgEiTu0.js";var n=t('<div><h1 class="svelte-1tvneod">coming soon <span class="dot svelte-1tvneod">.</span></h1> <p>We are building something great...</p></div>');function p(e){var o=n();a(e,o)}export{p as component};
