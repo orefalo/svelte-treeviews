@@ -66,14 +66,10 @@ export class TreeProcessor {
         { childrenKey }
       );
 
-      console.log('td', td);
-
       const flat: typeof td.rootChildren = [];
       td.walk(nodeInfo => {
         flat.push(nodeInfo);
       });
-
-      console.log('flat', flat);
 
       this.nodeInfos = this.infoNodesHandler
         ? this.infoNodesHandler(td.rootChildren)

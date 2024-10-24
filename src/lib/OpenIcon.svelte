@@ -1,6 +1,6 @@
 <script lang="ts">
   let {
-    open = false,
+    open = $bindable(false),
     class: className = '',
     onclick = () => {}
   }: { open: boolean; class?: string; onclick?: () => void } = $props();

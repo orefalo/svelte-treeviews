@@ -50,15 +50,15 @@ export class NodeInfo {
   }
 
   public toggleExpand() {
-    console.log('nodeInfo.toggleExpand');
+    // console.log('nodeInfo.toggleExpand');
     this.expended = !this.expended;
-    console.log(this.expended);
+    // console.log(this.expended);
   }
 
   public toggleChecked() {
-    console.log('nodeInfo.toggleChecked');
+    // console.log('nodeInfo.toggleChecked');
     this.checked = !this.checked;
-    console.log(this.checked);
+    // console.log(this.checked);
   }
 }
 

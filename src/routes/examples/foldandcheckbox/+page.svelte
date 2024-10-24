@@ -10,6 +10,8 @@
   let btt = $state(false);
   let virtualization = $state(true);
   let treeLine = $state(true);
+
+  let listStyle = $derived.by(() => (virtualization ? 'height:500px' : 'height: auto'));
 </script>
 
 <div>
@@ -21,8 +23,17 @@
     defaultOpen
   </label>
   <label>
+    <input type="checkbox" bind:checked={treeLine} />
+    tree line
+  </label>
+  <br />
+  <label>
     <input type="checkbox" bind:checked={rtl} />
     rtl (right to left)
+  </label>
+  <label>
+    <input type="checkbox" bind:checked={btt} />
+    btt (display from bottom to top)
   </label>
   <br />
   <label>
@@ -30,15 +41,7 @@
     virtualization
   </label>
   <br />
-  <label>
-    <input type="checkbox" bind:checked={btt} />
-    btt (display from bottom to top)
-  </label>
-  <br />
-  <label>
-    <input type="checkbox" bind:checked={treeLine} />
-    tree line
-  </label>
+
   <div>
     indent
     <input type="number" bind:value={indent} />
@@ -53,14 +56,14 @@
     bind:btt
     bind:treeLine
     bind:virtualization
-    style="height: 500px">
+    style={listStyle}>
     {#snippet tree_slot({ data, info }: { data: any; info: NodeInfo })}
       {#if info.children.length}
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <span onclick={() => info.toggleExpand()}>{info.expended ? '-' : '+'}</span>
       {/if}
-      <input type="checkbox" value={info.checked} onclick={() => info.toggleChecked()} />
+      <input type="checkbox" bind:checked={info.checked} onclick={() => info.toggleChecked()} />
       {data.text}
     {/snippet}
   </Tree>

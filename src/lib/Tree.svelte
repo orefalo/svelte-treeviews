@@ -110,7 +110,6 @@
     if (!nodeData) {
       return valueComputed;
     } else {
-   
       if (!nodeData[childrenKey]) {
         nodeData[childrenKey] = [];
       }
@@ -119,7 +118,6 @@
   };
 
   processor.afterSetInfoNode = (info, parent, index) => {
-
     let value = valueComputed;
     if (updateBehavior === 'new') {
       if (batchUpdateWaiting) {
@@ -142,7 +140,6 @@
   };
 
   processor.afterRemoveInfoNode = info => {
-
     let value = valueComputed;
     if (updateBehavior === 'new') {
       if (batchUpdateWaiting) {
@@ -418,11 +415,11 @@
         })}
         style={nodeInfo.style}
         {nodeInfo}
-        {rtl}
-        {btt}
+        bind:rtl
+        bind:btt
         bind:indent
-        {treeLine}
-        {treeLineOffset}
+        bind:treeLine
+        bind:treeLineOffset
         {processor}
         onNodeOpened={info => onNodeOpened?.(info)}
         onNodeClosed={info => onNodeClosed?.(info)}
