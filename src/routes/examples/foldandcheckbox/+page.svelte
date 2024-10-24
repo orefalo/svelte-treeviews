@@ -2,9 +2,10 @@
   import { Tree } from 'svelte-treeviews';
   import data0 from '../data.json';
   import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
+  import IndeterminateCheckbox from 'svelte-treeviews/IndeterminateCheckbox.svelte';
 
   let data = $state(data0);
-  let defaultOpen = $state(true);
+  let defaultOpen = $state(false);
   let rtl = $state(false);
   let indent = $state(20);
   let btt = $state(false);
@@ -63,7 +64,10 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <span onclick={() => info.toggleExpand()}>{info.expended ? '-' : '+'}</span>
       {/if}
-      <input type="checkbox" bind:checked={info.checked} onclick={() => info.toggleChecked()} />
+
+      <!-- <IndeterminateCheckbox bind:value={info.checked} onclick={() => info.toggleChecked()} /> -->
+      <IndeterminateCheckbox bind:value={info.checked} onclick={() => info.toggleChecked()}/>
+
       {data.text}
     {/snippet}
   </Tree>

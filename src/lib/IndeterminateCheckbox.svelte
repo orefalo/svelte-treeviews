@@ -4,10 +4,11 @@
     value = $bindable()
   }: {
     class?: string;
-    value: boolean | number;
+    // 0 is used for the intermediate state
+    value: boolean | 0;
   } = $props();
 
-  let indeterminate = $derived.by(() => typeof value === 'number' && value > 1);
+  let indeterminate = $derived.by(() => value === 0);
 </script>
 
 <input class={className} type="checkbox" bind:checked={value} {indeterminate} />

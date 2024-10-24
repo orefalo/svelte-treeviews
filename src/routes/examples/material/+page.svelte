@@ -44,7 +44,7 @@
 
 <Tree
   model={treeModel}
-  defaultOpen={true}
+  defaultOpen={false}
   indent={20}
   treeLine={true}
   virtualization={true}
