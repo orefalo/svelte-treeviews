@@ -1,6 +1,6 @@
 <p align="center"><img src="./static/favicon.svg" alt="Logo" width="225"></p>
 <h2 align="center">svelte-treeviews</h2>
-<p align="center">Keep your page efficient and fast: only shows the visible items!</p>
+<p align="center">A full featured Svelte TreeView component for the rest of us!</p>
 
 <p align="center">
   <a href="https://badgen.net/npm/v/svelte-treeviews"><img src="https://badgen.net/npm/v/svelte-treeviews" alt="NPM VERSION"></a>
@@ -17,15 +17,18 @@
   <a href="#samples">Samples</a>
 </p>
 
+
+![screenshot](./static/screenshot.png)
+
+
+
 ## About
 
-Keep your page efficient and fast: only shows the visible items, instead of displaying all your data in large lists.
 
-This package is a copy-cat of [svelte-tiny-virtual-list](https://github.com/jonasgeiler/svelte-tiny-virtual-list) with svelte 5, better suroundings, types, bug fixes and enhacements to the functionality and APIs. Credits must go to its original [author](https://github.com/jonasgeiler).
 
 ## Features
 
-- ❺➎⓹ **Svelte 5+ only**
+- ❺❺➎⓹⓹ **Svelte 5+ only**
   Build for Svelte 5+ in Typescript.
 
 - 🚀 **Performant**
@@ -35,10 +38,10 @@ This package is a copy-cat of [svelte-tiny-virtual-list](https://github.com/jona
   Customize width, heigh, position, style, content.
   
 - 💠 **Layout Control**
-  Support fixed and variables sizing, dynamic loading along with vertical and horizontal lists.
+  Headless, support fixed and variables sizing, along with vertical and horizontal lists and tables.
 
 - 🧩 **Programming Interface**
-  Set list positions and properties, and respond promptly to events.
+  Set positions and properties, raises events on state mutation.
 
 - 💼 **Small**
   Compact and dependency free – Only ~5kb when compressed.
@@ -49,7 +52,7 @@ This component can be used two different ways:
 
 - 🤖 As a scrollable listover a large number of items, optionally read incrementally.
 
-- 🧩 As a fondation for more complex components - TreeViews and DataGrids.
+- 🧠 As a fondation for more complex components - TreeViews and DataGrids.
 
 ## Browser Support
 
@@ -61,10 +64,9 @@ This component can be used two different ways:
 
 [![Star History Chart](https://api.star-history.com/svg?repos=orefalo/svelte-treeviews&type=Date)](https://star-history.com/#orefalo/svelte-treeviews&Date)
 
-## Demos
+## Examples
 
-- [REPL Demo](https://svelte.dev/repl/1e96cbd4bcd148e3b85a4c8ca76d7309)
-- [More complex demos and examples](https://orefalo.github.io/svelte-treeviews/)
+- [Demos](https://orefalo.github.io/svelte-treeviews/)
 
 ## Samples
 
@@ -75,95 +77,57 @@ This component can be used two different ways:
 	const data = ['A', 'B', 'C', 'D', 'E', 'F' /* ... */];
 </script>
 
-<VirtualList width="100%" height={600} itemCount={data.length} itemSize={50}>
-	{#snippet row({ style, index })}
-		<div class="row" {style}>
-			Item: {data[index]}, Row: #{index}
+<VirtualList class='mystyle' style='width:100%;height=600px' items={data}>
+	{#snippet vl_slot({ index, item })}
+		<div>
+			Row: #{index} Item: {item}
 		</div>
 	{/snippet}
 </VirtualList>
-```
-
-You can also perform dynamic loading
-
-```svelte
-TODO
 ```
 
 ### Props
 
 The component accepts the following properties
 
-| Property          | Type                               | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ----------------- | ---------------------------------- | :-------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| width             | `number` or `string`\*             |     ✓     | Width of List. This property will determine the number of rendered items when scrollDirection is `'horizontal'`.                                                                                                                                                                                                                                                                                                                      |
-| height            | `number` or `string`\*             |     ✓     | Height of List. This property will determine the number of rendered items when scrollDirection is `'vertical'`.                                                                                                                                                                                                                                                                                                                       |
-| itemCount         | `number`                           |     ✓     | The number of items you want to render                                                                                                                                                                                                                                                                                                                                                                                                |
-| itemSize          | `number                            | number[]  | (index: number) => number`                                                                                                                                                                                                                                                                                                                                                                                                            | ✓   | Either a fixed height/width (depending on the scrollDirection), an array containing the heights of all the items in your list, or a function that returns the height of an item given its index: `(index: number): number` |
-| row               | (r:RowAttributes) => SnippetResult |     ✓     | Snippet called to render every item, see description below.                                                                                                                                                                                                                                                                                                                                                                           |
-| scrollDirection   | `string`                           |           | Whether the list should scroll vertically or horizontally. One of `'vertical'` (default) or `'horizontal'`.                                                                                                                                                                                                                                                                                                                           |
-| scrollOffset      | `number`                           |           | Can be used to control the scroll offset; Also useful for setting an initial scroll offset                                                                                                                                                                                                                                                                                                                                            |
-| scrollToIndex     | `number`                           |           | Item index to scroll to (by forcefully scrolling if necessary)                                                                                                                                                                                                                                                                                                                                                                        |
-| scrollToAlignment | `string`                           |           | Used in combination with `scrollToIndex`, this prop controls the alignment of the scrolled to item. One of: `'start'`, `'center'`, `'end'` or `'auto'`. Use `'start'` to always align items to the top of the container and `'end'` to align them bottom. Use `'center`' to align them in the middle of the container. `'auto'` scrolls the least amount possible to ensure that the specified `scrollToIndex` item is fully visible. |
-| scrollToBehaviour | `string`                           |           | Used in combination with `scrollToIndex`, this prop controls the behaviour of the scrolling. One of: `'auto'`, `'smooth'` or `'instant'` (default).                                                                                                                                                                                                                                                                                   |
-| windowOverPadding | `number`                           |           | Number of extra buffer items to render above/below the visible items. Tweaking this can help reduce scroll flickering on certain browsers/devices.                                                                                                                                                                                                                                                                                    |
-| estimatedItemSize | `number`                           |           | Used to estimate the total size of the list before all of its items have actually been measured. The estimated total height is progressively adjusted as items are rendered.                                                                                                                                                                                                                                                          |
-| getKey            | `(index: number) => any`           |           | Function that returns the key of an item in the list, which is used to uniquely identify an item. This is useful for dynamic data coming from a database or similar. By default, it's using the item's index.                                                                                                                                                                                                                         |
-
-_\* `height` must be a number when `scrollDirection` is `'vertical'`. Similarly, `width` must be a number if `scrollDirection` is `'horizontal'`_
+| Property          | Type        | Required? | Description  |
+| ----------------- | ----------- | :-------: | ------------ |
+| model | `any[]` | ✓ | the model, the data for the items to display in the list. |
+| updateBehavior                 | `modify` or `new` or `disabled` (modify) |           |                                                              |
+| indent                         | number                                   |           |                                                              |
+| virtualization               | boolean (false)                          |           | is the tree rendered as part of a scrolling viewport         |
+| virtualizationPrerenderCount | number (20)                              |           | mainly used for SSR, when virtualization is active, how many records to pre render |
+| defaultOpen                  | boolean (false) |           | When true, the tree displays as fully open, at all levels. |
+| rtl                          | boolean (system default)                 |           | Right to Left rendering                                      |
+| btt                          | boolean (false)                          |           | Bottom to top rendering inverses the tree upside down        |
+| treeLine                     | boolean (false)                          |           |                                                              |
+| class                          | string |           | Any css class to apply on the tree                           |
+| style                          | string |           | Any css styles to apply on the tree                          |
 
 ### Snippets
 
-- `header` - a snippet for the elements that should appear at the top of the list
-- `footer` - a snippet for the elements that should appear at the bottom of the list (e.g. `InfiniteLoading` component from `svelte-infinite-loading`)
-- `row` - a required snipper property called to render each row of the list with the signature `row(r:RowAttributes)`
+| Property    | Type                                                | Required? | Description                                                 |
+| ----------- | --------------------------------------------------- | :-------: | ----------------------------------------------------------- |
+| tree_slot   | Function([{ *data*: *NodeData*; *info*: NodeInfo }] |     ✓     | Snippet called to render every item of the model.           |
+| placeholder | {}                                                  |           | Snipper called to render the drag and drop placeholder area |
 
-```typescript
-export interface RowAttributes {
-	index: number; // Item index
-	style: string; //  Item style, must be applied to the slot (look above for example)
-}
-```
-
-for instance,
+For instance,
 
 ```svelte
-<VirtualList  ...>
-  {#snippet row({ style, index }:RowAttributes)}
-    <div class="row" {style}>
-      Item: {data[index]}, Row: #{index}
-    </div>
-  {/snippet}
- </VirtualList>
+
 ```
 
 ### Events
 
-- `onAfterScroll` - Fired after handling the scroll event
-
-Accepts a function with the following signature `(event: AfterScrollEvent) => void`
-
-```typescript
-export interface AfterScrollEvent {
-	type: 'range.update';
-	// either the value of `wrapper.scrollTop` or `wrapper.scrollLeft`
-	offset: number | string;
-	// the original event
-	event: Event;
-}
-```
-
-- `onVisibleRangeUpdate` - Fired when the visible items are updated
-
-Accepts a function with the following signature `(range: VirtualRange) => void`
-
-```typescript
-export interface VirtualRangeEvent {
-	type: 'scroll.update';
-	start: number; //Index of the first visible item
-	end: number; //Index of the last visible item
-}
-```
+| Property             | Type                         | Description                                                  |
+| -------------------- | ---------------------------- | ------------------------------------------------------------ |
+| onNodeChecked        | `(e: NodeInfo) => void`      | Triggered when a node is checked                             |
+| onNodeSelected       | `(e: NodeInfo) => void`      | Triggered when a node is selected                            |
+| onNodeOpened         | `(e: NodeInfo) => void`      | Triggered when a grouping node is opened                     |
+| onNodeClosed         | `(e: NodeInfo) => void`      | Triggered when a grouping node is closed                     |
+| onUpdateValue        | `(e: NodeInfo) => void`      | Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior |
+| onAfterScroll        | `{offset:number, event}`     | When *virtualization* is used, fires when the scrollbar changes position. |
+| onVisibleRangeUpdate | `{start:number, end:number}` | When *virtualization* is used, fires when the visible window is sliding to display new items |
 
 ## Contributing
 

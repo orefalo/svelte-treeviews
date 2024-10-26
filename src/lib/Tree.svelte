@@ -62,16 +62,15 @@
 
     // EVENTS
 
-    // Triggered when node checked changed
+    // Triggered when a node is checked
     onNodeChecked,
-    // Triggered when click node
+    // Triggered when a node is selected
     onNodeSelected,
-    // Triggered when close node
+    // Triggered when a grouping node is opened
     onNodeOpened,
-    // Triggered when open node
+    // Triggered when a grouping node is closed
     onNodeClosed,
     // Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior
-
     onUpdateValue
   }: {
     model: Array<NodeData>;

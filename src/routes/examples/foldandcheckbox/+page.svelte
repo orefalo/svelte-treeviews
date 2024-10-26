@@ -23,6 +23,7 @@
     <input type="checkbox" bind:checked={defaultOpen} />
     defaultOpen
   </label>
+  <br />
   <label>
     <input type="checkbox" bind:checked={treeLine} />
     tree line
@@ -32,6 +33,7 @@
     <input type="checkbox" bind:checked={rtl} />
     rtl (right to left)
   </label>
+  <br />
   <label>
     <input type="checkbox" bind:checked={btt} />
     btt (display from bottom to top)
@@ -66,7 +68,7 @@
       {/if}
 
       <!-- <IndeterminateCheckbox bind:value={info.checked} onclick={() => info.toggleChecked()} /> -->
-      <IndeterminateCheckbox bind:value={info.checked} onclick={() => info.toggleChecked()}/>
+      <IndeterminateCheckbox bind:value={info.checked} onclick={() => info.toggleChecked()} />
 
       {data.text}
     {/snippet}

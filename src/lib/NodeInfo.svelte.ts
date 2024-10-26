@@ -6,8 +6,6 @@ export type NodeData = any;
  * it shows the medadata (exoended, selected, children..etc), but also the data of the node itself
  **/
 export class NodeInfo {
-  // TODO: that's the catch all, check if it can be removed
-  //  [x: string]: any;
 
   // vuejs: used to be called data
   data: NodeData;
@@ -16,8 +14,8 @@ export class NodeInfo {
   children: NodeInfo[] = $state([]);
   level: number = 0;
   hidden: boolean = $state(false);
-  // 0 mean just part of children checked, number allows for intermediary states
-  checked: boolean | number = $state(false);
+  // 0 means indetermiined, true/false
+  checked: boolean | 0 = $state(false);
   //null mean inherit parent
   draggable?: boolean;
   //null mean inherit parent
@@ -50,34 +48,13 @@ export class NodeInfo {
   }
 
   public toggleExpand() {
-    // console.log('nodeInfo.toggleExpand');
     this.expended = !this.expended;
-    // console.log(this.expended);
   }
 
   public toggleChecked() {
-    // console.log('nodeInfo.toggleChecked');
     this.checked = !this.checked;
-    // console.log(this.checked);
   }
 }
 
 export interface PartialNodeInfo extends Partial<NodeInfo> {}
 
-// export function defaults(): NodeInfo {
-//   return new NodeInfo();
-//   // return {
-//   //   nodeData: null,
-//   //   open: false,
-//   //   parent: null,
-//   //   children: [],
-//   //   level: 0,
-//   //   hidden: false,
-//   //   checked: false,
-//   //   draggable: null,
-//   //   droppable: null,
-//   //   style: null,
-//   //   class: null,
-//   //   isNodeInfo: true
-//   // };
-// }
