@@ -6,6 +6,14 @@
         "text": "Frontend",
         "children": [
           {
+            "text": "Svelte",
+            "children": [
+              {
+                "text": "SvelteKit"
+              }
+            ]
+          },
+          {
             "text": "Vue",
             "children": [
               {

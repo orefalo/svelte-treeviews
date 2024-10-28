@@ -71,8 +71,8 @@
       addMulti();
     });
   }
-  function getChecked(withDemi) {
-    console.log(tree.getChecked(withDemi));
+  function getChecked(withIndeterminate) {
+    console.log(tree.getChecked(withIndeterminate));
     notify();
   }
   function getDataAll() {
@@ -117,9 +117,10 @@
     <br />
     <button onclick={batchUpdate}>batchUpdate</button>
     <br />
-    <button onclick={tree.closeAll()}>closeAll</button>
+    <button onclick={tree.closeAll}>closeAll</button>
     <button onclick={tree.openAll}>openAll</button>
-    <button onclick={tree.openNodeAndParents(treeData[0].children[0].children[1].children[0])}>
+    <button
+      onclick={() => tree.openNodeAndParents(treeData[0].children[0].children[1].children[0])}>
       openNodeAndParents
     </button>
     <button onclick={getChecked}>getChecked</button>

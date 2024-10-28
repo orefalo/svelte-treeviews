@@ -206,14 +206,14 @@ export class TreeProcessor {
       { childFirst: true, childrenKey: CHILDREN }
     );
   }
-  public getChecked(withDemi = false) {
+  public getChecked(withIndeterminate: boolean = false) {
     return this.nodeInfosToRender!.filter(v => {
-      return v.checked || (withDemi && v.checked === 0);
+      return v.checked || (withIndeterminate && v.checked === 0);
     });
   }
-  public getUnchecked(withDemi = true) {
+  public getUnchecked(withIndeterminate: boolean = true) {
     return this.nodeInfosToRender!.filter(v => {
-      return withDemi ? !v.checked : v.checked === false;
+      return withIndeterminate ? !v.checked : v.checked === false;
     });
   }
   /**
@@ -253,7 +253,7 @@ export class TreeProcessor {
     return flatIndex;
   }
 
-  public add(data: NodeData, parent?: NodeInfo | null, index?: number | null) {
+  public add(data: NodeData, parent: NodeInfo | undefined, index?: number) {
     if (this.has(data)) {
       throw `Can't add because data exists in tree`;
     }

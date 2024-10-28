@@ -97,6 +97,6 @@
   },
   "peerDependencies": {
     "@sveltejs/vite-plugin-svelte": "^4",
-    "svelte": "^5"
+    "svelte": "^5.1.3"
   }
 }

@@ -8,7 +8,7 @@
     nodeInfo,
     // right or left layout
     rtl = $bindable(),
-    // bottomOrTop
+    // bottomToTop
     btt = $bindable(),
     indent = $bindable(),
     treeLine = $bindable(),

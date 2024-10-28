@@ -219,18 +219,14 @@
   function filterVisibleNodes(): NodeInfo[] {
     let items = computedTree || [];
     if (btt) {
-      //TODO: see if items.slice().reverse() works, it should
-      items = items.slice();
-      items.reverse();
+      items = items.slice().reverse();
     }
-
-    items = items.filter(info => isVisible(info));
-
-    return items;
+    return items.filter(info => isVisible(info));
   }
 
   // returns the top level nodeInfo
-  function rootChildren() {
+  // vuejs used to be called rootChildren
+  function rootChildren(): NodeInfo[] {
     return nodeInfos;
   }
 
@@ -254,51 +250,46 @@
     return true;
   }
 
-  // Get stat by node data.
-  function getNodeInfo(nodeInfoOrNodeData: NodeInfo | NodeData): NodeInfo {
-    // return reactiveFirstArg(processorMethodProxy('getNodeInfo'))(nodeInfoOrNodeData);
+  // Get nodeinfo for given node data.
+  export function getNodeInfo(nodeInfoOrNodeData: NodeInfo | NodeData): NodeInfo {
     return processor.getNodeInfo(nodeInfoOrNodeData);
   }
 
-  // Detect the tree if has the stat of given node data.
-  function has(nodeInfoOrNodeData: NodeInfo | NodeData): boolean {
-    // return reactiveFirstArg(processorMethodProxy('has'))(nodeInfoOrNodeData);
+  // Detect the tree if has given node data.
+  export function has(nodeInfoOrNodeData: NodeInfo | NodeData): boolean {
     return processor.has(nodeInfoOrNodeData);
   }
 
   // Recalculate checked state of all nodes from end to root
   function updateCheckboxes(): void {
-    // return reactiveFirstArg(processorMethodProxy('updateCheck'))(undefined);
     processor.updateCheckboxes();
   }
 
-  // Get all checked nodes. Param withDemi means including half checked
-  function getChecked(withDemi): NodeInfo[] {
-    // return reactiveFirstArg(processorMethodProxy('getChecked'))(withDemi);
-    return processor.getChecked(withDemi);
+  // Get all checked nodes. Param withIndeterminate means including half checked
+  export function getChecked(withIndeterminate?: boolean): NodeInfo[] {
+    return processor.getChecked(withIndeterminate);
   }
 
-  // Get all unchecked nodes. Param withDemi means including half checked.
-  function getUnchecked(withDemi): NodeInfo[] {
-    return processor.getUnchecked(withDemi);
-    // return reactiveFirstArg(processorMethodProxy('getUnchecked'))(withDemi);
+  // Get all unchecked nodes. Param withIndeterminate means including half checked.
+  export function getUnchecked(withIndeterminate?: boolean): NodeInfo[] {
+    return processor.getUnchecked(withIndeterminate);
   }
 
   // Open all nodes
-  function openAll(): void {
+  export function openAll(): void {
     console.log('openAll');
     processor.openAll();
     // return reactiveFirstArg(processorMethodProxy('openAll'))(undefined);
   }
 
   // Open a node and its all parents to make it visible. The argument nodeDataOrStat can be node data or node stat
-  function openNodeAndParents(nodeInfoOrNodeData: NodeInfo | NodeData): void {
+  export function openNodeAndParents(nodeInfoOrNodeData: NodeInfo | NodeData): void {
     processor.openNodeAndParents(nodeInfoOrNodeData);
     // return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(nodeInfoOrNodeData);
   }
 
   // Close all nodes
-  function closeAll(): void {
+  export function closeAll(): void {
     console.log('closeAll');
     processor.closeAll();
     // return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
@@ -313,13 +304,11 @@
   // Move node. parent is null means root. Similar to add
   function move(info: NodeInfo, parent: NodeInfo | undefined, index: number) {
     return processor.move(info, parent, index);
-    // return reactiveFirstArg(processorMethodProxy('move'))(info, parent, index);
   }
 
   // Add node. parent is null means root.
-  function add(data: NodeData, parent?: NodeInfo | null, index?: number | null): void {
+  export function add(data: NodeData, parent: NodeInfo | undefined, index?: number): void {
     return processor.add(data, parent, index);
-    //return reactiveFirstArg(processorMethodProxy('add'))(data, parent, index);
   }
 
   // return the component's top level htmlelement
@@ -328,7 +317,7 @@
   }
 
   // Add multiple continuously nodes. parent is null means root.
-  function addMulti(dataArr: NodeData[], parent?: NodeInfo | null, startIndex?: number | null) {
+  function addMulti(dataArr: NodeData[], parent?: NodeInfo, startIndex?: number) {
     batchUpdate(() => {
       let index = startIndex;
       for (const data of dataArr) {
@@ -363,20 +352,20 @@
     // return reactiveFirstArg(processorMethodProxy('iterateParent'))(info, opt);
   }
 
-  // Get all siblings of a node including it self.
+  // Get all siblings of a node including itself.
   function getSiblings(info: NodeInfo): NodeInfo[] {
     return processor.getSiblings(info);
     // return reactiveFirstArg(processorMethodProxy('getSiblings'))(info);
   }
 
   // Generate and get current data without stat. Param filter can handle each node data
-  function getData(filter?: (data: NodeData) => any, root?: NodeInfo): any[] {
+  export function getData(filter?: (data: NodeData) => any, root?: NodeInfo): any[] {
     return processor.getData(filter, root);
     // return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
   }
 
   // Merge multiple data update actions, to make it only emit new data once
-  function batchUpdate(task: () => any | Promise<any>) {
+  export function batchUpdate(task: () => any | Promise<any>) {
     const r = _ignoreUpdate(task);
     if (!batchUpdateWaiting) {
       _updateValue(updateBehavior === 'new' ? getData() : valueComputed);
@@ -427,9 +416,7 @@
         {#snippet tn_slot(params)}
           {#if params.data === placeholderData}
             <div class="drag-placeholder he-tree-drag-placeholder">
-              {#if placeholder}
-                {@render placeholder()}
-              {/if}
+              {@render placeholder?.()}
             </div>
           {:else}
             {@render tree_slot(params)}

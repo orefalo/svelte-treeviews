@@ -6,7 +6,6 @@ export type NodeData = any;
  * it shows the medadata (exoended, selected, children..etc), but also the data of the node itself
  **/
 export class NodeInfo {
-
   // vuejs: used to be called data
   data: NodeData;
   expended: boolean = $state(false);
@@ -57,4 +56,3 @@ export class NodeInfo {
 }
 
 export interface PartialNodeInfo extends Partial<NodeInfo> {}
-
