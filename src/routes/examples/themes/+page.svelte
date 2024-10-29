@@ -2,7 +2,10 @@
   import { Tree, OpenIcon, type TreeSlotSignature } from 'svelte-treeviews';
   import IndeterminateCheckbox from 'svelte-treeviews/IndeterminateCheckbox.svelte';
 
+  import FluentExpandCollapse from './fluentui2/FluentExpandCollapse.svelte';
+
   import fluentModel from './fluentui2/data.json';
+
   import materialModel from './materialui/data.json';
 
   interface jsonRecord {
@@ -12,6 +15,8 @@
   }
 </script>
 
+<h1>Material</h1>
+
 <Tree
   model={materialModel as Array<jsonRecord>}
   defaultOpen={false}
@@ -19,7 +24,7 @@
   treeLine={true}
   virtualization={true}
   class="mtl-tree"
-  style="height: 500px">
+  style="height: auto">
   {#snippet tree_slot({ data, info }: TreeSlotSignature<jsonRecord>)}
     {#if info.children.length}
       <OpenIcon class="mlt-mr" onclick={() => info.toggleExpand()} bind:open={info.expended} />
@@ -35,46 +40,73 @@
   model={fluentModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={10}
-  treeLine={true}
+  treeLine={false}
   virtualization={true}
   class="fluentui2"
-  style="height: 500px">
+  style="height: auto">
   {#snippet tree_slot({ data, info }: TreeSlotSignature<jsonRecord>)}
     {#if info.children.length}
-      <OpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
+      <FluentExpandCollapse onclick={() => info.toggleExpand()} bind:open={info.expended} />
+      <span class="content">{data.text}</span>
+    {:else}
+      <span class="content" style="padding-left:24px">{data.text}</span>
     {/if}
-    <span>{data.text}</span>
   {/snippet}
 </Tree>
+<h1>Gitlab</h1>
+
+<h1>Shadcn</h1>
+
+<h1>Tailwind</h1>
 
 <style global>
   /* Fluent 2 styles */
-  .fluentui2 .vtlist-inner div {
+  .fluentui2 .tree-node {
     position: relative;
-    display: inline-flex;
-    padding: 0.5rem;
-    border-radius: 6px;
-    background: #eceeef;
-  }
-
-  .fluentui2 .vtlist-inner div > * {
-    margin-left: 0.25rem;
-  }
-
-  .fluentui2 .vtlist-inner div img,
-  .fluentui2 .vtlist-inner div svg {
-    width: 24px;
+    display: inline-block;
+    padding: 0;
+    background: #fafafa;
     height: 24px;
   }
 
-  .fluentui2 .vtlist-inner div span {
-    display: grid;
+  .fluentui2 .tree-node:hover {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /* background-color: #ebebeb; */
+    background-color: #0f0;
+  }
+
+  /* .fluentui2 .vtlist-inner div > * {
+    margin-left: 0.25rem;
+
+  } */
+
+  .fluentui2 .tree-node:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .fluentui2 .tree-node:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  /* .fluentui2 .vtlist-inner div img,
+  .fluentui2 .vtlist-inner div svg {
+    width: 24px;
+    height: 24px;
+  } */
+
+  .fluentui2 .content {
     place-items: center;
     color: #1e2225;
+    background-color: transparent;
     font-weight: normal;
   }
 
-  .fluentui2 .vtlist-inner .checked::after {
+  .fluentui2 .checked::after {
     position: absolute;
     top: calc(100% - 80%);
     left: 0;
@@ -85,6 +117,8 @@
     background: #106ad9;
     border-radius: 6px;
   }
+
+  /* METALUI */
 
   .mtl-tree .tree-node-inner {
     display: flex;

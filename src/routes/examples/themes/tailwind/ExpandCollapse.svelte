@@ -1,0 +1,64 @@
+<script>
+  let { expanded = $bindable(false), bgColor = '#ebebeb', hoverColor = '#d9d9d9' } = $props();
+
+  function clicked() {
+    expanded = !expanded;
+  }
+</script>
+
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+
+<div
+  style="--theme-bgcolor: {bgColor};--theme-hovercolor: {hoverColor}"
+  class="expand-collapse-btn"
+  class:expanded
+  onclick={clicked}>
+  <span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 5l0 14" />
+      <path d="M5 12l14 0" />
+    </svg>
+
+    <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M4.65 2.15a.5.5 0 000 .7L7.79 6 4.65 9.15a.5.5 0 10.7.7l3.5-3.5a.5.5 0 000-.7l-3.5-3.5a.5.5 0 00-.7 0z">
+      </path>
+    </svg>
+  </span>
+</div>
+<span>deede</span>
+
+<style>
+  .expand-collapse-btn {
+    width: 24px;
+    height: 24px;
+    margin: 0 6px;
+    display: inline-block;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: var(--theme-bgcolor);
+  }
+
+  .expand-collapse-btn:hover {
+    background-color: var(--theme-hovercolor);
+  }
+
+  .expand-collapse-btn span {
+    margin: 0 5px;
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .expand-collapse-btn span {
+    transform: rotate(0);
+  }
+
+  .expand-collapse-btn.expanded span {
+    transform: rotate(90deg);
+  }
+</style>

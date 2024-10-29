@@ -9,12 +9,29 @@
     position: relative;
     display: inline-flex;
     padding: 0.5rem;
-    border-radius: 6px;
-    background: #eceeef;
+    /* background: #eceeef; */
   }
 
   .fluentui2 .vtlist-inner div > * {
     margin-left: 0.25rem;
+  }
+
+  .fluentui2 .vtlist-inner div:hover {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #ebebeb;
+  }
+
+  .fluentui2 .vtlist-inner div:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .fluentui2 .vtlist-inner div:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 
   .fluentui2 .vtlist-inner div img,
@@ -47,7 +64,7 @@
   <div class="vtlist fluentui2" style="overflow: auto; height: 500px">
     <div
       class="vtlist-inner"
-      style="display: flex; flex-direction: column; margin-top: 0px; margin-bottom: 0px">
+      style="display: flex; flex-direction: column; margin-top: 0; margin-bottom: 0">
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +81,22 @@
         </svg>
         <span>Recently viewed</span>
       </div>
-
+      <div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1e2225"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Recently viewed</span>
+      </div>
       <div class="checked">
         <svg
           xmlns="http://www.w3.org/2000/svg"
