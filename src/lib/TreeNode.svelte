@@ -1,6 +1,6 @@
-<script lang="ts">
+<script lang="ts" generics="T">
   import type { Snippet } from 'svelte';
-  import type { NodeData, NodeInfo } from './NodeInfo.svelte';
+  import type { NodeInfo } from './NodeInfo.svelte';
   import clsx from 'clsx';
   import type { TreeProcessor } from './TreeProcessor.svelte';
 
@@ -26,22 +26,22 @@
     onNodeChecked,
     onNodeSelected
   }: {
-    nodeInfo: NodeInfo;
+    nodeInfo: NodeInfo<T>;
     rtl: boolean;
     btt: boolean;
     indent: number;
     treeLine: boolean;
     treeLineOffset: number;
-    processor?: TreeProcessor;
+    processor?: TreeProcessor<T>;
     class?: string;
     style?: string;
 
-    tn_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
+    tn_slot: Snippet<[{ data: T; info: NodeInfo<T> }]>;
 
-    onNodeOpened?: (info: NodeInfo) => void;
-    onNodeClosed?: (info: NodeInfo) => void;
-    onNodeChecked?: (info: NodeInfo) => void;
-    onNodeSelected?: (info: NodeInfo) => void;
+    onNodeOpened?: (info: NodeInfo<T>) => void;
+    onNodeClosed?: (info: NodeInfo<T>) => void;
+    onNodeChecked?: (info: NodeInfo<T>) => void;
+    onNodeSelected?: (info: NodeInfo<T>) => void;
   } = $props();
 
   let indentStyle = $derived(
@@ -89,7 +89,7 @@
     style: string;
   }> = $derived.by(() => {
     const lines: Array<{ style: string }> = [];
-    const hasNextVisibleNode = (nodeInfo: NodeInfo) => {
+    const hasNextVisibleNode = (nodeInfo: NodeInfo<T>) => {
       if (nodeInfo.parent) {
         let i = nodeInfo.parent?.children.indexOf(nodeInfo);
 
@@ -111,7 +111,7 @@
     const leftOrRight = rtl ? 'right' : 'left';
     const bottomOrTop = btt ? 'top' : 'bottom';
 
-    let current: NodeInfo | undefined = nodeInfo;
+    let current: NodeInfo<T> | undefined = nodeInfo;
     while (current) {
       const left = (current.level - 2) * indent + treeLineOffset;
       const hasNext = hasNextVisibleNode(current);

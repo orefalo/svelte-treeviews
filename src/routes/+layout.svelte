@@ -32,7 +32,7 @@
         { title: 'Async Loading', path: '/examples/comingsoon' },
         { title: 'Key Navigation', path: '/examples/comingsoon' },
         { title: 'Dynamic Filtering', path: '/examples/comingsoon' },
-        { title: 'Styling', path: '/examples/comingsoon' },
+        { title: 'Themes', path: '/examples/themes' },
         { title: 'Virtual List', path: '/examples/virtuallist' },
         { title: 'API', path: '/examples/api' },
         { title: 'Events', path: '/examples/comingsoon' }

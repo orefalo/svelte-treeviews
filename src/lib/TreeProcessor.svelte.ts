@@ -1,36 +1,36 @@
 import * as hp from './jshelper';
-import { type NodeData, NodeInfo } from './NodeInfo.svelte';
+import { NodeInfo } from './NodeInfo.svelte';
 import { ProcessorOptions } from '$lib/ProcessorOptions.js';
 import { CHILDREN } from '$lib/Constants';
 
-export class TreeProcessor {
+export class TreeProcessor<T> {
   // this is the input, typically a JSON document typically provided by the called
   //TODO: not sure we need to keep a ref on rawData
   public rawData: any;
 
-  public nodeInfos: NodeInfo[] = $state([]);
+  public nodeInfos: NodeInfo<T>[] = $state([]);
 
   // this is a flattened tree, ready for virtuallist consumption
-  public nodeInfosToRender: NodeInfo[] = $state([]);
+  public nodeInfosToRender: NodeInfo<T>[] = $state([]);
 
   // used to find info from data
-  private _infosMap: Map<NodeData, NodeInfo> = $state(new Map());
+  private _infosMap: Map<T, NodeInfo<T>> = $state(new Map());
 
   private options: ProcessorOptions;
 
   // vuejs: this used to be afterSetStat
-  afterSetInfoNode?: (info: NodeInfo, parent: NodeInfo | undefined, index: number) => void;
+  afterSetInfoNode?: (info: NodeInfo<T>, parent: NodeInfo<T> | undefined, index: number) => void;
   // vuejs: this used to be afterRemoveStat
-  afterRemoveInfoNode?: (info: NodeInfo) => void;
+  afterRemoveInfoNode?: (info: NodeInfo<T>) => void;
 
   // vuejs: this used to be statsHandler: (stats: Stat<any>[]) => Stat<any>[];
-  infoNodesHandler?: (infos: NodeInfo[]) => NodeInfo[];
+  infoNodesHandler?: (infos: NodeInfo<T>[]) => NodeInfo<T>[];
 
   // vuejs: this used to be  statsFlatHandler: (statsFlat: Stat<any>[]) => Stat<any>[];
-  infoNodesFlatHandler?: (infosFlat: NodeInfo[]) => NodeInfo[];
+  infoNodesFlatHandler?: (infosFlat: NodeInfo<T>[]) => NodeInfo<T>[];
 
   // vuejs: this used to be  statHandler: (stat: Stat<any>) => Stat<any>;
-  infoHandler: (info: NodeInfo) => NodeInfo = info => info;
+  infoHandler: (info: NodeInfo<T>) => NodeInfo<T> = info => info;
 
   private initialized: boolean = false;
 
@@ -45,7 +45,7 @@ export class TreeProcessor {
       console.log('TreeProcessor.init() called');
       const childrenKey = this.options.childrenKey;
 
-      const td = new hp.TreeData([] as NodeInfo[]);
+      const td = new hp.TreeData([] as NodeInfo<T>[]);
       this._infosMap.clear();
 
       hp.walkTreeData(
@@ -78,15 +78,15 @@ export class TreeProcessor {
     }
   }
 
-  public getNodeInfo(data: NodeData): NodeInfo {
-    const r: NodeInfo = this._infosMap!.get(data)!;
+  public getNodeInfo(data: T): NodeInfo<T> {
+    const r: NodeInfo<T> = this._infosMap!.get(data)!;
     if (!r) {
       throw new NodeInfoNotFoundError('NodeInfo not found');
     }
     return r;
   }
 
-  public has(infoOrData: NodeData | NodeInfo): boolean {
+  public has(infoOrData: T | NodeInfo<T>): boolean {
     if (infoOrData instanceof NodeInfo) {
       return this.nodeInfosToRender.indexOf(infoOrData) > -1;
     } else {
@@ -103,7 +103,7 @@ export class TreeProcessor {
     }
   }
 
-  public _getPathByStat(info: NodeInfo | null): Array<number> {
+  public _getPathByStat(info: NodeInfo<T> | null): Array<number> {
     if (info === null) {
       return [];
     }
@@ -117,7 +117,7 @@ export class TreeProcessor {
    * @param info
    * @returns return false mean ignored
    */
-  public afterOneCheckChanged(info: NodeInfo): boolean {
+  public afterOneCheckChanged(info: NodeInfo<T>): boolean {
     const { checked } = info;
     if (info._ignoreCheckedOnce) {
       delete info._ignoreCheckedOnce;
@@ -125,7 +125,7 @@ export class TreeProcessor {
     }
 
     // change parent
-    const checkParent = (info: NodeInfo) => {
+    const checkParent = (info: NodeInfo<T>) => {
       const parent = info.parent;
       if (parent) {
         let hasChecked = false;
@@ -167,7 +167,7 @@ export class TreeProcessor {
     return true;
   }
 
-  private _ignoreCheckedOnce(info: NodeInfo) {
+  private _ignoreCheckedOnce(info: NodeInfo<T>) {
     info._ignoreCheckedOnce = true;
     // cancel ignore immediately if not triggered
     setTimeout(() => {
@@ -177,11 +177,11 @@ export class TreeProcessor {
     }, 100);
   }
 
-  public isVisible(infoOrData: NodeData | NodeInfo): boolean {
-    const info: NodeInfo =
+  public isVisible(infoOrData: T | NodeInfo<T>): boolean {
+    const info: NodeInfo<T> =
       infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData);
 
-    const walk = (n: NodeInfo | null | undefined) => {
+    const walk = (n: NodeInfo<T> | null | undefined) => {
       return !n || (!n.hidden && n.expended && walk(n.parent));
     };
 
@@ -233,9 +233,9 @@ export class TreeProcessor {
     }
   }
 
-  public openNodeAndParents(infoOrData: NodeData | NodeInfo) {
+  public openNodeAndParents(infoOrData: T | NodeInfo<T>) {
     // @ts-ignore
-    const stat:NodeInfo = infoOrData instanceof NodeInfo ? infoOrData : this.getNodeInfo(infoOrData) // prettier-ignore
+    const stat:NodeInfo<T> = infoOrData instanceof NodeInfo<T> ? infoOrData : this.getNodeInfo(infoOrData) // prettier-ignore
     for (const parentStat of this.iterateParent(stat, {
       withSelf: true
     })) {
@@ -244,7 +244,7 @@ export class TreeProcessor {
   }
 
   // actions
-  private _calcFlatIndex(parent: NodeInfo | undefined, index: number) {
+  private _calcFlatIndex(parent: NodeInfo<T> | undefined, index: number) {
     let flatIndex = parent ? this.nodeInfosToRender!.indexOf(parent) + 1 : 0;
     const siblings = parent ? parent.children : this.nodeInfos!;
     for (let i = 0; i < index; i++) {
@@ -253,7 +253,7 @@ export class TreeProcessor {
     return flatIndex;
   }
 
-  public add(data: NodeData, parent: NodeInfo | undefined, index?: number) {
+  public add(data: T, parent: NodeInfo<T> | undefined, index?: number) {
     if (this.has(data)) {
       throw `Can't add because data exists in tree`;
     }
@@ -262,7 +262,7 @@ export class TreeProcessor {
       index = siblings.length;
     }
 
-    const info: NodeInfo = this.infoHandler(
+    const info: NodeInfo<T> = this.infoHandler(
       new NodeInfo({
         expended: Boolean(this.options.defaultOpen),
         data: data,
@@ -282,7 +282,7 @@ export class TreeProcessor {
     }
   }
 
-  public remove(info: NodeInfo) {
+  public remove(info: NodeInfo<T>) {
     const siblings = this.getSiblings(info);
     if (siblings.includes(info)) {
       hp.arrayRemove(siblings, info);
@@ -298,14 +298,14 @@ export class TreeProcessor {
     return false;
   }
 
-  public getSiblings(info: NodeInfo) {
+  public getSiblings(info: NodeInfo<T>) {
     const { parent } = info;
     return parent ? parent.children : this.nodeInfos!;
   }
   /**
    * The node should not exist.
    */
-  private _setPosition(info: NodeInfo, parent: NodeInfo | undefined, index: number) {
+  private _setPosition(info: NodeInfo<T>, parent: NodeInfo<T> | undefined, index: number) {
     const siblings = parent ? parent.children : this.nodeInfos!;
     siblings.splice(index, 0, info);
     info.parent = parent;
@@ -332,7 +332,7 @@ export class TreeProcessor {
   }
 
   // this is a generator function '*'
-  public *iterateParent(info: NodeInfo, opt?: { withSelf: boolean }) {
+  public *iterateParent(info: NodeInfo<T>, opt?: { withSelf: boolean }) {
     let t = opt?.withSelf ? info : info.parent;
     while (t) {
       yield t;
@@ -340,7 +340,7 @@ export class TreeProcessor {
     }
   }
 
-  public move(info: NodeInfo, parent: NodeInfo | undefined, index: number) {
+  public move(info: NodeInfo<T>, parent: NodeInfo<T> | undefined, index: number) {
     if (this.has(info)) {
       if (info.parent === parent && this.getSiblings(info).indexOf(info) === index) {
         return false;
@@ -375,8 +375,8 @@ export class TreeProcessor {
    * @param info
    * @returns
    */
-  private _flat(info: NodeInfo) {
-    const r: NodeInfo[] = [];
+  private _flat(info: NodeInfo<T>) {
+    const r: NodeInfo<T>[] = [];
     hp.walkTreeData(
       info,
       child => {
@@ -391,13 +391,13 @@ export class TreeProcessor {
    * 统计节点和其后代节点数量
    * @param info
    */
-  private _count(info: NodeInfo) {
+  private _count(info: NodeInfo<T>) {
     return this._flat(info).length;
   }
 
-  public getData(filter?: (data: NodeData) => NodeData, root?: NodeInfo) {
+  public getData(filter?: (data: T) => T, root?: NodeInfo<T>) {
     const { childrenKey } = this.options;
-    const td = new hp.TreeData<NodeData>([]);
+    const td = new hp.TreeData<T>([]);
     td.childrenKey = childrenKey;
     hp.walkTreeData(
       root || this.nodeInfos!,

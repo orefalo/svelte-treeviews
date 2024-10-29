@@ -1,9 +1,9 @@
-<script lang="ts">
+<script lang="ts" generics="T">
   import { VirtualList, type VLSlotSignature } from 'svelte-virtuallists';
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor.svelte';
   import { createTreeProcessor } from './TreeProcessorFactory';
-  import type { NodeData, NodeInfo } from './NodeInfo.svelte';
+  import type { NodeInfo } from './NodeInfo.svelte';
   import type { Snippet } from 'svelte';
   import * as hp from './jshelper';
   import clsx from 'clsx';
@@ -20,9 +20,9 @@
     // json.key is used for sub nodes
     childrenKey = CHILDREN,
     // json.key used for leaf nodes
-    textKey = 'text',
-    // Use index when rendering node's indexes or return a unique value.
-    nodeKey = 'index',
+    // textKey = 'text',
+    // // Use index when rendering node's indexes or return a unique value.
+    // nodeKey = 'index',
     // node indent in px
     indent = $bindable(20),
     // Enable virtual list
@@ -73,36 +73,37 @@
     // Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior
     onUpdateValue
   }: {
-    model: Array<NodeData>;
-    processor?: TreeProcessor;
+    model: Array<T>;
+    processor?: TreeProcessor<T>;
     updateBehavior?: 'modify' | 'new' | 'disabled';
     childrenKey?: string;
-    textKey?: string;
+    // textKey?: string;
+    // nodeKey?: string | ((info: NodeInfo<T>, index: number) => any);
     indent?: number;
     virtualization?: boolean;
     virtualizationPrerenderCount?: number;
     defaultOpen?: boolean;
     rtl?: boolean;
     btt?: boolean;
-    nodeKey?: string | ((info: NodeInfo, index: number) => any);
+
     treeLine?: boolean;
     treeLineOffset?: number;
     class?: string;
     style?: string;
 
     // handler
-    nodeInfoPreProcessor?: (info: NodeInfo) => NodeInfo;
+    nodeInfoPreProcessor?: (info: NodeInfo<T>) => NodeInfo<T>;
 
     // slots
-    tree_slot: Snippet<[{ data: NodeData; info: NodeInfo }]>;
+    tree_slot: Snippet<[{ data: T; info: NodeInfo<T> }]>;
     placeholder?: Snippet;
 
     // events
-    onNodeChecked?: (e: NodeInfo) => void;
-    onNodeSelected?: (e: NodeInfo) => void;
-    onNodeOpened?: (e: NodeInfo) => void;
-    onNodeClosed?: (e: NodeInfo) => void;
-    onUpdateValue?: (e: NodeInfo | NodeInfo[]) => void;
+    onNodeChecked?: (e: NodeInfo<T>) => void;
+    onNodeSelected?: (e: NodeInfo<T>) => void;
+    onNodeOpened?: (e: NodeInfo<T>) => void;
+    onNodeClosed?: (e: NodeInfo<T>) => void;
+    onUpdateValue?: (e: NodeInfo<T> | NodeInfo<T>[]) => void;
   } = $props();
 
   const getNodeDataChildren = (nodeData: any): any[] => {
@@ -132,6 +133,7 @@
       }
     } else if (updateBehavior === 'disabled') {
     }
+
     if (batchUpdateWaiting) {
       return;
     }
@@ -160,14 +162,14 @@
 
   // this is the model of the tree, it holds meta-data and data
   // TODO: rename to
-  let nodeInfos: Array<NodeInfo> = $state([]);
+  let nodeInfos: Array<NodeInfo<T>> = $state([]);
 
   // used to render the render the virtual list
   // vuejs: used to be called statsFlat
-  let computedTree: Array<NodeInfo> = $state([]);
+  let computedTree: Array<NodeInfo<T>> = $state([]);
 
   // node being dragged
-  let dragNode: NodeInfo | null = null;
+  let dragNode: NodeInfo<T> | null = null;
   let dragOvering: boolean = false;
   let placeholderData: {} = {};
   let batchUpdateWaiting: boolean = false;
@@ -216,7 +218,7 @@
 
   // only returns the visible nodes
   // vuejs: use to be visibleStats
-  function filterVisibleNodes(): NodeInfo[] {
+  function filterVisibleNodes(): NodeInfo<T>[] {
     let items = computedTree || [];
     if (btt) {
       items = items.slice().reverse();
@@ -226,7 +228,7 @@
 
   // returns the top level nodeInfo
   // vuejs used to be called rootChildren
-  function rootChildren(): NodeInfo[] {
+  function rootChildren(): NodeInfo<T>[] {
     return nodeInfos;
   }
 
@@ -251,12 +253,12 @@
   }
 
   // Get nodeinfo for given node data.
-  export function getNodeInfo(nodeInfoOrNodeData: NodeInfo | NodeData): NodeInfo {
+  export function getNodeInfo(nodeInfoOrNodeData: NodeInfo<T> | T): NodeInfo<T> {
     return processor.getNodeInfo(nodeInfoOrNodeData);
   }
 
   // Detect the tree if has given node data.
-  export function has(nodeInfoOrNodeData: NodeInfo | NodeData): boolean {
+  export function has(nodeInfoOrNodeData: NodeInfo<T> | T): boolean {
     return processor.has(nodeInfoOrNodeData);
   }
 
@@ -266,12 +268,12 @@
   }
 
   // Get all checked nodes. Param withIndeterminate means including half checked
-  export function getChecked(withIndeterminate?: boolean): NodeInfo[] {
+  export function getChecked(withIndeterminate?: boolean): NodeInfo<T>[] {
     return processor.getChecked(withIndeterminate);
   }
 
   // Get all unchecked nodes. Param withIndeterminate means including half checked.
-  export function getUnchecked(withIndeterminate?: boolean): NodeInfo[] {
+  export function getUnchecked(withIndeterminate?: boolean): NodeInfo<T>[] {
     return processor.getUnchecked(withIndeterminate);
   }
 
@@ -279,35 +281,31 @@
   export function openAll(): void {
     console.log('openAll');
     processor.openAll();
-    // return reactiveFirstArg(processorMethodProxy('openAll'))(undefined);
   }
 
   // Open a node and its all parents to make it visible. The argument nodeDataOrStat can be node data or node stat
-  export function openNodeAndParents(nodeInfoOrNodeData: NodeInfo | NodeData): void {
+  export function openNodeAndParents(nodeInfoOrNodeData: NodeInfo<T> | T): void {
     processor.openNodeAndParents(nodeInfoOrNodeData);
-    // return reactiveFirstArg(processorMethodProxy('openNodeAndParents'))(nodeInfoOrNodeData);
   }
 
   // Close all nodes
   export function closeAll(): void {
     console.log('closeAll');
     processor.closeAll();
-    // return reactiveFirstArg(processorMethodProxy('closeAll'))(undefined);
   }
 
   // Detect if node is visible. When parent invisible or closed, children are invisible. Param statOrNodeData can be node data or stat.
-  function isVisible(NodeInfoOrNodeData: NodeInfo | NodeData): boolean {
+  function isVisible(NodeInfoOrNodeData: NodeInfo<T> | T): boolean {
     return processor.isVisible(NodeInfoOrNodeData);
-    // return reactiveFirstArg(processorMethodProxy('isVisible'))(NodeInfoOrNodeData);
   }
 
   // Move node. parent is null means root. Similar to add
-  function move(info: NodeInfo, parent: NodeInfo | undefined, index: number) {
+  function move(info: NodeInfo<T>, parent: NodeInfo<T> | undefined, index: number) {
     return processor.move(info, parent, index);
   }
 
   // Add node. parent is null means root.
-  export function add(data: NodeData, parent: NodeInfo | undefined, index?: number): void {
+  export function add(data: T, parent: NodeInfo<T> | undefined, index?: number): void {
     return processor.add(data, parent, index);
   }
 
@@ -317,7 +315,7 @@
   }
 
   // Add multiple continuously nodes. parent is null means root.
-  function addMulti(dataArr: NodeData[], parent?: NodeInfo, startIndex?: number) {
+  function addMulti(dataArr: T[], parent?: NodeInfo<T>, startIndex?: number) {
     batchUpdate(() => {
       let index = startIndex;
       for (const data of dataArr) {
@@ -330,13 +328,13 @@
   }
 
   // Remove node
-  function remove(info: NodeInfo): boolean {
+  function remove(info: NodeInfo<T>): boolean {
     // return reactiveFirstArg(processorMethodProxy('remove'))(info);
     return processor.remove(info);
   }
 
   // Remove multiple nodes.
-  function removeMulti(dataArr: NodeData[]) {
+  function removeMulti(dataArr: T[]) {
     const cloned = [...dataArr];
     batchUpdate(() => {
       for (const data of cloned) {
@@ -347,19 +345,19 @@
 
   // Iterate all parents of a node. Param opt.withSelf means including it self
   // ie. for (const parentStat of tree.iterateParent(nodeStat, { withSelf: false })) { ... }
-  function iterateParent(info: NodeInfo, opt?: { withSelf: boolean }) {
+  function iterateParent(info: NodeInfo<T>, opt?: { withSelf: boolean }) {
     return processor.iterateParent(info, opt);
     // return reactiveFirstArg(processorMethodProxy('iterateParent'))(info, opt);
   }
 
   // Get all siblings of a node including itself.
-  function getSiblings(info: NodeInfo): NodeInfo[] {
+  function getSiblings(info: NodeInfo<T>): NodeInfo<T>[] {
     return processor.getSiblings(info);
     // return reactiveFirstArg(processorMethodProxy('getSiblings'))(info);
   }
 
   // Generate and get current data without stat. Param filter can handle each node data
-  export function getData(filter?: (data: NodeData) => any, root?: NodeInfo): any[] {
+  export function getData(filter?: (data: T) => any, root?: NodeInfo<T>): any[] {
     return processor.getData(filter, root);
     // return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
   }
@@ -394,7 +392,7 @@
   preRenderCount={virtualizationPrerenderCount}
   isDisabled={!virtualization}
   items={filterVisibleNodes()}>
-  {#snippet vl_slot({ item: nodeInfo }: VLSlotSignature<NodeInfo>)}
+  {#snippet vl_slot({ item: nodeInfo }: VLSlotSignature<NodeInfo<T>>)}
     {#if nodeInfo}
       <TreeNode
         class={clsx(nodeInfo.class, {

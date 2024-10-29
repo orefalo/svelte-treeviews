@@ -1,5 +1,3 @@
-import type { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
-
 import { CHILDREN } from '$lib/Constants';
 
 // this structure define the tree options.

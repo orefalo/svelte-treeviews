@@ -1,16 +1,12 @@
-// NodeData is your data!
-export type NodeData = any;
-
-/**
+/*
  * NodeInfo is shows at very element in the tree structure.
  * it shows the medadata (exoended, selected, children..etc), but also the data of the node itself
  **/
-export class NodeInfo {
-  // vuejs: used to be called data
-  data: NodeData;
+export class NodeInfo<T> {
+  data: T;
   expended: boolean = $state(false);
-  parent?: NodeInfo;
-  children: NodeInfo[] = $state([]);
+  parent?: NodeInfo<T>;
+  children: NodeInfo<T>[] = $state([]);
   level: number = 0;
   hidden: boolean = $state(false);
   // 0 means indetermiined, true/false
@@ -23,14 +19,10 @@ export class NodeInfo {
   style?: string = $state('');
   class?: string = $state('');
 
-  // used to identify if the data is a node or the data of the node
-  // not needed anymore, it's a class
-  //isNodeInfo: true;
-
   _ignoreCheckedOnce?: boolean;
 
-  constructor(o?: PartialNodeInfo) {
-    this.data = o?.data || null;
+  constructor(o?: PartialNodeInfo<T>) {
+    this.data = o?.data || (null as T);
     this.expended = o?.expended || false;
     this.parent = o?.parent;
     this.children = o?.children || [];
@@ -55,4 +47,4 @@ export class NodeInfo {
   }
 }
 
-export interface PartialNodeInfo extends Partial<NodeInfo> {}
+export interface PartialNodeInfo<T> extends Partial<NodeInfo<T>> {}

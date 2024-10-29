@@ -1,71 +1,45 @@
 <style>
-  /* stuff you don't need */
   body {
-    /* display: grid; */
-    /* place-items: center; */
-    /* min-height: 100vh; */
     font-family: -apple-system, 'system-ui', 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif,
       'Apple Color Emoji', 'Segoe UI Emoji';
     font-size: 14px;
   }
 
-  /* stuff you need */
-  .chiplet {
+  .fluentui2 .vtlist-inner div {
     position: relative;
     display: inline-flex;
     padding: 0.5rem;
     border-radius: 6px;
     background: #eceeef;
   }
-  .chiplet > * {
+
+  .fluentui2 .vtlist-inner div > * {
     margin-left: 0.25rem;
   }
-  .chiplet img,
-  .chiplet svg {
+
+  .fluentui2 .vtlist-inner div img,
+  .fluentui2 .vtlist-inner div svg {
     width: 24px;
     height: 24px;
   }
-  .chiplet span {
+
+  .fluentui2 .vtlist-inner div span {
     display: grid;
     place-items: center;
     color: #1e2225;
     font-weight: normal;
   }
-  .chiplet.checked::after {
+
+  .fluentui2 .vtlist-inner .checked::after {
     position: absolute;
-    top: calc(100% - 90%);
-    left: 0px;
+    top: calc(100% - 80%);
+    left: 0;
     display: inline-block;
     content: ' ';
-    width: 6px;
-    height: calc(100% - 25%);
+    width: 4px;
+    height: calc(100% - 40%);
     background: #106ad9;
-    border-radius: 4px;
-  }
-
-  .ActionList-item.ActionList-item--navActive:not(.ActionList-item--danger)::after {
-    position: absolute;
-    top: calc(50% - var(--base-size-12));
-    left: - var(--base-size-8);
-    width: var(--base-size-4);
-    height: var(--base-size-24);
-    content: '';
-    background: var(--bgColor-accent-emphasis, var(--color-accent-fg));
-    border-radius: var(--borderRadius-medium);
-  }
-
-  .ActionList-item.ActionList-item--navActive:not(.ActionList-item--danger) {
-    background: var(
-      --control-transparent-bgColor-selected,
-      var(--color-action-list-item-default-selected-bg)
-    );
-  }
-
-  .ActionList-item {
-    position: relative;
-    list-style: none;
-    background-color: transparent;
-    border-radius: var(--borderRadius-medium);
+    border-radius: 6px;
   }
 </style>
 
@@ -74,7 +48,7 @@
     <div
       class="vtlist-inner"
       style="display: flex; flex-direction: column; margin-top: 0px; margin-bottom: 0px">
-      <div class="chiplet">
+      <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -90,8 +64,8 @@
         </svg>
         <span>Recently viewed</span>
       </div>
-      
-      <div class="chiplet checked">
+
+      <div class="checked">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

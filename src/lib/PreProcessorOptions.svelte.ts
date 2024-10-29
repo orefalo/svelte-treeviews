@@ -1,9 +1,9 @@
 import type { NodeInfo } from './NodeInfo.svelte';
 import { ProcessorOptions, type PartialOptions } from './ProcessorOptions';
 
-export class PreProcessorOptionsSvelte extends ProcessorOptions {
+export class PreProcessorOptionsSvelte<T> extends ProcessorOptions {
   // vuejs: this used to be statsHandler2
-  public preProcessor?: (input: NodeInfo) => NodeInfo;
+  public preProcessor?: (input: NodeInfo<T>) => NodeInfo<T>;
 
   private filter<T>(func: Function | null | undefined, input: T): T {
     return func ? func(input) : input;
