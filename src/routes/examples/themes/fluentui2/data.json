@@ -1,0 +1,19 @@
+[
+  {
+    "text": "Things",
+    "children": [
+      {
+        "text": "Fruits",
+        "children": [
+          { "text": "Apple" },
+          { "text": "Mango" },
+          { "text": "Orange", "children": [{ "text": "Mandarin" }, { "text": "Sunkist" }] }
+        ]
+      },
+      {
+        "text": "Cars",
+        "children": [{ "text": "Toyota" }, { "text": "Fort" }, { "text": "Hyundai" }]
+      }
+    ]
+  }
+]

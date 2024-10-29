@@ -1,0 +1,112 @@
+<style>
+  /* stuff you don't need */
+  body {
+    /* display: grid; */
+    /* place-items: center; */
+    /* min-height: 100vh; */
+    font-family: -apple-system, 'system-ui', 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji';
+    font-size: 14px;
+  }
+
+  /* stuff you need */
+  .chiplet {
+    position: relative;
+    display: inline-flex;
+    padding: 0.5rem;
+    border-radius: 6px;
+    background: #eceeef;
+  }
+  .chiplet > * {
+    margin-left: 0.25rem;
+  }
+  .chiplet img,
+  .chiplet svg {
+    width: 24px;
+    height: 24px;
+  }
+  .chiplet span {
+    display: grid;
+    place-items: center;
+    color: #1e2225;
+    font-weight: normal;
+  }
+  .chiplet.checked::after {
+    position: absolute;
+    top: calc(100% - 90%);
+    left: 0px;
+    display: inline-block;
+    content: ' ';
+    width: 6px;
+    height: calc(100% - 25%);
+    background: #106ad9;
+    border-radius: 4px;
+  }
+
+  .ActionList-item.ActionList-item--navActive:not(.ActionList-item--danger)::after {
+    position: absolute;
+    top: calc(50% - var(--base-size-12));
+    left: - var(--base-size-8);
+    width: var(--base-size-4);
+    height: var(--base-size-24);
+    content: '';
+    background: var(--bgColor-accent-emphasis, var(--color-accent-fg));
+    border-radius: var(--borderRadius-medium);
+  }
+
+  .ActionList-item.ActionList-item--navActive:not(.ActionList-item--danger) {
+    background: var(
+      --control-transparent-bgColor-selected,
+      var(--color-action-list-item-default-selected-bg)
+    );
+  }
+
+  .ActionList-item {
+    position: relative;
+    list-style: none;
+    background-color: transparent;
+    border-radius: var(--borderRadius-medium);
+  }
+</style>
+
+<body>
+  <div class="vtlist fluentui2" style="overflow: auto; height: 500px">
+    <div
+      class="vtlist-inner"
+      style="display: flex; flex-direction: column; margin-top: 0px; margin-bottom: 0px">
+      <div class="chiplet">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1e2225"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Recently viewed</span>
+      </div>
+      
+      <div class="chiplet checked">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1e2225"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Recently fwefewf</span>
+      </div>
+    </div>
+  </div>
+</body>

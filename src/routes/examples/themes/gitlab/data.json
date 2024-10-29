@@ -1,0 +1,110 @@
+[
+  {
+    "text": "Manage",
+    "icon": "users.svg",
+    "children": [
+      {
+        "text": "Activity"
+      },
+      {
+        "text": "Members"
+      }
+    ]
+  },
+  {
+    "text": "Plan",
+    "icon": "planning.svg",
+    "children": [
+      {
+        "text": "Issues"
+      },
+      {
+        "text": "Milestones"
+      },
+      {
+        "text": "Wiki"
+      },
+      {
+        "text": "Requirements"
+      }
+    ]
+  },
+  {
+    "text": "Code",
+    "icon": "code.svg",
+    "children": [
+      {
+        "text": "Repository"
+      },
+      {
+        "text": "Branches"
+      },
+      {
+        "text": "Commits"
+      }
+    ]
+  },
+  {
+    "text": "Build",
+    "icon": "rocket.svg",
+    "children": [
+      {
+        "text": "Pipelines"
+      },
+      {
+        "text": "Jobs"
+      },
+      {
+        "text": "Test Cases"
+      }
+    ]
+  },
+  {
+    "text": "Deploy",
+    "icon": "deployments.svg",
+    "children": [
+      {
+        "text": "Releases"
+      },
+      {
+        "text": "Package Registry"
+      },
+      {
+        "text": "Container Registry"
+      }
+    ]
+  },
+  {
+    "text": "Operate",
+    "icon": "cloud-pod.svg",
+    "children": [
+      {
+        "text": "Environments"
+      }
+    ]
+  },
+  {
+    "text": "Monitor",
+    "icon": "monitor.svg",
+    "children": [
+      {
+        "text": "Incidents"
+      },
+      {
+        "text": "Service desk"
+      }
+    ]
+  },
+  {
+    "text": "Analyze",
+    "icon": "chart.svg",
+    "children": [
+      {
+        "text": "Insights"
+      },
+      {
+        "text": "CI/CD Analytics"
+      }
+    ]
+  }
+]
