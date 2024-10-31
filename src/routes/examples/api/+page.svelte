@@ -1,12 +1,17 @@
 <script lang="ts">
   import { Tree } from 'svelte-treeviews';
 
-  import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
+  // import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
 
   // svelte-ignore non_reactive_update
   let tree;
 
-  const treeData = $state([
+  interface TreeNode {
+    text: string;
+    children?: Array<TreeNode>;
+  }
+
+  const treeData: Array<TreeNode> = $state([
     {
       text: 'Projects',
       children: [
@@ -53,7 +58,7 @@
   }
 
   function addAppendToFirstNode() {
-    tree.add({ text: 'new node' }, tree.rootChildren[0], tree.rootChildren[0].children.length);
+    tree.add({ text: 'new node' }, tree.rootChildren()[0], tree.rootChildren()[0].children.length);
   }
   function addAfterSecondNode() {
     tree.add({ text: 'new node' }, null, 2);
@@ -63,7 +68,7 @@
   }
   function addMulti() {
     // nested new nodes supported
-    tree.addMulti([{ text: 'addMulti1' }, { text: 'addMulti2' }], tree.rootChildren[1], 0);
+    tree.addMulti([{ text: 'addMulti1' }, { text: 'addMulti2' }], tree.rootChildren()[1], 0);
   }
   function batchUpdate() {
     tree.batchUpdate(() => {
@@ -81,7 +86,7 @@
   }
 
   function getDataFirstNode() {
-    console.log(tree.getData(null, tree.rootChildren[0]));
+    console.log(tree.getData(null, tree.rootChildren()[0]));
     notify();
   }
 </script>
@@ -97,7 +102,7 @@
     {treeLine}
     virtualization={true}
     style="height: 500px">
-    {#snippet tree_slot({ data, info }: { data: any; info: NodeInfo })}
+    {#snippet tree_slot({ data, info })}
       {#if info.children.length}
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -128,5 +133,11 @@
     <br />
     <button onclick={getDataAll}>getData: all</button>
     <button onclick={getDataFirstNode}>getData: first node</button>
+    <select name="my_select">
+      <option value="none">None</option>
+      <option value="single">Single</option>
+      <option value="multiple">Multiple</option>
+    </select>
+    <input value="Filter" />
   </div>
 </div>

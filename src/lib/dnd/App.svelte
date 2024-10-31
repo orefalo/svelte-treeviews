@@ -26,20 +26,18 @@
     }
   });
 
-  for (let i = 5; i < 17; i++) {
-    // svelte-ignore state_referenced_locally
-    tree[`node${i}`] = { id: `node${i}`, name: `item ${i}` };
+  function init() {
+    for (let i = 5; i < 17; i++) {
+      tree[`node${i}`] = { id: `node${i}`, name: `item ${i}` };
+    }
+    tree['node10'].color = 'steelblue';
+    tree['node11'].color = 'steelblue';
+    tree['node14'].color = 'orange';
+    tree['node15'].color = 'orange';
+    tree['node6'].color = 'forestgreen';
   }
-  // svelte-ignore state_referenced_locally
-  tree['node10'].color = 'steelblue';
-  // svelte-ignore state_referenced_locally
-  tree['node11'].color = 'steelblue';
-  // svelte-ignore state_referenced_locally
-  tree['node14'].color = 'orange';
-  // svelte-ignore state_referenced_locally
-  tree['node15'].color = 'orange';
-  // svelte-ignore state_referenced_locally
-  tree['node6'].color = 'forestgreen';
+
+  init();
 </script>
 
 <h3>Try dragging node2 into node3 and then node4 into node2</h3>

@@ -25,14 +25,12 @@
     {
       title: 'General Examples',
       pages: [
-        { title: 'Basic', path: '/examples/basic' },
+        { title: 'Themes', path: '/examples/themes' },
         { title: 'Fold and Checkbox', path: '/examples/foldandcheckbox/' },
-        { title: 'Material Design and Tree line', path: '/examples/material' },
         { title: 'Drag and Drop', path: '/examples/dnd' },
         { title: 'Async Loading', path: '/examples/comingsoon' },
         { title: 'Key Navigation', path: '/examples/comingsoon' },
         { title: 'Dynamic Filtering', path: '/examples/comingsoon' },
-        { title: 'Themes', path: '/examples/themes' },
         { title: 'Virtual List', path: '/examples/virtuallist' },
         { title: 'API', path: '/examples/api' },
         { title: 'Events', path: '/examples/comingsoon' }

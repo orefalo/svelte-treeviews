@@ -1,4 +1,4 @@
-<script lang="ts" generics="T">
+<script lang="ts" generics="T extends any">
   import { VirtualList, type VLSlotSignature } from 'svelte-virtuallists';
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor.svelte';
@@ -26,6 +26,7 @@
     // node indent in px
     indent = $bindable(20),
     // Enable virtual list
+    //TODO:rename this to enableScrollbar
     virtualization = $bindable(false),
     //  The number of rendered list items at initialization. Suits for SSR(Server Side Render).
     virtualizationPrerenderCount = 20,
@@ -44,7 +45,9 @@
     // styles for the tree
     style = '',
 
-    processor = createTreeProcessor([], {
+    selectionBehavior = 'single',
+
+    processor = createTreeProcessor<T>([], {
       // do not call init(), will be called manually later
       noInitialization: true,
       defaultOpen: defaultOpen
@@ -63,9 +66,9 @@
     // EVENTS
 
     // Triggered when a node is checked
-    onNodeChecked,
+    onSelectionChanged,
     // Triggered when a node is selected
-    onNodeSelected,
+    // onNodeSelected,
     // Triggered when a grouping node is opened
     onNodeOpened,
     // Triggered when a grouping node is closed
@@ -91,6 +94,8 @@
     class?: string;
     style?: string;
 
+    selectionBehavior?: 'none' | 'single' | 'multiple';
+
     // handler
     nodeInfoPreProcessor?: (info: NodeInfo<T>) => NodeInfo<T>;
 
@@ -99,8 +104,8 @@
     placeholder?: Snippet;
 
     // events
-    onNodeChecked?: (e: NodeInfo<T>) => void;
-    onNodeSelected?: (e: NodeInfo<T>) => void;
+    onSelectionChanged?: (e: NodeInfo<T>) => void;
+    // onNodeSelected?: (e: NodeInfo<T>) => void;
     onNodeOpened?: (e: NodeInfo<T>) => void;
     onNodeClosed?: (e: NodeInfo<T>) => void;
     onUpdateValue?: (e: NodeInfo<T> | NodeInfo<T>[]) => void;
@@ -162,9 +167,10 @@
 
   // this is the model of the tree, it holds meta-data and data
   // TODO: rename to
-  let nodeInfos: Array<NodeInfo<T>> = $state([]);
+  // vuejs: used to be called rootChildren
+  let treeRoot: Array<NodeInfo<T>> = $state([]);
 
-  // used to render the render the virtual list
+  // used to render the virtual list
   // vuejs: used to be called statsFlat
   let computedTree: Array<NodeInfo<T>> = $state([]);
 
@@ -211,15 +217,42 @@
       //TODO: refactor to nodeInfosToRender=processor.init(model)
       processor.init();
 
-      nodeInfos = processor.nodeInfos!;
+      treeRoot = processor.nodeInfos!;
       computedTree = processor.nodeInfosToRender!;
     }
   });
 
+  const selection: Array<NodeInfo<T>> = [];
+
+  let lockOut = false;
+
+  // called when one of the node is checked/unchecked
+  function nodeSelectionChanged(node: NodeInfo<T>) {
+    // if (!lockOut) {
+    //   console.log('nodeSelectionChanged');
+    //   if (selectionBehavior === 'single') {
+    //     if (selection.length > 0) {
+    //       if (selection[0] !== node) {
+    //         lockOut = true;
+    //         selection[0].checked = false;
+    //         selection[0] = node;
+    //         node.checked = true;
+    //       }
+    //     } else {
+    //       lockOut = true;
+    //       selection.push(node);
+    //       node.checked = true;
+    //     }
+    //   } else if (selectionBehavior === 'multiple') {
+    //   }
+    //   lockOut = false;
+    // }
+  }
+
   // only returns the visible nodes
   // vuejs: use to be visibleStats
   function filterVisibleNodes(): NodeInfo<T>[] {
-    let items = computedTree || [];
+    let items = computedTree;
     if (btt) {
       items = items.slice().reverse();
     }
@@ -228,8 +261,8 @@
 
   // returns the top level nodeInfo
   // vuejs used to be called rootChildren
-  function rootChildren(): NodeInfo<T>[] {
-    return nodeInfos;
+  export function rootChildren(): NodeInfo<T>[] {
+    return treeRoot;
   }
 
   function _emitValue(value: any[]) {
@@ -253,8 +286,8 @@
   }
 
   // Get nodeinfo for given node data.
-  export function getNodeInfo(nodeInfoOrNodeData: NodeInfo<T> | T): NodeInfo<T> {
-    return processor.getNodeInfo(nodeInfoOrNodeData);
+  export function getNodeInfo(nodeData: T): NodeInfo<T> {
+    return processor.getNodeInfo(nodeData);
   }
 
   // Detect the tree if has given node data.
@@ -295,12 +328,12 @@
   }
 
   // Detect if node is visible. When parent invisible or closed, children are invisible. Param statOrNodeData can be node data or stat.
-  function isVisible(NodeInfoOrNodeData: NodeInfo<T> | T): boolean {
+  export function isVisible(NodeInfoOrNodeData: NodeInfo<T> | T): boolean {
     return processor.isVisible(NodeInfoOrNodeData);
   }
 
   // Move node. parent is null means root. Similar to add
-  function move(info: NodeInfo<T>, parent: NodeInfo<T> | undefined, index: number) {
+  export function move(info: NodeInfo<T>, parent: NodeInfo<T> | undefined, index: number) {
     return processor.move(info, parent, index);
   }
 
@@ -310,12 +343,12 @@
   }
 
   // return the component's top level htmlelement
-  function getRootEl() {
-    return rootElement as HTMLElement;
-  }
+  // function getRootEl() {
+  //   return rootElement as HTMLElement;
+  // }
 
   // Add multiple continuously nodes. parent is null means root.
-  function addMulti(dataArr: T[], parent?: NodeInfo<T>, startIndex?: number) {
+  export function addMulti(dataArr: T[], parent?: NodeInfo<T>, startIndex?: number) {
     batchUpdate(() => {
       let index = startIndex;
       for (const data of dataArr) {
@@ -328,38 +361,34 @@
   }
 
   // Remove node
-  function remove(info: NodeInfo<T>): boolean {
-    // return reactiveFirstArg(processorMethodProxy('remove'))(info);
+  export function remove(info: NodeInfo<T>): boolean {
     return processor.remove(info);
   }
 
   // Remove multiple nodes.
-  function removeMulti(dataArr: T[]) {
+  export function removeMulti(dataArr: T[]) {
     const cloned = [...dataArr];
     batchUpdate(() => {
       for (const data of cloned) {
-        remove(data);
+        remove(getNodeInfo(data));
       }
     });
   }
 
   // Iterate all parents of a node. Param opt.withSelf means including it self
   // ie. for (const parentStat of tree.iterateParent(nodeStat, { withSelf: false })) { ... }
-  function iterateParent(info: NodeInfo<T>, opt?: { withSelf: boolean }) {
+  export function iterateParent(info: NodeInfo<T>, opt?: { withSelf: boolean }) {
     return processor.iterateParent(info, opt);
-    // return reactiveFirstArg(processorMethodProxy('iterateParent'))(info, opt);
   }
 
   // Get all siblings of a node including itself.
-  function getSiblings(info: NodeInfo<T>): NodeInfo<T>[] {
+  export function getSiblings(info: NodeInfo<T>): NodeInfo<T>[] {
     return processor.getSiblings(info);
-    // return reactiveFirstArg(processorMethodProxy('getSiblings'))(info);
   }
 
   // Generate and get current data without stat. Param filter can handle each node data
-  export function getData(filter?: (data: T) => any, root?: NodeInfo<T>): any[] {
-    return processor.getData(filter, root);
-    // return reactiveFirstArg(processorMethodProxy('getData'))(filter, root);
+  export function getData(filter?: (data: T) => any, root?: NodeInfo<T>): T[] {
+    return processor.getData(filter, root) as T[];
   }
 
   // Merge multiple data update actions, to make it only emit new data once
@@ -407,10 +436,9 @@
         bind:treeLine
         bind:treeLineOffset
         {processor}
-        onNodeOpened={info => onNodeOpened?.(info)}
-        onNodeClosed={info => onNodeClosed?.(info)}
-        onNodeSelected={info => onNodeSelected?.(info)}
-        onNodeChecked={info => onNodeChecked?.(info)}>
+        {onNodeOpened}
+        {onNodeClosed}
+        onNodeChecked={nodeSelectionChanged}>
         {#snippet tn_slot(params)}
           {#if params.data === placeholderData}
             <div class="drag-placeholder he-tree-drag-placeholder">

@@ -11,17 +11,15 @@
     open: boolean;
     bgColor?: string;
     hoverColor?: string;
-    class?: string;
     onclick?: () => void;
   } = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-
 <div
   style="--theme-bgcolor: {bgColor};--theme-hovercolor: {hoverColor}"
-  class="expand-collapse-btn"
+  class="toggleBtn"
   class:open
   {onclick}>
   <span>
@@ -34,7 +32,7 @@
 </div>
 
 <style>
-  .expand-collapse-btn {
+  .toggleBtn {
     width: 24px;
     height: 24px;
     margin: 0 6px;
@@ -48,21 +46,21 @@
     user-select: none;
   }
 
-  .expand-collapse-btn:hover {
+  .toggleBtn:hover {
     background-color: var(--theme-hovercolor);
   }
 
-  .expand-collapse-btn span {
+  .toggleBtn span {
     margin: 0 5px;
     display: inline-block;
     transition: transform 0.3s ease-in-out;
   }
 
-  .expand-collapse-btn span {
+  .toggleBtn span {
     transform: rotate(0);
   }
 
-  .expand-collapse-btn.open span {
+  .toggleBtn.open span {
     transform: rotate(90deg);
   }
 </style>

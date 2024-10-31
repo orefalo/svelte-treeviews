@@ -160,11 +160,40 @@ Drag&Drop events
 
 ***NodeData***
 
-NodeData is a generic type representing the custom user data of each node.
+NodeData is a generic type representing the custom user data of each node.  NodeData[] is typically given as the `model` amd processes as items in snippets or events 
 
 ***NodeInfo***
 
 NodeInfo is a superset of NodeData. It stores the metadata used by the tree to render and process the tree structure properly.
+
+```javascript
+interface NodeInfo<T> {
+
+  // user data
+  data: T;
+  // pointer to parent node, undefined for top node
+  parent?: NodeInfo<T>;
+  // list of children, grouping nodes will have children.length > 0
+  children: NodeInfo<T>[];
+  // is the node open?
+  expended: boolean;
+  // depth, 0 is top level
+  level: number = 0;
+  // is the node hidden?
+  hidden: boolean;
+  // is the checkbox active? 0 means indetermined
+  checked: boolean | 0;
+  // is the node draggable? undefined means inherit parent
+  draggable?: boolean;
+  // is the node droppable? undefined means inherit parent
+  droppable?: boolean;
+  // any style to apply to this node, undefined means inherit parent
+  style?: string;
+  // any class to apply to this node, undefined means inherit parent
+  class?: string;
+}
+```
+
 
 ***DragContext***
 

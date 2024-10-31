@@ -1,8 +1,6 @@
 <script lang="ts">
   import { Tree } from 'svelte-treeviews';
 
-  import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
-
   const treeModel = [
     {
       text: 'Projects',
@@ -57,7 +55,7 @@
   treeLine={false}
   virtualization={true}
   style="height: 500px">
-  {#snippet tree_slot({ data, info }: { data: any; info: NodeInfo })}
+  {#snippet tree_slot({ data, info })}
     {data.text}
   {/snippet}
 </Tree>

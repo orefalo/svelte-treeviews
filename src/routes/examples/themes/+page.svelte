@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { Tree, OpenIcon, type TreeSlotSignature } from 'svelte-treeviews';
+  import { Tree, OpenIcon } from 'svelte-treeviews';
   import IndeterminateCheckbox from 'svelte-treeviews/IndeterminateCheckbox.svelte';
 
   import FluentExpandCollapse from './fluentui2/FluentExpandCollapse.svelte';
 
   import fluentModel from './fluentui2/data.json';
-
   import materialModel from './materialui/data.json';
+  import gitlabModel from './gitlab/data.json';
 
   interface jsonRecord {
     text: string;
@@ -25,7 +25,7 @@
   virtualization={true}
   class="mtl-tree"
   style="height: auto">
-  {#snippet tree_slot({ data, info }: TreeSlotSignature<jsonRecord>)}
+  {#snippet tree_slot({ data, info })}
     {#if info.children.length}
       <OpenIcon class="mlt-mr" onclick={() => info.toggleExpand()} bind:open={info.expended} />
     {/if}
@@ -33,6 +33,8 @@
     <span class="mtl-ml">{data.text}</span>
   {/snippet}
 </Tree>
+
+<FluentExpandCollapse open />
 
 <h1>Fluent2</h1>
 
@@ -44,16 +46,36 @@
   virtualization={true}
   class="fluentui2"
   style="height: auto">
-  {#snippet tree_slot({ data, info }: TreeSlotSignature<jsonRecord>)}
+  {#snippet tree_slot({ data, info })}
     {#if info.children.length}
       <FluentExpandCollapse onclick={() => info.toggleExpand()} bind:open={info.expended} />
       <span class="content">{data.text}</span>
     {:else}
-      <span class="content" style="padding-left:24px">{data.text}</span>
+      <span class="content" style="padding-left:30px">{data.text}</span>
     {/if}
   {/snippet}
 </Tree>
+
 <h1>Gitlab</h1>
+
+<Tree
+  model={gitlabModel as Array<jsonRecord>}
+  defaultOpen={false}
+  indent={0}
+  treeLine={false}
+  treeLineOffset={0}
+  virtualization={true}
+  class="gitlab"
+  style="height: auto">
+  {#snippet tree_slot({ data, info })}
+    {#if info.children.length}
+      <span class="content">{data.text}</span>
+      <FluentExpandCollapse onclick={() => info.toggleExpand()} bind:open={info.expended} />
+    {:else}
+      <span class="content" style="padding-left:30px">{data.text}</span>
+    {/if}
+  {/snippet}
+</Tree>
 
 <h1>Shadcn</h1>
 
@@ -83,18 +105,20 @@
 
   } */
 
+  /* This is to round the first item top corners */
   .fluentui2 .tree-node:first-child {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
 
+  /* This is to round the last item bottom corners */
   .fluentui2 .tree-node:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
 
-  /* .fluentui2 .vtlist-inner div img,
-  .fluentui2 .vtlist-inner div svg {
+  /* .fluentui2 .tree-node img,
+  .fluentui2 .tree-node svg {
     width: 24px;
     height: 24px;
   } */
@@ -148,32 +172,65 @@
     margin-right: 4px;
   }
 
-  .mtl-tree table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
+  /* GITLAB */
+  .reticule {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
   }
 
-  .mtl-tree td,
-  .mtl-tree th {
-    border-bottom: 1px solid rgba(224, 224, 224, 1);
-    line-height: 1.5;
+  .gitlab .tree-node {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    background: #fafafa;
+    height: 24px;
   }
 
-  .mtl-tree tr:last-child td,
-  .mtl-tree tr:last-child tr {
-    border-bottom: 0px;
+  .gitlab .tree-node:hover {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /* background-color: #ebebeb; */
+    background-color: #0f0;
   }
 
-  .mtl-text-left {
-    text-align: left;
+  /* This is to round the first item top corners */
+  .gitlab .tree-node:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
 
-  .mtl-text-center {
-    text-align: center;
+  /* This is to round the last item bottom corners */
+  .gitlab .tree-node:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 
-  .mtl-text-right {
-    text-align: right;
+  .gitlab .tree-node img,
+  .gitlab .tree-node svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .gitlab .content {
+    place-items: center;
+    color: #1e2225;
+    background-color: transparent;
+    font-weight: normal;
+  }
+
+  .gitlab .checked::after {
+    position: absolute;
+    top: calc(100% - 80%);
+    left: 0;
+    display: inline-block;
+    content: ' ';
+    width: 4px;
+    height: calc(100% - 40%);
+    background: #106ad9;
+    border-radius: 6px;
   }
 </style>

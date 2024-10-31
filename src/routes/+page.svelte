@@ -11,16 +11,15 @@ Performant rendering of large lists and tables
 <h2>Features</h2>
 
 <ul>
-  <li>Optimizes rendering by only displaying visible items</li>
-  <li>Supports Horizontal and vertical layouts</li>
-  <li>Supports Lists and Tables</li>
-  <li>Supports Variable row heights or widths</li>
-  <li>Supports Legacy browser such as IE 11</li>
-  <li>Supports Touch devices</li>
-  <li>Supports RTL rendering with auto-detection</li>
-  <li>Supports Partial Loaders, to load data on demand</li>
-  <li>Supports Rich programmatic API and events</li>
-  <li>Svelte, Sveltekit & Typescript friendly</li>
+  <li>Headless, Draggable Tree</li>
+  <li>Based on HTML Drag and Drop API.</li>
+  <li>Drag to and from external trees.</li>
+  <li>Both flat data and tree-shaped data supported.</li>
+  <li>Auto-expand node on drag over.</li>
+  <li>Checked & undetermined status</li>
+  <li>Large tree of possibilities, thanks to its integration with Svelte VirtualLists.</li>
+  <li>Right to Left support</li>
+  <li>Rich API for developers</li>
 </ul>
 
 <a href="https://github.com/orefalo/svelte-treeviews">

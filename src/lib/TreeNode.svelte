@@ -21,10 +21,10 @@
     tn_slot,
 
     // events
-    onNodeOpened,
-    onNodeClosed,
-    onNodeChecked,
-    onNodeSelected
+    onNodeOpened = $bindable(),
+    onNodeClosed = $bindable(),
+    onNodeChecked = $bindable()
+    // onNodeSelected
   }: {
     nodeInfo: NodeInfo<T>;
     rtl: boolean;
@@ -41,7 +41,7 @@
     onNodeOpened?: (info: NodeInfo<T>) => void;
     onNodeClosed?: (info: NodeInfo<T>) => void;
     onNodeChecked?: (info: NodeInfo<T>) => void;
-    onNodeSelected?: (info: NodeInfo<T>) => void;
+    // onNodeSelected?: (info: NodeInfo<T>) => void;
   } = $props();
 
   let indentStyle = $derived(
@@ -58,9 +58,9 @@
     const checked = nodeInfo.checked;
     // fix issue: https://github.com/phphe/he-tree/issues/98
     // when open/close above node, the after nodes' states 'checked' and 'open' will be updated. It should be caused by Vue's key. We don't use Vue's key prop.
-    if (justToggleOpen) {
-      return;
-    }
+    // if (justToggleOpen) {
+    //   return;
+    // }
     if (processor?.afterOneCheckChanged(nodeInfo)) {
       onNodeChecked?.(nodeInfo);
     }
@@ -69,21 +69,21 @@
   $effect(() => {
     const open = nodeInfo.expended;
 
-    if (justToggleOpen) {
-      return;
-    }
+    // if (justToggleOpen) {
+    //   return;
+    // }
     open ? onNodeOpened?.(nodeInfo) : onNodeClosed?.(nodeInfo);
 
-    afterToggleOpen();
+    // afterToggleOpen();
   });
 
-  let justToggleOpen = false;
-  const afterToggleOpen = () => {
-    justToggleOpen = true;
-    setTimeout(() => {
-      justToggleOpen = false;
-    }, 100);
-  };
+  // let justToggleOpen = false;
+  // const afterToggleOpen = () => {
+  //   justToggleOpen = true;
+  //   setTimeout(() => {
+  //     justToggleOpen = false;
+  //   }, 100);
+  // };
 
   const vLines: Array<{
     style: string;

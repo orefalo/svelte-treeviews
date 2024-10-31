@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Tree } from 'svelte-treeviews';
-  import data0 from '../data.json';
+  import data0 from '../themes/materialui/data.json';
   import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
   import IndeterminateCheckbox from 'svelte-treeviews/IndeterminateCheckbox.svelte';
 
@@ -68,7 +68,7 @@
       {/if}
 
       <!-- <IndeterminateCheckbox bind:value={info.checked} onclick={() => info.toggleChecked()} /> -->
-      <IndeterminateCheckbox bind:value={info.checked} onclick={() => info.toggleChecked()} />
+      <IndeterminateCheckbox bind:value={info.checked} />
 
       {data.text}
     {/snippet}

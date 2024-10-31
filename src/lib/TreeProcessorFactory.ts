@@ -1,4 +1,3 @@
-// import type { NodeInfo } from './NodeInfo';
 import { TreeProcessor } from './TreeProcessor.svelte';
 import { type PartialOptions } from '$lib/ProcessorOptions.js';
 import { PreProcessorOptionsSvelte } from './PreProcessorOptions.svelte';
@@ -8,7 +7,7 @@ import { PreProcessorOptionsSvelte } from './PreProcessorOptions.svelte';
 //   return func ? func(input) : input;
 // }
 
-export function createTreeProcessor(data: any[], options: PartialOptions) {
+export function createTreeProcessor<T>(data: any[], options: PartialOptions): TreeProcessor<T> {
   // let preProcessor: (input: NodeInfo) => NodeInfo;
 
   // const opt = {
@@ -32,7 +31,7 @@ export function createTreeProcessor(data: any[], options: PartialOptions) {
   // const opt = new PreProcessorOptionsSvelte(opt);
   const opt = new PreProcessorOptionsSvelte(options);
 
-  const instance = new TreeProcessor(data, opt);
+  const instance = new TreeProcessor<T>(data, opt);
   if (!opt.noInitialization) instance.init();
   return instance;
 }

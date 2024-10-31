@@ -119,10 +119,10 @@ export class TreeProcessor<T> {
    */
   public afterOneCheckChanged(info: NodeInfo<T>): boolean {
     const { checked } = info;
-    if (info._ignoreCheckedOnce) {
-      delete info._ignoreCheckedOnce;
-      return false;
-    }
+    // if (info._ignoreCheckedOnce) {
+    //   delete info._ignoreCheckedOnce;
+    //   return false;
+    // }
 
     // change parent
     const checkParent = (info: NodeInfo<T>) => {
@@ -144,7 +144,7 @@ export class TreeProcessor<T> {
         const parentChecked = hasHalfChecked ? 0 : !hasUnchecked ? true : hasChecked ? 0 : false;
 
         if (parent.checked !== parentChecked) {
-          this._ignoreCheckedOnce(parent);
+          // this._ignoreCheckedOnce(parent);
           parent.checked = parentChecked;
         }
         checkParent(parent);
@@ -158,7 +158,7 @@ export class TreeProcessor<T> {
       info.children,
       child => {
         if (child.checked !== checked) {
-          this._ignoreCheckedOnce(child);
+          // this._ignoreCheckedOnce(child);
           child.checked = checked;
         }
       },
@@ -167,15 +167,15 @@ export class TreeProcessor<T> {
     return true;
   }
 
-  private _ignoreCheckedOnce(info: NodeInfo<T>) {
-    info._ignoreCheckedOnce = true;
-    // cancel ignore immediately if not triggered
-    setTimeout(() => {
-      if (info._ignoreCheckedOnce) {
-        info._ignoreCheckedOnce = false;
-      }
-    }, 100);
-  }
+  // private _ignoreCheckedOnce(info: NodeInfo<T>) {
+  //   info._ignoreCheckedOnce = true;
+  //   // cancel ignore immediately if not triggered
+  //   setTimeout(() => {
+  //     if (info._ignoreCheckedOnce) {
+  //       info._ignoreCheckedOnce = false;
+  //     }
+  //   }, 100);
+  // }
 
   public isVisible(infoOrData: T | NodeInfo<T>): boolean {
     const info: NodeInfo<T> =
@@ -198,7 +198,7 @@ export class TreeProcessor<T> {
         if (info.children && info.children.length > 0) {
           const checked = info.children.every(v => v.checked);
           if (info.checked !== checked) {
-            this._ignoreCheckedOnce(info);
+            // this._ignoreCheckedOnce(info);
             info.checked = checked;
           }
         }
@@ -391,11 +391,11 @@ export class TreeProcessor<T> {
    * 统计节点和其后代节点数量
    * @param info
    */
-  private _count(info: NodeInfo<T>) {
+  private _count(info: NodeInfo<T>): number {
     return this._flat(info).length;
   }
 
-  public getData(filter?: (data: T) => T, root?: NodeInfo<T>) {
+  public getData(filter?: (data: T) => T, root?: NodeInfo<T>): T | T[] {
     const { childrenKey } = this.options;
     const td = new hp.TreeData<T>([]);
     td.childrenKey = childrenKey;
