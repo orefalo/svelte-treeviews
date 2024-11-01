@@ -21,15 +21,25 @@
     cursor: pointer;
     user-select: none;
     display: inline-block;
+
+    vertical-align: middle;
+    background-color: inherited;
+    border-radius: 5px;
+    margin: 0 6px;
+    height: 24px;
+    width: 24px;
+  }
+
+  .treeicon:hover {
+    background-color: #d9d9d9;
+  }
+
+  .treeicon svg {
     transform: rotate(0);
     transition: transform 0.3s ease-in-out;
   }
 
-  .treeicon.open {
+  .treeicon.open svg {
     transform: rotate(90deg);
-  }
-
-  .treeicon svg {
-    width: 1em;
   }
 </style>

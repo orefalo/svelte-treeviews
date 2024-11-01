@@ -10,7 +10,6 @@
 
 .mtl-tree .tree-node:hover {
   background-color: #ededed;
-  /* recommend: active #ddeff9, active & hover: #cfe6f2 */
 }
 
 .mtl-checkbox {
@@ -24,23 +23,6 @@
 
 .mtl-mr {
   margin-right: 4px;
-}
-
-.mtl-tree table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-.mtl-tree td,
-.mtl-tree th {
-  border-bottom: 1px solid rgba(224, 224, 224, 1);
-  line-height: 1.5;
-}
-
-.mtl-tree tr:last-child td,
-.mtl-tree tr:last-child tr {
-  border-bottom: 0px;
 }
 
 .mtl-text-left {

@@ -11,7 +11,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_consider_explicit_label -->
 <a class={`treeicon ${className}`} class:open {onclick}>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg viewBox="0 0 24 24">
     <path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42Z" />
   </svg>
 </a>
@@ -21,15 +21,26 @@
     cursor: pointer;
     user-select: none;
     display: inline-block;
+
+    background-color: inherited;
+    border-radius: 5px;
+    margin: 0 6px;
+    height: 24px;
+    width: 24px;
+  }
+
+  .treeicon:hover {
+    background-color: #d9d9d9;
+  }
+
+  .treeicon svg {
+    width: 24px;
+    height: 24px;
     transform: rotate(0);
     transition: transform 0.3s ease-in-out;
   }
 
-  .treeicon.open {
+  .treeicon.open svg {
     transform: rotate(90deg);
-  }
-
-  .treeicon svg {
-    width: 1em;
   }
 </style>

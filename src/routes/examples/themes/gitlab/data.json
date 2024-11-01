@@ -1,7 +1,7 @@
 [
   {
     "text": "Manage",
-    "icon": "users.svg",
+    "icon": "users",
     "children": [
       {
         "text": "Activity"
@@ -13,7 +13,7 @@
   },
   {
     "text": "Plan",
-    "icon": "planning.svg",
+    "icon": "planning",
     "children": [
       {
         "text": "Issues"
@@ -31,7 +31,7 @@
   },
   {
     "text": "Code",
-    "icon": "code.svg",
+    "icon": "code",
     "children": [
       {
         "text": "Repository"
@@ -46,7 +46,7 @@
   },
   {
     "text": "Build",
-    "icon": "rocket.svg",
+    "icon": "rocket",
     "children": [
       {
         "text": "Pipelines"
@@ -61,7 +61,7 @@
   },
   {
     "text": "Deploy",
-    "icon": "deployments.svg",
+    "icon": "deployments",
     "children": [
       {
         "text": "Releases"
@@ -76,7 +76,7 @@
   },
   {
     "text": "Operate",
-    "icon": "cloud-pod.svg",
+    "icon": "cloud-pod",
     "children": [
       {
         "text": "Environments"
@@ -85,7 +85,7 @@
   },
   {
     "text": "Monitor",
-    "icon": "monitor.svg",
+    "icon": "monitor",
     "children": [
       {
         "text": "Incidents"
@@ -97,7 +97,7 @@
   },
   {
     "text": "Analyze",
-    "icon": "chart.svg",
+    "icon": "chart",
     "children": [
       {
         "text": "Insights"

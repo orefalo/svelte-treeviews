@@ -1,12 +1,15 @@
 <script lang="ts">
-  import { Tree, OpenIcon } from 'svelte-treeviews';
+  import { Tree } from 'svelte-treeviews';
   import IndeterminateCheckbox from 'svelte-treeviews/IndeterminateCheckbox.svelte';
-
-  import FluentExpandCollapse from './fluentui2/FluentExpandCollapse.svelte';
 
   import fluentModel from './fluentui2/data.json';
   import materialModel from './materialui/data.json';
   import gitlabModel from './gitlab/data.json';
+
+  import MaterialOpenIcon from './materialui/MaterialOpenIcon.svelte';
+  import FluentOpenIcon from './fluentui2/FluentOpenIcon.svelte';
+  import GitlabOpenIcon from './gitlab/GitlabOpenIcon.svelte';
+  import HeaderIcon from './gitlab/HeaderIcon.svelte';
 
   interface jsonRecord {
     text: string;
@@ -15,7 +18,7 @@
   }
 </script>
 
-<h1>Material</h1>
+<h1>Material-Design</h1>
 
 <Tree
   model={materialModel as Array<jsonRecord>}
@@ -27,16 +30,14 @@
   style="height: auto">
   {#snippet tree_slot({ data, info })}
     {#if info.children.length}
-      <OpenIcon class="mlt-mr" onclick={() => info.toggleExpand()} bind:open={info.expended} />
+      <MaterialOpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
     {/if}
     <IndeterminateCheckbox class="mtl-checkbox mtl-mr" bind:value={info.checked} />
-    <span class="mtl-ml">{data.text}</span>
+    <span>{data.text}</span>
   {/snippet}
 </Tree>
 
-<FluentExpandCollapse open />
-
-<h1>Fluent2</h1>
+<h1>FluentUI2</h1>
 
 <Tree
   model={fluentModel as Array<jsonRecord>}
@@ -48,7 +49,7 @@
   style="height: auto">
   {#snippet tree_slot({ data, info })}
     {#if info.children.length}
-      <FluentExpandCollapse onclick={() => info.toggleExpand()} bind:open={info.expended} />
+      <FluentOpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
       <span class="content">{data.text}</span>
     {:else}
       <span class="content" style="padding-left:30px">{data.text}</span>
@@ -68,9 +69,10 @@
   class="gitlab"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
+    <HeaderIcon name={data.icon} />
     {#if info.children.length}
       <span class="content">{data.text}</span>
-      <FluentExpandCollapse onclick={() => info.toggleExpand()} bind:open={info.expended} />
+      <GitlabOpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
     {:else}
       <span class="content" style="padding-left:30px">{data.text}</span>
     {/if}
@@ -82,13 +84,38 @@
 <h1>Tailwind</h1>
 
 <style global>
+  /* METALUI */
+
+  .mtl-tree .tree-node {
+    padding: 1px 0;
+  }
+
+  .mtl-tree .tree-node:hover {
+    background-color: #ededed;
+  }
+
+  .mtl-tree .tree-node-inner {
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .mtl-checkbox {
+    width: 14px;
+    height: 14px;
+  }
+
+  .mtl-mr {
+    margin-right: 4px;
+  }
+
   /* Fluent 2 styles */
   .fluentui2 .tree-node {
-    position: relative;
-    display: inline-block;
     padding: 0;
     background: #fafafa;
     height: 24px;
+    vertical-align: middle;
   }
 
   .fluentui2 .tree-node:hover {
@@ -96,8 +123,7 @@
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    /* background-color: #ebebeb; */
-    background-color: #0f0;
+    background-color: #ebebeb;
   }
 
   /* .fluentui2 .vtlist-inner div > * {
@@ -123,7 +149,7 @@
     height: 24px;
   } */
 
-  .fluentui2 .content {
+  /* .fluentui2 .content {
     place-items: center;
     color: #1e2225;
     background-color: transparent;
@@ -140,37 +166,7 @@
     height: calc(100% - 40%);
     background: #106ad9;
     border-radius: 6px;
-  }
-
-  /* METALUI */
-
-  .mtl-tree .tree-node-inner {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-  }
-
-  .mtl-tree .tree-node {
-    padding: 1px 0;
-  }
-
-  .mtl-tree .tree-node:hover {
-    background-color: #ededed;
-    /* recommend: active #ddeff9, active & hover: #cfe6f2 */
-  }
-
-  .mtl-checkbox {
-    width: 14px;
-    height: 14px;
-  }
-
-  .mtl-ml {
-    margin-left: 4px;
-  }
-
-  .mtl-mr {
-    margin-right: 4px;
-  }
+  } */
 
   /* GITLAB */
   .reticule {

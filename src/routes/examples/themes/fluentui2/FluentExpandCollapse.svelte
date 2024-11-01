@@ -52,7 +52,7 @@
 
   .toggleBtn span {
     margin: 0 5px;
-    display: inline-block;
+    /* display: inline-block; */
     transition: transform 0.3s ease-in-out;
   }
 
