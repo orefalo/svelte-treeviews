@@ -1,4 +1,5 @@
 <script lang="ts" generics="T extends any">
+  import { type TreeLineStyle } from './index';
   import { VirtualList, type VLSlotSignature } from 'svelte-virtuallists';
   import TreeNode from './TreeNode.svelte';
   import { TreeProcessor } from './TreeProcessor.svelte';
@@ -37,9 +38,10 @@
     // Display bottom to top
     btt = $bindable(false),
     // Display tree line.
-    treeLine = $bindable(false),
+    treeLineStyle = $bindable('none'),
     // Horizontal displacement of tree lines, unit: pixels.
-    treeLineOffset = 8,
+    treeLineOffset = $bindable(8),
+
     // css class for the tree
     class: className = '',
     // styles for the tree
@@ -89,8 +91,9 @@
     rtl?: boolean;
     btt?: boolean;
 
-    treeLine?: boolean;
     treeLineOffset?: number;
+    treeLineStyle: TreeLineStyle;
+
     class?: string;
     style?: string;
 
@@ -431,7 +434,7 @@
         bind:rtl
         bind:btt
         bind:indent
-        bind:treeLine
+        bind:treeLineStyle
         bind:treeLineOffset
         {processor}
         {onNodeOpened}

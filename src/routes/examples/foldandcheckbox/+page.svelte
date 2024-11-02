@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { Tree } from 'svelte-treeviews';
+  import { Tree, type TreeLineStyle } from 'svelte-treeviews';
   import data0 from '../themes/materialui/data.json';
-  import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
   import IndeterminateCheckbox from 'svelte-treeviews/IndeterminateCheckbox.svelte';
 
   let data = $state(data0);
-  let defaultOpen = $state(false);
+
   let rtl = $state(false);
-  let indent = $state(20);
   let btt = $state(false);
   let virtualization = $state(true);
-  let treeLine = $state(true);
+  let treeLineStyle: TreeLineStyle = $state('vertical');
+  let treeLineOffset = $state(8);
+  let indent = $state(20);
 
   let listStyle = $derived.by(() => (virtualization ? 'height:500px' : 'height: auto'));
 </script>
@@ -20,14 +20,14 @@
   <hr />
   <h4>Properties</h4>
   <label>
-    <input type="checkbox" bind:checked={defaultOpen} />
-    defaultOpen
+    Tree line style
+    <select bind:value={treeLineStyle}>
+      <option value="none">None</option>
+      <option value="vertical">Vertical</option>
+      <option value="orthogonal">Orthogonal</option>
+    </select>
   </label>
-  <br />
-  <label>
-    <input type="checkbox" bind:checked={treeLine} />
-    tree line
-  </label>
+
   <br />
   <label>
     <input type="checkbox" bind:checked={rtl} />
@@ -44,23 +44,26 @@
     virtualization
   </label>
   <br />
-
   <div>
     indent
     <input type="number" bind:value={indent} />
+  </div>
+  <div>
+    treeline offset
+    <input type="number" bind:value={treeLineOffset} />
   </div>
   <hr />
 
   <Tree
     model={data}
-    bind:defaultOpen
     bind:rtl
     bind:indent
     bind:btt
-    bind:treeLine
+    bind:treeLineStyle
+    bind:treeLineOffset
     bind:virtualization
     style={listStyle}>
-    {#snippet tree_slot({ data, info }: { data: any; info: NodeInfo })}
+    {#snippet tree_slot({ data, info })}
       {#if info.children.length}
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->

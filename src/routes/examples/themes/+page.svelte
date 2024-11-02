@@ -11,7 +11,7 @@
   import MaterialOpenIcon from './materialui/MaterialOpenIcon.svelte';
   import FluentOpenIcon from './fluentui2/FluentOpenIcon.svelte';
   import GitlabOpenIcon from './gitlab/GitlabOpenIcon.svelte';
-  import HeaderIcon from './gitlab/HeaderIcon.svelte';
+  import HeaderIcon from './gitlab/GitlabHeaderIcon.svelte';
   import ShadcnFileIcon from './shadcn/ShadcnFileIcon.svelte';
   import TailwindOpenIcon from './tailwind/TailwindOpenIcon.svelte';
 
@@ -28,7 +28,7 @@
   model={materialModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={20}
-  treeLine={true}
+  treeLineStyle="orthogonal"
   virtualization={true}
   class="mtl-tree"
   style="height: auto">
@@ -47,7 +47,7 @@
   model={fluentModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={10}
-  treeLine={false}
+  treeLineStyle="none"
   virtualization={true}
   class="fluentui2"
   style="height: auto">
@@ -67,7 +67,7 @@
   model={gitlabModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={10}
-  treeLine={false}
+  treeLineStyle="none"
   treeLineOffset={0}
   virtualization={true}
   class="gitlab"
@@ -89,7 +89,7 @@
   model={shadcnModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={15}
-  treeLine={true}
+  treeLineStyle="vertical"
   virtualization={true}
   class="shadcn"
   style="height: auto">
@@ -110,7 +110,7 @@
   model={tailwindModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={250}
-  treeLine={true}
+  treeLineStyle="vertical"
   virtualization={true}
   class="tailwind"
   style="height: auto">
@@ -194,7 +194,7 @@
   .gitlab .tree-node {
     padding: 0;
     background: #fafafa;
-    height: 24px;
+    height: 30px;
     display: flex;
     align-items: center;
   }

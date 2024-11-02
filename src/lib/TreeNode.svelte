@@ -1,4 +1,5 @@
 <script lang="ts" generics="T">
+  import { type TreeLineStyle } from './index';
   import type { Snippet } from 'svelte';
   import type { NodeInfo } from './NodeInfo.svelte';
   import clsx from 'clsx';
@@ -11,8 +12,8 @@
     // bottomToTop
     btt = $bindable(),
     indent = $bindable(),
-    treeLine = $bindable(),
     treeLineOffset = $bindable(),
+    treeLineStyle = $bindable('orthogonal'),
     processor = $bindable(),
     class: className,
     style,
@@ -24,14 +25,13 @@
     onNodeOpened = $bindable(),
     onNodeClosed = $bindable(),
     onNodeChecked = $bindable()
-    // onNodeSelected
   }: {
     nodeInfo: NodeInfo<T>;
     rtl: boolean;
     btt: boolean;
     indent: number;
-    treeLine: boolean;
     treeLineOffset: number;
+    treeLineStyle: TreeLineStyle;
     processor?: TreeProcessor<T>;
     class?: string;
     style?: string;
@@ -41,7 +41,6 @@
     onNodeOpened?: (info: NodeInfo<T>) => void;
     onNodeClosed?: (info: NodeInfo<T>) => void;
     onNodeChecked?: (info: NodeInfo<T>) => void;
-    // onNodeSelected?: (info: NodeInfo<T>) => void;
   } = $props();
 
   let indentStyle = $derived(
@@ -56,11 +55,7 @@
 
   $effect(() => {
     const checked = nodeInfo.checked;
-    // fix issue: https://github.com/phphe/he-tree/issues/98
-    // when open/close above node, the after nodes' states 'checked' and 'open' will be updated. It should be caused by Vue's key. We don't use Vue's key prop.
-    // if (justToggleOpen) {
-    //   return;
-    // }
+
     if (processor?.afterOneCheckChanged(nodeInfo)) {
       onNodeChecked?.(nodeInfo);
     }
@@ -68,22 +63,8 @@
 
   $effect(() => {
     const open = nodeInfo.expended;
-
-    // if (justToggleOpen) {
-    //   return;
-    // }
     open ? onNodeOpened?.(nodeInfo) : onNodeClosed?.(nodeInfo);
-
-    // afterToggleOpen();
   });
-
-  // let justToggleOpen = false;
-  // const afterToggleOpen = () => {
-  //   justToggleOpen = true;
-  //   setTimeout(() => {
-  //     justToggleOpen = false;
-  //   }, 100);
-  // };
 
   const vLines: Array<{
     style: string;
@@ -134,13 +115,13 @@
 </script>
 
 <div
-  class={clsx('tree-node', className, treeLine && 'tree-node--with-tree-line')}
+  class={clsx('tree-node', className, treeLineStyle != 'none' && 'tree-node--with-tree-line')}
   style={indentStyle}>
-  {#if treeLine}
+  {#if treeLineStyle != 'none'}
     {#each vLines as line}
       <div class="tree-line tree-vline" style={line.style}></div>
     {/each}
-    {#if nodeInfo.level > 1}
+    {#if nodeInfo.level > 1 && treeLineStyle == 'orthogonal'}
       <div class="tree-line tree-hline" style={hLineStyle}></div>
     {/if}
   {/if}

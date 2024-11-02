@@ -1,8 +1,6 @@
 <script lang="ts">
   import { Tree } from 'svelte-treeviews';
 
-  // import { NodeInfo } from 'svelte-treeviews/NodeInfo.svelte';
-
   // svelte-ignore non_reactive_update
   let tree;
 

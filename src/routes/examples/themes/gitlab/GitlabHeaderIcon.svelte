@@ -44,9 +44,9 @@
   }
 </script>
 
-<div class="logo">
+<span class="logo">
   {@html svg}
-</div>
+</span>
 
 <style>
   .logo {
