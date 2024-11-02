@@ -62,7 +62,7 @@
     border-radius: 50%;
     background: white;
     box-shadow:
-      0 0px 1px rgba(0, 0, 0, 0.4),
+      0 0 1px rgba(0, 0, 0, 0.4),
       0 4px 2px rgba(0, 0, 0, 0.1);
     transition:
       background 0.2s ease-out,

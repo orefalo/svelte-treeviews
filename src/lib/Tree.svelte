@@ -205,14 +205,12 @@
 
   $effect(() => {
     // TODO: I am a bit confused why this code works in $effect and not a $derived
-    console.log('model change detected');
 
     // TODO: change this? isDragging triggered in Vue2 because its array is not same with Vue3
     const isDragging = dragOvering || dragNode;
     if (isDragging || _ignoreValueChangeOnce) {
       _ignoreValueChangeOnce = false;
     } else {
-      console.log('Initializing model');
       processor.rawData = model;
       //TODO: refactor to nodeInfosToRender=processor.init(model)
       processor.init();

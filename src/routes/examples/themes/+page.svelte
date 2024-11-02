@@ -5,11 +5,15 @@
   import fluentModel from './fluentui2/data.json';
   import materialModel from './materialui/data.json';
   import gitlabModel from './gitlab/data.json';
+  import shadcnModel from './shadcn/data.json';
+  import tailwindModel from './tailwind/data.json';
 
   import MaterialOpenIcon from './materialui/MaterialOpenIcon.svelte';
   import FluentOpenIcon from './fluentui2/FluentOpenIcon.svelte';
   import GitlabOpenIcon from './gitlab/GitlabOpenIcon.svelte';
   import HeaderIcon from './gitlab/HeaderIcon.svelte';
+  import ShadcnFileIcon from './shadcn/ShadcnFileIcon.svelte';
+  import TailwindOpenIcon from './tailwind/TailwindOpenIcon.svelte';
 
   interface jsonRecord {
     text: string;
@@ -50,9 +54,9 @@
   {#snippet tree_slot({ data, info })}
     {#if info.children.length}
       <FluentOpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
-      <span class="content">{data.text}</span>
+      <span>{data.text}</span>
     {:else}
-      <span class="content" style="padding-left:30px">{data.text}</span>
+      <span style="padding-left:30px">{data.text}</span>
     {/if}
   {/snippet}
 </Tree>
@@ -62,7 +66,7 @@
 <Tree
   model={gitlabModel as Array<jsonRecord>}
   defaultOpen={false}
-  indent={0}
+  indent={10}
   treeLine={false}
   treeLineOffset={0}
   virtualization={true}
@@ -71,20 +75,57 @@
   {#snippet tree_slot({ data, info })}
     <HeaderIcon name={data.icon} />
     {#if info.children.length}
-      <span class="content">{data.text}</span>
+      <span>{data.text}</span>
       <GitlabOpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
     {:else}
-      <span class="content" style="padding-left:30px">{data.text}</span>
+      <span>{data.text}</span>
     {/if}
   {/snippet}
 </Tree>
 
 <h1>Shadcn</h1>
 
+<Tree
+  model={shadcnModel as Array<jsonRecord>}
+  defaultOpen={false}
+  indent={15}
+  treeLine={true}
+  virtualization={true}
+  class="shadcn"
+  style="height: auto">
+  {#snippet tree_slot({ data, info })}
+    <HeaderIcon name={data.icon} />
+    {#if info.children.length}
+      <span>{data.text}</span>
+      <ShadcnFileIcon node={info} />
+    {:else}
+      <span>{data.text}</span>
+    {/if}
+  {/snippet}
+</Tree>
+
 <h1>Tailwind</h1>
 
+<Tree
+  model={tailwindModel as Array<jsonRecord>}
+  defaultOpen={false}
+  indent={250}
+  treeLine={true}
+  virtualization={true}
+  class="tailwind"
+  style="height: auto">
+  {#snippet tree_slot({ data, info })}
+    {#if info.children.length}
+      <TailwindOpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
+      <span>{data.text}</span>
+    {:else}
+      <span>{data.text}</span>
+    {/if}
+  {/snippet}
+</Tree>
+
 <style global>
-  /* METALUI */
+  /****** METALUI ******/
 
   .mtl-tree .tree-node {
     padding: 1px 0;
@@ -110,12 +151,13 @@
     margin-right: 4px;
   }
 
-  /* Fluent 2 styles */
+  /****** FLUENTUI STYLES ******/
   .fluentui2 .tree-node {
     padding: 0;
     background: #fafafa;
     height: 24px;
-    vertical-align: middle;
+    display: flex;
+    align-items: center;
   }
 
   .fluentui2 .tree-node:hover {
@@ -126,62 +168,35 @@
     background-color: #ebebeb;
   }
 
-  /* .fluentui2 .vtlist-inner div > * {
-    margin-left: 0.25rem;
-
-  } */
-
-  /* This is to round the first item top corners */
   .fluentui2 .tree-node:first-child {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
 
-  /* This is to round the last item bottom corners */
   .fluentui2 .tree-node:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
 
-  /* .fluentui2 .tree-node img,
-  .fluentui2 .tree-node svg {
-    width: 24px;
-    height: 24px;
-  } */
-
-  /* .fluentui2 .content {
-    place-items: center;
-    color: #1e2225;
-    background-color: transparent;
-    font-weight: normal;
-  }
-
-  .fluentui2 .checked::after {
+  .fluentui2 .tree-node:before {
     position: absolute;
-    top: calc(100% - 80%);
+    top: 0;
     left: 0;
-    display: inline-block;
+    order: -2;
     content: ' ';
     width: 4px;
-    height: calc(100% - 40%);
+    height: 20%;
     background: #106ad9;
     border-radius: 6px;
-  } */
-
-  /* GITLAB */
-  .reticule {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
   }
 
+  /****** GITLAB STYLES ******/
   .gitlab .tree-node {
-    position: relative;
-    display: inline-block;
     padding: 0;
     background: #fafafa;
     height: 24px;
+    display: flex;
+    align-items: center;
   }
 
   .gitlab .tree-node:hover {
@@ -189,43 +204,91 @@
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    /* background-color: #ebebeb; */
-    background-color: #0f0;
+    background-color: #ebebeb;
   }
 
-  /* This is to round the first item top corners */
   .gitlab .tree-node:first-child {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
 
-  /* This is to round the last item bottom corners */
   .gitlab .tree-node:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
 
-  .gitlab .tree-node img,
-  .gitlab .tree-node svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .gitlab .content {
-    place-items: center;
-    color: #1e2225;
-    background-color: transparent;
-    font-weight: normal;
-  }
-
-  .gitlab .checked::after {
+  .gitlab .tree-node:before {
     position: absolute;
-    top: calc(100% - 80%);
+    top: 0;
     left: 0;
-    display: inline-block;
+    order: -2;
     content: ' ';
-    width: 4px;
-    height: calc(100% - 40%);
+    width: 40px;
+    height: 20%;
+    background: #106ad9;
+    border-radius: 6px;
+  }
+
+  /****** SHADCN STYLES ******/
+
+  .shadcn .tree-node {
+    padding: 0;
+    background: #fafafb;
+    height: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .shadcn .tree-node:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .shadcn .tree-node:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .shadcn .tree-node:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    order: -2;
+    content: ' ';
+    width: 40px;
+    height: 20%;
+    background: #106ad9;
+    border-radius: 6px;
+  }
+
+  /****** TAILWIND STYLES ******/
+
+  .tailwind .tree-node {
+    padding: 0;
+    background: #fafafb;
+    height: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .tailwind .tree-node:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .tailwind .tree-node:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .tailwind .tree-node:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    order: -2;
+    content: ' ';
+    width: 40px;
+    height: 20%;
     background: #106ad9;
     border-radius: 6px;
   }

@@ -11,7 +11,7 @@
   let { name }: { name: string | undefined } = $props();
 
   // svelte-ignore non_reactive_update
-  let svg = $state();
+  let svg = '';
 
   switch (name) {
     case 'users':
@@ -44,4 +44,18 @@
   }
 </script>
 
-{@html svg}
+<div class="logo">
+  {@html svg}
+</div>
+
+<style>
+  .logo {
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: inherited;
+    border-radius: 5px;
+    margin: 0 6px;
+  }
+</style>

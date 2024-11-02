@@ -1,0 +1,34 @@
+[
+  {
+    "text": "src",
+    "children": [
+      {
+        "text": "routes",
+        "children": [
+          {
+            "text": "layout.svelte"
+          },
+          {
+            "text": "page1",
+            "children": [
+              {
+                "text": "+page.svelte"
+              }
+            ]
+          },
+          { "text": "login", "children": [{ "text": "+page.svelte" }] }
+        ]
+      },
+      {
+        "text": "lib",
+        "children": [
+          { "text": "TreeView.svelte" },
+          { "text": "TreeNode.svelte" },
+          { "text": "TreeProcessor.svelte" },
+          { "text": "helper.js" },
+          { "text": "authentication", "children": [{ "text": "authentication.js" }] }
+        ]
+      }
+    ]
+  }
+]

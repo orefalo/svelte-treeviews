@@ -1,0 +1,31 @@
+[
+  {
+    "text": "assets",
+    "children": [
+      {
+        "text": "css",
+        "children": [
+          {
+            "text": "main",
+            "children": [{ "text": "main.css" }, { "text": "docs.css" }, { "text": "README.txt" }]
+          },
+          { "text": "tailwind", "children": [{ "text": "input.css" }] },
+          { "text": ".gitignore" }
+        ]
+      },
+      {
+        "text": "img",
+        "children": [{ "text": "hero.jpg" }, { "text": "tailwind.png" }, { "text": "untitled.png" }]
+      },
+      {
+        "text": "js",
+        "children": [{ "text": "flyonui.js" }]
+      }
+    ]
+  },
+  {
+    "text": "scripts",
+    "children": [{ "text": "flyonui.js" }, { "text": "tailwind.js" }, { "text": "www.js" }]
+  },
+  { "text": "templates", "children": [{ "text": "index.html" }] }
+]

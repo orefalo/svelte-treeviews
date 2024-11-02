@@ -11,8 +11,9 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_consider_explicit_label -->
 <a class={`treeicon ${className}`} class:open {onclick}>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42Z" />
+  <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+    <path d="M12 5l0 14" />
+    <path d="M5 12l14 0" />
   </svg>
 </a>
 
@@ -21,17 +22,11 @@
     cursor: pointer;
     user-select: none;
     display: inline-block;
-
     vertical-align: middle;
-    background-color: inherited;
-    border-radius: 5px;
+    border-radius: 15px;
     margin: 0 6px;
     height: 24px;
     width: 24px;
-  }
-
-  .treeicon:hover {
-    background-color: #d9d9d9;
   }
 
   .treeicon svg {
