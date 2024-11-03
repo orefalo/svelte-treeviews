@@ -97,7 +97,6 @@
     {rtl}
     {indent}
     {btt}
-    {treeLine}
     virtualization={true}
     style="height: 500px">
     {#snippet tree_slot({ data, info })}

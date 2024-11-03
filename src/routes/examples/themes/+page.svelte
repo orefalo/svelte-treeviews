@@ -14,6 +14,7 @@
   import HeaderIcon from './gitlab/GitlabHeaderIcon.svelte';
   import ShadcnFileIcon from './shadcn/ShadcnFileIcon.svelte';
   import TailwindOpenIcon from './tailwind/TailwindOpenIcon.svelte';
+  import TailwindFileIcon from './tailwind/TailwindFileIcon.svelte';
 
   interface jsonRecord {
     text: string;
@@ -90,14 +91,14 @@
   defaultOpen={false}
   indent={15}
   treeLineStyle="vertical"
+  treeLineOffset={10}
   virtualization={true}
   class="shadcn"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
-    <HeaderIcon name={data.icon} />
     {#if info.children.length}
-      <span>{data.text}</span>
       <ShadcnFileIcon node={info} />
+      <span>{data.text}</span>
     {:else}
       <span>{data.text}</span>
     {/if}
@@ -109,16 +110,19 @@
 <Tree
   model={tailwindModel as Array<jsonRecord>}
   defaultOpen={false}
-  indent={250}
+  indent={30}
   treeLineStyle="vertical"
+  treeLineOffset={15}
   virtualization={true}
   class="tailwind"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
     {#if info.children.length}
       <TailwindOpenIcon onclick={() => info.toggleExpand()} bind:open={info.expended} />
+      <TailwindFileIcon node={info} />
       <span>{data.text}</span>
     {:else}
+      <TailwindFileIcon node={info} />
       <span>{data.text}</span>
     {/if}
   {/snippet}
@@ -281,15 +285,20 @@
     border-bottom-right-radius: 5px;
   }
 
-  .tailwind .tree-node:before {
+  .tailwind .vt-tree-line {
     position: absolute;
+    background-color: #9fa0a7;
+  }
+
+  .tailwind .vt-tree-vline {
+    width: 2px;
     top: 0;
-    left: 0;
-    order: -2;
-    content: ' ';
-    width: 40px;
-    height: 20%;
-    background: #106ad9;
-    border-radius: 6px;
+    bottom: 0;
+  }
+
+  .tailwind .vt-tree-hline {
+    height: 2px;
+    top: 50%;
+    width: 10px;
   }
 </style>

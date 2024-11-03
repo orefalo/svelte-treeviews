@@ -115,14 +115,14 @@
 </script>
 
 <div
-  class={clsx('tree-node', className, treeLineStyle != 'none' && 'tree-node--with-tree-line')}
+  class={clsx('tree-node', className, treeLineStyle != 'none' && 'tree-node--with-vt-tree-line')}
   style={indentStyle}>
   {#if treeLineStyle != 'none'}
     {#each vLines as line}
-      <div class="tree-line tree-vline" style={line.style}></div>
+      <div class="vt-tree-line tree-vline" style={line.style}></div>
     {/each}
     {#if nodeInfo.level > 1 && treeLineStyle == 'orthogonal'}
-      <div class="tree-line tree-hline" style={hLineStyle}></div>
+      <div class="vt-tree-line vt-tree-hline" style={hLineStyle}></div>
     {/if}
   {/if}
   <div class="tree-node-inner">
@@ -130,23 +130,19 @@
   </div>
 </div>
 
-<style>
-  .rtl {
-    direction: rtl;
-  }
-
-  .tree-line {
+<style global>
+  .vt-tree-line {
     position: absolute;
     background-color: #bbbbbb;
   }
 
-  .tree-vline {
+  .vt-tree-vline {
     width: 1px;
     top: 0;
     bottom: 0;
   }
 
-  .tree-hline {
+  .vt-tree-hline {
     height: 1px;
     top: 50%;
     width: 10px;

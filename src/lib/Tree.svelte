@@ -92,7 +92,7 @@
     btt?: boolean;
 
     treeLineOffset?: number;
-    treeLineStyle: TreeLineStyle;
+    treeLineStyle?: TreeLineStyle;
 
     class?: string;
     style?: string;
@@ -140,6 +140,7 @@
         siblings.splice(index, 0, info.data);
       }
     } else if (updateBehavior === 'disabled') {
+      // nothing to do
     }
 
     if (batchUpdateWaiting) {
@@ -159,6 +160,7 @@
       const siblings = getNodeDataChildren(info.parent?.data);
       hp.arrayRemove(siblings, info.data);
     } else if (updateBehavior === 'disabled') {
+      // nothing to do
     }
     if (batchUpdateWaiting) {
       return;
@@ -412,12 +414,7 @@
 
 <VirtualList
   bind:this={rootElement}
-  class={clsx(
-    'he-tree',
-    className,
-    rtl && 'he-tree--rtl rtl',
-    dragOvering && 'he-tree--drag-overing drag-overing'
-  )}
+  class={clsx('vt-tree', className, rtl && 'vt-tree--rtl', dragOvering && 'vt-tree--drag-overing')}
   {style}
   preRenderCount={virtualizationPrerenderCount}
   isDisabled={!virtualization}
@@ -442,7 +439,7 @@
         onNodeChecked={nodeSelectionChanged}>
         {#snippet tn_slot(params)}
           {#if params.data === placeholderData}
-            <div class="drag-placeholder he-tree-drag-placeholder">
+            <div class="drag-placeholder vt-tree-drag-placeholder">
               {@render placeholder?.()}
             </div>
           {:else}
@@ -455,7 +452,7 @@
 </VirtualList>
 
 <style global>
-  .he-tree--rtl {
+  .vt-tree--rtl {
     direction: rtl;
   }
 
@@ -466,7 +463,7 @@
     width: 100%;
   }
 
-  .he-tree-drag-placeholder {
+  .vt-tree-drag-placeholder {
     background: #ddf2f9;
     border: 1px dashed #00d9ff;
     height: 22px;

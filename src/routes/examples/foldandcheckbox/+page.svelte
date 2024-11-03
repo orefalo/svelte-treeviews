@@ -8,7 +8,7 @@
   let rtl = $state(false);
   let btt = $state(false);
   let virtualization = $state(true);
-  let treeLineStyle: TreeLineStyle = $state('vertical');
+  let treeLineStyle: TreeLineStyle = $state('orthogonal');
   let treeLineOffset = $state(8);
   let indent = $state(20);
 

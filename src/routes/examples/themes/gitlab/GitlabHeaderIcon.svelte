@@ -10,8 +10,7 @@
 
   let { name }: { name: string | undefined } = $props();
 
-  // svelte-ignore non_reactive_update
-  let svg = '';
+  let svg = $state('');
 
   switch (name) {
     case 'users':
@@ -42,6 +41,8 @@
       svg = '';
       console.log('ERROR: HeaderIcon unknown icon name ' + name);
   }
+  console.log(name);
+  console.log(svg);
 </script>
 
 <span class="logo">
@@ -54,8 +55,6 @@
     user-select: none;
     display: inline-block;
     vertical-align: middle;
-    background-color: inherited;
-    border-radius: 5px;
     margin: 0 6px;
   }
 </style>

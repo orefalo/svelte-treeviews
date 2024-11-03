@@ -23,10 +23,15 @@
     user-select: none;
     display: inline-block;
     vertical-align: middle;
+    background-color: inherit;
     border-radius: 15px;
     margin: 0 6px;
     height: 24px;
     width: 24px;
+  }
+
+  .treeicon:hover {
+    background-color: #e1e1e5;
   }
 
   .treeicon svg {
