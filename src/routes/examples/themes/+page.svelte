@@ -111,7 +111,7 @@
   model={tailwindModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={30}
-  treeLineStyle="vertical"
+  treeLineStyle="orthogonal"
   treeLineOffset={15}
   virtualization={true}
   class="tailwind"
@@ -291,13 +291,13 @@
   }
 
   .tailwind .vt-tree-vline {
-    width: 2px;
+    width: 4px;
     top: 0;
     bottom: 0;
   }
 
   .tailwind .vt-tree-hline {
-    height: 2px;
+    height: 4px;
     top: 50%;
     width: 10px;
   }

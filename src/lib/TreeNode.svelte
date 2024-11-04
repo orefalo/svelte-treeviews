@@ -115,7 +115,7 @@
 </script>
 
 <div
-  class={clsx('tree-node', className, treeLineStyle != 'none' && 'tree-node--with-vt-tree-line')}
+  class={clsx('tree-node', className, treeLineStyle != 'none' && 'vt-tree-node--with-tree-line')}
   style={indentStyle}>
   {#if treeLineStyle != 'none'}
     {#each vLines as line}
@@ -131,6 +131,10 @@
 </div>
 
 <style global>
+  .vt-tree-node--with-tree-line {
+    position: relative;
+  }
+
   .vt-tree-line {
     position: absolute;
     background-color: #bbbbbb;

@@ -226,7 +226,6 @@
   });
 
   const selection: Array<NodeInfo<T>> = [];
-
   let lockOut = false;
 
   // called when one of the node is checked/unchecked
@@ -452,6 +451,7 @@
 </VirtualList>
 
 <style global>
+
   .vt-tree--rtl {
     direction: rtl;
   }

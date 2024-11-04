@@ -38,12 +38,9 @@
     vertical-align: middle;
     border-radius: 5px;
     margin: 0 6px;
-    height: 24px;
-    width: 24px;
+    height: 16px;
+    width: 16px;
+    line-height: 22px;
   }
 
-  .logo svg {
-    height: 12px;
-    width: 12px;
-  }
 </style>

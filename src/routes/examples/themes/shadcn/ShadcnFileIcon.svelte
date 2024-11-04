@@ -8,17 +8,18 @@
 
   let svg = $state('');
 
-  const len = node?.children?.length || 0;
-  if (len > 1) {
-    if (node?.expended) {
-      svg = folderopen;
+  if (node) {
+    const len = node.children?.length || 0;
+    if (len > 1) {
+      if (node.expended) {
+        svg = folderopen;
+      } else {
+        svg = folderclose;
+      }
     } else {
-      svg = folderclose;
+      svg = file;
     }
-  } else {
-    svg = file;
   }
-
   function clicked() {
     if (node) node.expended = !node.expended;
   }
@@ -38,12 +39,9 @@
     vertical-align: middle;
     border-radius: 5px;
     margin: 0 6px;
-    height: 24px;
-    width: 24px;
+    height: 16px;
+    width: 16px;
+    line-height: 22px;
   }
 
-  .logo svg {
-    height: 12px;
-    width: 12px;
-  }
 </style>

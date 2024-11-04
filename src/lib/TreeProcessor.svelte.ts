@@ -206,11 +206,13 @@ export class TreeProcessor<T> {
       { childFirst: true, childrenKey: CHILDREN }
     );
   }
+
   public getChecked(withIndeterminate: boolean = false) {
     return this.nodeInfosToRender!.filter(v => {
       return v.checked || (withIndeterminate && v.checked === 0);
     });
   }
+
   public getUnchecked(withIndeterminate: boolean = true) {
     return this.nodeInfosToRender!.filter(v => {
       return withIndeterminate ? !v.checked : v.checked === false;
