@@ -111,8 +111,8 @@
   model={tailwindModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={30}
-  treeLineStyle="orthogonal"
-  treeLineOffset={15}
+  treeLineStyle="vertical"
+  treeLineOffset={17}
   virtualization={true}
   class="tailwind"
   style="height: auto">
@@ -139,7 +139,7 @@
     background-color: #ededed;
   }
 
-  .mtl-tree .tree-node-inner {
+  .mtl-tree .tvtree-node-inner {
     display: flex;
     vertical-align: middle;
     align-items: center;
@@ -285,19 +285,19 @@
     border-bottom-right-radius: 5px;
   }
 
-  .tailwind .vt-tree-line {
+  .tailwind .tvtree-line {
     position: absolute;
     background-color: #9fa0a7;
   }
 
-  .tailwind .vt-tree-vline {
-    width: 4px;
+  .tailwind .tvtree-vline {
+    width: 2px;
     top: 0;
     bottom: 0;
   }
 
-  .tailwind .vt-tree-hline {
-    height: 4px;
+  .tailwind .tvtree-hline {
+    height: 2px;
     top: 50%;
     width: 10px;
   }

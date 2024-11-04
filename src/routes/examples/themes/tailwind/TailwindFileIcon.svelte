@@ -42,5 +42,4 @@
     width: 16px;
     line-height: 22px;
   }
-
 </style>

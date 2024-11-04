@@ -25,8 +25,8 @@
     background-color: inherited;
     border-radius: 5px;
     margin: 0 6px;
-    height: 24px;
-    width: 24px;
+    height: 19px;
+    width: 19px;
   }
 
   .treeicon:hover {

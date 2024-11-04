@@ -12,37 +12,41 @@
 
   let svg = $state('');
 
-  switch (name) {
-    case 'users':
-      svg = users;
-      break;
-    case 'planning':
-      svg = planning;
-      break;
-    case 'code':
-      svg = code;
-      break;
-    case 'rocket':
-      svg = rocket;
-      break;
-    case 'deployments':
-      svg = deployments;
-      break;
-    case 'cloud-pod':
-      svg = cloud;
-      break;
-    case 'monitor':
-      svg = monitor;
-      break;
-    case 'chart':
-      svg = chart;
-      break;
-    default:
-      svg = '';
-      console.log('ERROR: HeaderIcon unknown icon name ' + name);
+  function update(n) {
+    switch (n) {
+      case 'users':
+        svg = users;
+        break;
+      case 'planning':
+        svg = planning;
+        break;
+      case 'code':
+        svg = code;
+        break;
+      case 'rocket':
+        svg = rocket;
+        break;
+      case 'deployments':
+        svg = deployments;
+        break;
+      case 'cloud-pod':
+        svg = cloud;
+        break;
+      case 'monitor':
+        svg = monitor;
+        break;
+      case 'chart':
+        svg = chart;
+        break;
+      default:
+        svg = '';
+        console.log('ERROR: HeaderIcon unknown icon name ' + n);
+    }
+    console.log(n);
+    console.log(svg);
   }
-  console.log(name);
-  console.log(svg);
+
+  update(name);
 </script>
 
 <span class="logo">

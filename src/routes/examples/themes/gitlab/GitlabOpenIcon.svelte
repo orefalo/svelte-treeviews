@@ -16,13 +16,13 @@
 <style>
   .treeicon {
     position: absolute;
-    right: 10px;
+    right: 20px;
     vertical-align: middle;
     border-radius: 5px;
     cursor: pointer;
     user-select: none;
-    height: 24px;
-    width: 24px;
+    height: 19px;
+    width: 19px;
   }
 
   .treeicon:hover {

@@ -115,38 +115,38 @@
 </script>
 
 <div
-  class={clsx('tree-node', className, treeLineStyle != 'none' && 'vt-tree-node--with-tree-line')}
+  class={clsx('tree-node', className, treeLineStyle !== 'none' && 'tvtree-node--with-tree-line')}
   style={indentStyle}>
-  {#if treeLineStyle != 'none'}
+  {#if treeLineStyle !== 'none'}
     {#each vLines as line}
-      <div class="vt-tree-line tree-vline" style={line.style}></div>
+      <div class="tvtree-line tvtree-vline" style={line.style}></div>
     {/each}
-    {#if nodeInfo.level > 1 && treeLineStyle == 'orthogonal'}
-      <div class="vt-tree-line vt-tree-hline" style={hLineStyle}></div>
+    {#if nodeInfo.level > 1 && treeLineStyle === 'orthogonal'}
+      <div class="tvtree-line tvtree-hline" style={hLineStyle}></div>
     {/if}
   {/if}
-  <div class="tree-node-inner">
+  <div class="tvtree-node-inner">
     {@render tn_slot({ data: nodeInfo.data, info: nodeInfo })}
   </div>
 </div>
 
 <style global>
-  .vt-tree-node--with-tree-line {
+  .tvtree-node--with-tree-line {
     position: relative;
   }
 
-  .vt-tree-line {
+  .tvtree-line {
     position: absolute;
     background-color: #bbbbbb;
   }
 
-  .vt-tree-vline {
+  .tvtree-vline {
     width: 1px;
     top: 0;
     bottom: 0;
   }
 
-  .vt-tree-hline {
+  .tvtree-hline {
     height: 1px;
     top: 50%;
     width: 10px;

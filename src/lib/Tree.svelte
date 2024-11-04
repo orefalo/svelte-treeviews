@@ -413,7 +413,7 @@
 
 <VirtualList
   bind:this={rootElement}
-  class={clsx('vt-tree', className, rtl && 'vt-tree--rtl', dragOvering && 'vt-tree--drag-overing')}
+  class={clsx('tvtree', className, rtl && 'tvtree--rtl', dragOvering && 'tvtree--drag-overing')}
   {style}
   preRenderCount={virtualizationPrerenderCount}
   isDisabled={!virtualization}
@@ -438,7 +438,7 @@
         onNodeChecked={nodeSelectionChanged}>
         {#snippet tn_slot(params)}
           {#if params.data === placeholderData}
-            <div class="drag-placeholder vt-tree-drag-placeholder">
+            <div class="tvtree-drag-placeholder">
               {@render placeholder?.()}
             </div>
           {:else}
@@ -451,19 +451,11 @@
 </VirtualList>
 
 <style global>
-
-  .vt-tree--rtl {
+  .tvtree--rtl {
     direction: rtl;
   }
 
-  .drag-placeholder {
-    background: #ddf2f9;
-    border: 1px dashed #00d9ff;
-    height: 22px;
-    width: 100%;
-  }
-
-  .vt-tree-drag-placeholder {
+  .tvtree-drag-placeholder {
     background: #ddf2f9;
     border: 1px dashed #00d9ff;
     height: 22px;
