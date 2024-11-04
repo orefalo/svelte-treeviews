@@ -6,4 +6,4 @@ export { default as Tree } from './Tree.svelte';
 
 export type TreeSlotSignature<T> = { data: T; info: NodeInfo<T> };
 
-export type TreeLineStyle = 'none' | 'vertical' | 'orthogonal';
+export type TreeLineStyle = 'none' | 'singleline' | 'orthogonal';

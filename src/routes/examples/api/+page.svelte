@@ -97,7 +97,7 @@
     {rtl}
     {indent}
     {btt}
-    virtualization={true}
+    scrollable={true}
     style="height: 500px">
     {#snippet tree_slot({ data, info })}
       {#if info.children.length}

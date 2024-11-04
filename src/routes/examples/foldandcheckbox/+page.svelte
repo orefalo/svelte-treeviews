@@ -7,12 +7,12 @@
 
   let rtl = $state(false);
   let btt = $state(false);
-  let virtualization = $state(true);
+  let scrollable = $state(true);
   let treeLineStyle: TreeLineStyle = $state('orthogonal');
   let treeLineOffset = $state(8);
   let indent = $state(20);
 
-  let listStyle = $derived.by(() => (virtualization ? 'height:500px' : 'height: auto'));
+  let listStyle = $derived.by(() => (scrollable ? 'height:500px' : 'height: auto'));
 </script>
 
 <div>
@@ -40,8 +40,8 @@
   </label>
   <br />
   <label>
-    <input type="checkbox" bind:checked={virtualization} />
-    virtualization
+    <input type="checkbox" bind:checked={scrollable} />
+    scrollable
   </label>
   <br />
   <div>
@@ -61,7 +61,7 @@
     bind:btt
     bind:treeLineStyle
     bind:treeLineOffset
-    bind:virtualization
+    bind:scrollable
     style={listStyle}>
     {#snippet tree_slot({ data, info })}
       {#if info.children.length}

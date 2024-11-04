@@ -28,9 +28,9 @@
     indent = $bindable(20),
     // Enable virtual list
     //TODO:rename this to enableScrollbar
-    virtualization = $bindable(false),
+    scrollable = $bindable(false),
     //  The number of rendered list items at initialization. Suits for SSR(Server Side Render).
-    virtualizationPrerenderCount = 20,
+    scrollablePrerenderCount = 20,
     // Open all nodes by default.
     defaultOpen = $bindable(true),
     // Display from right to left.
@@ -85,8 +85,8 @@
     // textKey?: string;
     // nodeKey?: string | ((info: NodeInfo<T>, index: number) => any);
     indent?: number;
-    virtualization?: boolean;
-    virtualizationPrerenderCount?: number;
+    scrollable?: boolean;
+    scrollablePrerenderCount?: number;
     defaultOpen?: boolean;
     rtl?: boolean;
     btt?: boolean;
@@ -415,8 +415,8 @@
   bind:this={rootElement}
   class={clsx('tvtree', className, rtl && 'tvtree--rtl', dragOvering && 'tvtree--drag-overing')}
   {style}
-  preRenderCount={virtualizationPrerenderCount}
-  isDisabled={!virtualization}
+  preRenderCount={scrollablePrerenderCount}
+  isDisabled={!scrollable}
   items={filterVisibleNodes()}>
   {#snippet vl_slot({ item: nodeInfo }: VLSlotSignature<NodeInfo<T>>)}
     {#if nodeInfo}

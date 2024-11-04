@@ -30,7 +30,7 @@
   defaultOpen={false}
   indent={20}
   treeLineStyle="orthogonal"
-  virtualization={true}
+  scrollable={true}
   class="mtl-tree"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
@@ -49,7 +49,7 @@
   defaultOpen={false}
   indent={10}
   treeLineStyle="none"
-  virtualization={true}
+  scrollable={true}
   class="fluentui2"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
@@ -70,7 +70,7 @@
   indent={10}
   treeLineStyle="none"
   treeLineOffset={0}
-  virtualization={true}
+  scrollable={true}
   class="gitlab"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
@@ -90,9 +90,9 @@
   model={shadcnModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={15}
-  treeLineStyle="vertical"
+  treeLineStyle="none"
   treeLineOffset={10}
-  virtualization={true}
+  scrollable={true}
   class="shadcn"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
@@ -111,9 +111,9 @@
   model={tailwindModel as Array<jsonRecord>}
   defaultOpen={false}
   indent={30}
-  treeLineStyle="vertical"
+  treeLineStyle="singleline"
   treeLineOffset={17}
-  virtualization={true}
+  scrollable={true}
   class="tailwind"
   style="height: auto">
   {#snippet tree_slot({ data, info })}
@@ -291,6 +291,7 @@
   }
 
   .tailwind .tvtree-vline {
+    position: absolute;
     width: 2px;
     top: 0;
     bottom: 0;

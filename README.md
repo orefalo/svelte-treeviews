@@ -29,10 +29,10 @@ At last... a full featured tree component for the Svelte eco-system.
   Build for Svelte 5+ in Typescript.
 
 - 🚀 **Performant**
-  Large tree possibilities, can render millions of tree elements, thanks to its optimization with `svelte-virtuallists`.
+  Can render large tree elements, thanks to its optimization with `svelte-virtuallists`.
 
 - 🛠 **Configurable**
-  Headless, unintrusive, simple model.
+  Headless, unintrusive, easy to tune.
   
 - 💠 **Advanced Features**
   Headless, Drag&Drop, Key controls, Tree and Tabular shaped data,  Checkboxes, Right to left...etc.
@@ -54,6 +54,10 @@ At last... a full featured tree component for the Svelte eco-system.
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=orefalo/svelte-treeviews&type=Date)](https://star-history.com/#orefalo/svelte-treeviews&Date)
+
+# Installation
+
+`npm i svelte-treeviews`
 
 ## Examples
 
@@ -86,12 +90,12 @@ The component accepts the following properties
 | model | `any[]` | ✓ | the model, the data for the items to display in the list. |
 | updateBehavior                 | `modify` or `new` or `disabled` (modify) |           |                                                              |
 | indent                         | number (20)                              |           | Node indent in pixels |
-| virtualization               | boolean (false)                          |           | is the tree rendered as part of a scrolling viewport         |
-| virtualizationPrerenderCount | number (20)                              |           | Used for SSR, when virtualization is active, how many records to should be pre render |
+| scrollable      | boolean (false)                          |           | is the tree rendered as part of a scrollable viewport |
+| scrollablePrerenderCount | number (20)                              |           | Used for SSR, when scrollable is active: how many records to pre-render |
 | defaultOpen                  | boolean (false) |           | When true, the tree displays as fully open, at all levels. |
 | rtl                          | boolean (system default)                 |           | Right to Left rendering                                      |
 | btt                          | boolean (false)                          |           | Bottom to top rendering inverses the tree upside down        |
-| treeLine                     | boolean (false)                          |           | Render tree lines that connect each node of the tree |
+| treeLineStyle        | `none` or `singleline` or `orthogonal` (none) |           | Render tree lines that connect each node of the tree with different styles. |
 | treeLineOffset | number (8) | | Horizontal displacement of tree lines in pixels |
 | class                          | string |           | Any css class to apply on the tree                           |
 | style                          | string |           | Any css styles to apply on the tree                          |
@@ -102,7 +106,7 @@ The component accepts the following properties
 | ----------- | ---------------------------------------------- | :-------: | ------------------------------------------------------------ |
 | tree_slot   | { data: NodeData, info: NodeInfo, tree: Tree } |     ✓     | Snippet called to render every visible item of the model     |
 | treeLine    | { data: NodeData, info: NodeInfo, tree: Tree } |           | Snippet which can be used to customize how tree lines are rendered |
-| placeholder | { tree: Tree}                                  |           | Snippet which can be used to customize the drop placeholder ui |
+| placeholder | { tree: Tree}                                  |           | Snippet which can be used to customize the drop placeholder UI |
 
 ### Events
 
@@ -115,13 +119,13 @@ Tree state events
 | onNodeOpened   | `(NodeInfo):void` | Triggered when a grouping node is opened                     |
 | onNodeClosed   | `(NodeInfo):void` | Triggered when a grouping node is closed                     |
 | onUpdateValue  | `(NodeInfo):void` | Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior |
-
-Virtual positioning events
+ 
+Positioning events
 
 | Property             | Type                         | Description                                                  |
 | -------------------- | ---------------------------- | ------------------------------------------------------------ |
-| onAfterScroll        | `{offset:number, event}`     | When *virtualization* is used, fires when the scrollbar changes position. |
-| onVisibleRangeUpdate | `{start:number, end:number}` | When *virtualization* is used, fires when the visible window is sliding to display new items. `start` and `end` are expressed as model indexes. |
+| onAfterScroll        | `{offset:number, event}`     | When *scrollable* is used, fires when the scrollbar changes position. |
+| onVisibleRangeUpdate | `{start:number, end:number}` | When *scrollable* is used, fires when the visible window is sliding to display new items. `start` and `end` are expressed as model indexes. |
 
 Drag&Drop events
 
