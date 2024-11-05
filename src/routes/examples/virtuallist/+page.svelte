@@ -45,9 +45,12 @@
 <h2>Large Scrollable Trees</h2>
 <p>
   Scrollable ensures that tree rendering is both highly efficient and responsive by focusing on the
-  optimization of those items that are only visible on the screen.
+  optimization of those items that are only visible on the screen. The setting is ON by default and
+  plays nicely with <b>height: auto</b>
+  and
+  <b>height: 500px</b>
+  CSS styles
 </p>
-<p>The setting is ON by default and plays nicely with <b>height: auto</b> and <b>height: 500px</b> CSS styles</p>
 
 <Tree
   model={treeModel}

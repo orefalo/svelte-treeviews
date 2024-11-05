@@ -23,26 +23,29 @@
 
 At last... a full featured tree component for the Svelte eco-system.
 
+This package is a port of the excellent [he-tree](https://github.com/phphe/he-tree), ported from Vuejs 3 to Svelte 5. It took me a long time to adjust to the vuejs syntax, learn svelte 5, port sub-components [svelte-virtuallists](https://github.com/orefalo/svelte-virtuallists) and port the code. Many thanks to the original author, this project would have not made it if the code was not opensourced.
+
+At this point, I can confidently state that Svelte 5 has a natural syntax, breaking away from other frameworks without sacrificing features or performance.
+
 ## Features
 
 - ❺❺➎⓹⓹ **Svelte 5+ only**
   Build for Svelte 5+ in Typescript.
 
 - 🚀 **Performant**
-  Can render large tree elements, thanks to its optimization with `svelte-virtuallists`.
+  Can render large tree elements, thanks to its optimization with [svelte-virtuallists](https://github.com/orefalo/svelte-virtuallists).
 
 - 🛠 **Configurable**
-  Headless, unintrusive, easy to tune.
+  Headless, themeable, unobtrusive, easily adjustable, with built-in styling and behavioral parameters.
   
 - 💠 **Advanced Features**
-  Headless, Drag&Drop, Key controls, Tree and Tabular shaped data,  Checkboxes, Right to left...etc.
+  Headless, Drag and drop, Key controls, Tree and tabular shaped data,  Checkboxes, Indetermined state, Right to left...etc.
 
 - 🧩 **Programming Interface**
   Powerful API and events to integrate in all your projects.
 
 - 💼 **Small**
-  Compact, one dependency – Only ~5kb when compressed.
-
+  Compact, one dependency – Only ~7kb when compressed.
 
 
 ## Browser Support
@@ -67,18 +70,13 @@ At last... a full featured tree component for the Svelte eco-system.
 
 ```svelte
 <script>
-	import { VirtualList } from 'svelte-treeviews';
+	import { Tree } from 'svelte-treeviews';
 
-	const data = ['A', 'B', 'C', 'D', 'E', 'F' /* ... */];
+	const data = [{text:'A'},{ text:'B'}, { text:'C', children: [{ text:'C1'},{ text:'C2'},{ text:'C3'}]} ];
 </script>
 
-<VirtualList class='mystyle' style='width:100%;height=600px' items={data}>
-	{#snippet vl_slot({ index, item })}
-		<div>
-			Row: #{index} Item: {item}
-		</div>
-	{/snippet}
-</VirtualList>
+<Tree class='mystyle' style='width:100%;height=600px' model={data}>
+</Tree>
 ```
 
 ### Props
@@ -87,7 +85,7 @@ The component accepts the following properties
 
 | Property          | Type        | Required? | Description  |
 | ----------------- | ----------- | :-------: | ------------ |
-| model | `any[]` | ✓ | the model, the data for the items to display in the list. |
+| model | `NodeData[]` | ✓ | the model, the data for the items to display in the list. |
 | updateBehavior                 | `modify` or `new` or `disabled` (modify) |           |                                                              |
 | indent                         | number (20)                              |           | Node indent in pixels |
 | scrollable      | boolean (false)                          |           | is the tree rendered as part of a scrollable viewport |
@@ -99,6 +97,8 @@ The component accepts the following properties
 | treeLineOffset | number (8) | | Horizontal displacement of tree lines in pixels |
 | class                          | string |           | Any css class to apply on the tree                           |
 | style                          | string |           | Any css styles to apply on the tree                          |
+
+* `NodeData` is a generic type
 
 ### Snippets
 
@@ -119,7 +119,7 @@ Tree state events
 | onNodeOpened   | `(NodeInfo):void` | Triggered when a grouping node is opened                     |
 | onNodeClosed   | `(NodeInfo):void` | Triggered when a grouping node is closed                     |
 | onUpdateValue  | `(NodeInfo):void` | Triggered when node value changes, or batch update completed - behavioe depends up updateBehavior |
- 
+
 Positioning events
 
 | Property             | Type                         | Description                                                  |
@@ -198,11 +198,21 @@ interface NodeInfo<T> {
 }
 ```
 
-
 ***DragContext***
 
 DragContext provides the context is which a drag&drop action is run.
 
+***StartInfo***
+
+```javascript
+{
+  tree: DraggableTreeType; // Draggable component instance.
+  dragNode: NodeInfo<T>; // The dragging node.
+  parent: NodeInfo<T> | null; // Parent of dragging node.
+  siblings: NodeInfo<T>[]; // Siblings of dragging node.
+  indexBeforeDrop: number; // Index of dragging node before drop.
+}
+```
 
 ## Contributing
 

@@ -112,6 +112,8 @@
 
   <hr />
   <div class="actions">
+
+    <h4>Add Nodes</h4>
     <button onclick={addAppendToFirstNode}>add: append to first node</button>
     <button onclick={addAfterSecondNode}>add: after second node</button>
     <button onclick={addNestedNewNodes}>add: nested new nodes</button>
@@ -119,6 +121,7 @@
     <br />
     <button onclick={batchUpdate}>batchUpdate</button>
     <br />
+    <h4>Open/Close</h4>
     <button onclick={tree.closeAll}>closeAll</button>
     <button onclick={tree.openAll}>openAll</button>
     <button
@@ -130,11 +133,12 @@
     <br />
     <button onclick={getDataAll}>getData: all</button>
     <button onclick={getDataFirstNode}>getData: first node</button>
-    <select name="my_select">
+    <h4>Others</h4>
+    Selection: <select name="my_select">
       <option value="none">None</option>
       <option value="single">Single</option>
       <option value="multiple">Multiple</option>
-    </select>
+    </select><br/>
     <input value="Filter" />
   </div>
 </div>

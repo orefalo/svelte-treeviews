@@ -23,7 +23,14 @@
   }
 </script>
 
-<h1>Material-Design</h1>
+<h1>Themeing</h1>
+
+<p>
+  The component is headless, delegating most of its rendering to user space, which allows great
+  flexibility to change its look and feel.
+</p>
+
+<h2>Material-Design</h2>
 
 <Tree
   model={materialModel as Array<jsonRecord>}
@@ -42,7 +49,7 @@
   {/snippet}
 </Tree>
 
-<h1>FluentUI2</h1>
+<h2>FluentUI2</h2>
 
 <Tree
   model={fluentModel as Array<jsonRecord>}
@@ -62,7 +69,7 @@
   {/snippet}
 </Tree>
 
-<h1>Gitlab</h1>
+<h2>Gitlab</h2>
 
 <Tree
   model={gitlabModel as Array<jsonRecord>}
@@ -84,7 +91,7 @@
   {/snippet}
 </Tree>
 
-<h1>Shadcn</h1>
+<h2>Shadcn</h2>
 
 <Tree
   model={shadcnModel as Array<jsonRecord>}
@@ -105,7 +112,7 @@
   {/snippet}
 </Tree>
 
-<h1>Tailwind</h1>
+<h2>Tailwind</h2>
 
 <Tree
   model={tailwindModel as Array<jsonRecord>}

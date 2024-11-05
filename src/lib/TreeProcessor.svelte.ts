@@ -42,7 +42,6 @@ export class TreeProcessor<T> {
   public init() {
     if (!this.initialized) {
       this.initialized = true;
-      console.log('TreeProcessor.init() called');
       const childrenKey = this.options.childrenKey;
 
       const td = new hp.TreeData([] as NodeInfo<T>[]);

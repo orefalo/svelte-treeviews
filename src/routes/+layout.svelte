@@ -27,12 +27,12 @@
       pages: [
         { title: 'Themes', path: '/examples/themes' },
         { title: 'Fold and Checkbox', path: '/examples/foldandcheckbox/' },
+        { title: 'Large Trees', path: '/examples/virtuallist' },
+        { title: 'API', path: '/examples/api' },
         { title: 'Drag and Drop', path: '/examples/dnd' },
         { title: 'Async Loading', path: '/examples/comingsoon' },
         { title: 'Key Navigation', path: '/examples/comingsoon' },
         { title: 'Dynamic Filtering', path: '/examples/comingsoon' },
-        { title: 'Large Trees', path: '/examples/virtuallist' },
-        { title: 'API', path: '/examples/api' },
         { title: 'Events', path: '/examples/comingsoon' }
       ]
     }
