@@ -56,6 +56,12 @@
   $effect(() => {
     const checked = nodeInfo.checked;
 
+    // fix issue: https://github.com/phphe/he-tree/issues/98
+    // when open/close above node, the after nodes' states 'checked' and 'open' will be updated.
+    if (justToggleOpen) {
+      return;
+    }
+
     if (processor?.afterOneCheckChanged(nodeInfo)) {
       onNodeChecked?.(nodeInfo);
     }
@@ -63,8 +69,23 @@
 
   $effect(() => {
     const open = nodeInfo.expended;
+
+    if (justToggleOpen) {
+      return;
+    }
+
     open ? onNodeOpened?.(nodeInfo) : onNodeClosed?.(nodeInfo);
+
+    afterToggleOpen();
   });
+
+  let justToggleOpen = false;
+  const afterToggleOpen = () => {
+    justToggleOpen = true;
+    setTimeout(() => {
+      justToggleOpen = false;
+    }, 100);
+  };
 
   const vLines: Array<{
     style: string;

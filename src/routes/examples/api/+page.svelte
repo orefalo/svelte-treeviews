@@ -112,7 +112,6 @@
 
   <hr />
   <div class="actions">
-
     <h4>Add Nodes</h4>
     <button onclick={addAppendToFirstNode}>add: append to first node</button>
     <button onclick={addAfterSecondNode}>add: after second node</button>
@@ -134,11 +133,13 @@
     <button onclick={getDataAll}>getData: all</button>
     <button onclick={getDataFirstNode}>getData: first node</button>
     <h4>Others</h4>
-    Selection: <select name="my_select">
+    Selection:
+    <select name="my_select">
       <option value="none">None</option>
       <option value="single">Single</option>
       <option value="multiple">Multiple</option>
-    </select><br/>
+    </select>
+    <br />
     <input value="Filter" />
   </div>
 </div>

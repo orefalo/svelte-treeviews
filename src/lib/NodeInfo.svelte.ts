@@ -19,7 +19,7 @@ export class NodeInfo<T> {
   style?: string = $state('');
   class?: string = $state('');
 
-  // _ignoreCheckedOnce?: boolean;
+  _ignoreCheckedOnce?: boolean;
 
   constructor(o?: PartialNodeInfo<T>) {
     this.data = o?.data || (null as T);
@@ -35,7 +35,7 @@ export class NodeInfo<T> {
     this.style = o?.style;
     this.class = o?.class;
 
-    // this._ignoreCheckedOnce = o?._ignoreCheckedOnce;
+    this._ignoreCheckedOnce = o?._ignoreCheckedOnce;
   }
 
   public toggleExpand() {
