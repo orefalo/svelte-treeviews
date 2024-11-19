@@ -418,7 +418,7 @@
   preRenderCount={scrollablePrerenderCount}
   isDisabled={!scrollable}
   items={filterVisibleNodes()}>
-  {#snippet vl_slot({ item: nodeInfo }: VLSlotSignature<NodeInfo<T>>)}
+  {#snippet vl_slot({ item: nodeInfo })}
     {#if nodeInfo}
       <TreeNode
         class={clsx(nodeInfo.class, {

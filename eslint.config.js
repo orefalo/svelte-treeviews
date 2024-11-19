@@ -32,8 +32,12 @@ export default [
   {
     files: ['**/*.svelte'],
     languageOptions: {
+      parser: svelte.parser,
       parserOptions: {
-        parser: ts.parser
+        parser: ts.parser,
+        svelteFeatures: {
+          experimentalGenerics: true
+        }
       }
     }
   },

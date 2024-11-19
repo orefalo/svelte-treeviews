@@ -29,10 +29,13 @@
         { title: 'Fold and Checkbox', path: '/examples/foldandcheckbox/' },
         { title: 'Large Trees', path: '/examples/virtuallist' },
         { title: 'API', path: '/examples/api' },
+        { title: 'Dynamic Filtering', path: '/examples/comingsoon' },
         { title: 'Drag and Drop', path: '/examples/dnd' },
+        { title: 'Node Selection', path: '/examples/comingsoon' },
+        { title: 'Context Menu', path: '/examples/comingsoon' },
         { title: 'Async Loading', path: '/examples/comingsoon' },
         { title: 'Key Navigation', path: '/examples/comingsoon' },
-        { title: 'Dynamic Filtering', path: '/examples/comingsoon' },
+
         { title: 'Events', path: '/examples/comingsoon' }
       ]
     }
