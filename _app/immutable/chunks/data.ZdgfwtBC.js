@@ -1,1 +1,0 @@
-const t=[{text:"Projects",children:[{text:"Frontend",children:[{text:"Vue",children:[{text:"Nuxt"}]},{text:"React",children:[{text:"Next"}]},{text:"Angular"}]},{text:"Backend"}]},{text:"Photos"},{text:"Videos"}];export{t as m};
