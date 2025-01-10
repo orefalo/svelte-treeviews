@@ -6,8 +6,11 @@ import path from 'path';
 const config = {
   preprocess: sveltePreprocess(),
   inspector: process.env.NODE_ENV !== 'production',
-
+  compilerOptions: { runes: true },
   kit: {
+    output: {
+      bundleStrategy: 'single'
+    },
     adapter: adapter({
       pages: 'docs',
       assets: 'docs'

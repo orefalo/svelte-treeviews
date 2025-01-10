@@ -9,11 +9,11 @@
   import { pathIsCurrent } from '$comp/pathUtils';
   import { type Page, type Section } from '$comp/PageSection';
 
-  type Props = {
+  const {
+    children
+  }: {
     children: Snippet;
-  };
-
-  const { children }: Props = $props();
+  } = $props();
 
   let isRTL: boolean = $state(false);
 
